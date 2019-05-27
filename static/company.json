@@ -1,0 +1,288 @@
+[
+  {
+    "icon": "/static/images/yanshi/sisIcon1.png",
+    "name": "闻海大数据平台",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "/static/yansi/01公司介绍/中科闻歌画册.pdf",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "w_2",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "w_3",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "w_4",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon2.png",
+    "name": "天湖超级智算平台",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon3.png",
+    "name": "“红旗”县级融媒体中心",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon4.png",
+    "name": "“晴天”多语言舆情监测分析系统",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon5.png",
+    "name": "“云涌”融媒体可视化分析系统",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon6.png",
+    "name": "“云迹”传播监测与分析系统",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon7.png",
+    "name": "“天正”网站内容安全审核平台",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon8.png",
+    "name": "“智图”认知搜索平台",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon9.png",
+    "name": "“天盾”警务大数据分析系统",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon10.png",
+    "name": "“云镜”舆情事件专题信息系统",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 2,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  },
+  {
+    "icon": "/static/images/yanshi/sisIcon11.png",
+    "name": "“金准线”金融智慧监管平台",
+    "demonstrationArr": [
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "产品册"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "PPT"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "视频资料"
+      },
+      {
+        "type": 1,
+        "url": "",
+        "namechild": "技术白皮书"
+      }
+    ]
+  }
+]
