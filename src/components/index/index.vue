@@ -42,7 +42,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .main {
   width: calc(100% - 300px);
   margin-left: 300px;

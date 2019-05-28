@@ -8,6 +8,26 @@
       html,body {
         height: 100%;
       }
+      body ::-webkit-scrollbar {
+          position: absolute;
+          width: 12px;
+          margin-left: -10px;
+          -webkit-appearance: none;
+      }
+      body ::-webkit-scrollbar-thumb {
+          height: 50px;
+          background-color: rgba(160, 174, 186, 0.3);
+          background-clip: content-box;
+          border-color: transparent;
+          border-style: solid;
+          border-width: 1px 2px;
+          border-radius: 7px;
+      }
+      body ::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-right: none;
+        border-left: none;
+    }
     </style>
   </head>
   <body>

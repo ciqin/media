@@ -12,6 +12,7 @@ import {
   Submenu,
   Row,
   Col,
+  Input
 
 } from 'iview'
 
@@ -27,6 +28,7 @@ const view = (Vue) => {
   Vue.component('Submenu', Submenu)
   Vue.component('Row', Row)
   Vue.component('Col', Col)
+  Vue.component('Input', Input)
 }
 
 

@@ -26,22 +26,50 @@ const routes = [
         name: 'wenhai',
         component:resolve => require(['@/components/wenhai/wenhai'], resolve)
       },
-      // {
-      //   path: '/index/qingtian',
-      //   name: 'qingtian',
-      //   component:resolve => require(['@/components/qingtian/qingtian'], resolve)
-      // },
-      // {
-      //   path: '/index/hongqi',
-      //   name: 'hongqi',
-      //   component:resolve => require(['@/components/hongqi/hongqi'], resolve)
-      // }
-      //,
+      {
+        path: '/index/qingtian',
+        name: 'qingtian',
+        component:resolve => require(['@/components/qingtian/qingtian'], resolve),
+      },
+      {
+        path: '/index/application',
+        name: 'application',
+        component:  resolve => require(['@/components/application/application'], resolve),
+        children:[
+          {
+            path: '/ppt',
+            name: 'ppt',
+            component:resolve => require(['@/components/application/pptlist'], resolve),
+          },{
+            path: '/word',
+            name: 'word',
+            component:resolve => require(['@/components/application/wordlist'], resolve),
+          },{
+            path: '/prodect',
+            name: 'prodect',
+            component:resolve => require(['@/components/application/productlist'], resolve),
+          },{
+            path: '/video',
+            name: 'video',
+            component:resolve => require(['@/components/application/videolist'], resolve),
+          },{
+            path: '/useurl',
+            name: 'useurl',
+            component:resolve => require(['@/components/application/urllist'], resolve),
+          }
+        ]
+      },
+      {
+        path: '/index/hongqi',
+        name: 'hongqi',
+        component:resolve => require(['@/components/hongqi/hongqi'], resolve)
+      },
       // {
       //   path: '/index/yunji',
       //   name: 'yunji',
       //   component:resolve => require(['@/components/yunji/yunji'], resolve)
-      // },{
+      // },
+      //{
       //   path: '/index/yayi',
       //   name: 'yayi',
       //   component:resolve => require(['@/components/yayi/yayi'], resolve)

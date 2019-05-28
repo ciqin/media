@@ -116,7 +116,7 @@ import {mapActions, mapGetters} from 'vuex';
   }
 </script>
 
-<style lang="less" >
+<style lang="less" scoped>
 .ivu-menu-light {
   background: #f7f9ff;
 }

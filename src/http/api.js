@@ -23,3 +23,6 @@ export const getProduct = (data) => getHttp(baseUrl('/api/static/company.json'),
 
 // 产品演示地址
 export const getSisurl = (data) => getHttp(baseUrl('/api/static/sisurl.json'), data)
+
+// 应用案例
+export const getUserurl = (data) => getHttp(baseUrl('/api/static/userUrl.json'), data)
