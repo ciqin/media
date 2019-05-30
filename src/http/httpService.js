@@ -16,7 +16,7 @@ const Axios = http.create({
 
 // 请求拦截
 Axios.interceptors.request.use(config => {
-  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   return config
 }, error => {
   return Promise.reject(error)

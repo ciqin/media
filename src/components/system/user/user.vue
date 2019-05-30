@@ -1,7 +1,9 @@
 <template>
     <div class="company_box">
-        <Title :title="'用户管理'"></Title>
-        <Button  class="btnMedal" @click="addModalShow" type="primary">添加</Button>
+         <div style="margin:18px;">
+            <Title :title="'用户管理'"></Title>
+            <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
+        </div>
         <!-- 模态框 -->
         <Drawer
             title="用户管理添加"
@@ -9,63 +11,32 @@
             width="720"
             :mask-closable="false"
             :styles="styles"
-        >
+            class="rermovebox">
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="用户名称" label-position="left">
-                            <Input v-model="formData.username" placeholder="请输入用户名称"  style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="真实姓名" label-position="top">
-                            <Input v-model="formData.personname" placeholder="请输入真实姓名" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="密码" label-position="top">
-                            <Input v-model="formData.password" placeholder="请输入密码" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="电话" label-position="top">
-                            <Input v-model="formData.tel" placeholder="请输入电话" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="邮件" label-position="top">
-                            <Input v-model="formData.email" placeholder="请输入邮件" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="单位" label-position="top">
-                            <Select v-model="formData.depId" placeholder="请输入单位" style="width:86%;"> 
-                                <Option value="1">单位1</Option>
-                                <Option value="2">单位2</Option>
-                            </Select>
+                        <FormItem label="用户名称" label-position="left" calss="formitem" style="width:50%;margin-left: 25%;">
+                            <Input v-model="formData.username" placeholder="请输入用户名称"  class="forminput" style="width:80%;"/>
                         </FormItem>
                     </Col>
                      <Col span="24">
-                        <FormItem label="部门" label-position="top">
-                            <Select v-model="formData.institutionId" placeholder="请输入单位" style="width:86%;"> 
+                        <FormItem label="部门" label-position="top"  style="width:50%;margin-left: 25%;">
+                            <Select v-model="formData.institutionId" placeholder="请输入单位" style="width:80%;"> 
                                 <Option value="1">部门1</Option>
                                 <Option value="2">部门2</Option>
                             </Select>
                         </FormItem>
                     </Col>
-                     <Col span="24">
-                        <FormItem label="角色" label-position="top" >
-                            <Select v-model="formData.roleId" placeholder="请输入单位" value="1" style="width:86%;"> 
-                                <Option :value="1">角色1</Option>
-                                <Option :value="2">角色2</Option>
-                            </Select>
+                    <Col span="24">
+                        <FormItem label="邮件" label-position="top"  style="width:50%;margin-left: 25%;">
+                            <Input v-model="formData.email" placeholder="请输入邮件" style="width:80%;"/>
                         </FormItem>
                     </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
                 <Button type="primary"  @click="addRole()">确定</Button>
+                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data1" :columns="tableColumns1" stripe>
@@ -87,7 +58,9 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
-    import qs from 'qs'
+    
+    import {getUserList} from "@/http/api"
+
     export default {
         data () {
             return {
@@ -97,7 +70,8 @@
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
                     paddingBottom: '53px',
-                    position: 'static'
+                    position: 'static',
+                    paddingTop:"160px"
                 },
                 num:1,
                 formData: {
@@ -129,25 +103,14 @@
                         key: 'username'
                     },
                     {
-                        title: '真实姓名',
-                        key: 'personname'
-                    },
-                    {
-                        title: '角色名称',
-                        key: 'roleName',
-                    },
-                    {
-                        title: '角色级别',
-                        key: 'level'
-                    },
-                    {
-                        title: '单位名称',
-                        key: 'departmentName'
-                    },
-                    {
                         title: '部门名称',
                         key: 'institutionName',
                     },
+                    {
+                        title: '操作人',
+                        key: 'roleName',
+                    },
+                    
                     {
                         title: '创建时间',
                         key: 'createTime',
@@ -161,62 +124,26 @@
                 ]
             }
         },
-        created(){
-              let that = this;
+        // created(){
+        //       let that = this;
               
-              this.axios({
-                  method: 'get',
-                  url:'http://localhost:8096/user/getUserList',
-              }).then(function(result){
-                that.data1 = result.data.obj;
-              })
+        //       this.axios({
+        //           method: 'get',
+        //           url:'http://localhost:8096/user/getUserList',
+        //       }).then(function(result){
+        //         that.data1 = result.data.obj;
+        //       })
+        // },
+         mounted () {
+            getUserList().then(res => {
+                this.data1 = res.obj
+            })
         },
         methods: {
             cleardata() {
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
-            },
-            formatTime ( fmt ){
-                var o = {           
-                "M+" : this.getMonth()+1, //月份           
-                "d+" : this.getDate(), //日           
-                "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时           
-                "H+" : this.getHours(), //小时           
-                "m+" : this.getMinutes(), //分           
-                "s+" : this.getSeconds(), //秒           
-                "q+" : Math.floor((this.getMonth()+3)/3), //季度           
-                "S" : this.getMilliseconds() //毫秒           
-                };           
-                var week = {           
-                "0" : "/u65e5",           
-                "1" : "/u4e00",           
-                "2" : "/u4e8c",           
-                "3" : "/u4e09",           
-                "4" : "/u56db",           
-                "5" : "/u4e94",           
-                "6" : "/u516d"          
-                };           
-                if(/(y+)/.test(fmt)){           
-                    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));           
-                }           
-                if(/(E+)/.test(fmt)){           
-                    fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);           
-                }           
-                for(var k in o){           
-                    if(new RegExp("("+ k +")").test(fmt)){           
-                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));           
-                    }           
-                }           
-                return fmt;           
-            },
-            formatDate (date) {
-                const y = date.getFullYear();
-                let m = date.getMonth() + 1;
-                m = m < 10 ? '0' + m : m;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                return y + '-' + m + '-' + d;
             },
             addModalShow () {
                this.cleardata();
@@ -278,35 +205,31 @@
 </script>
 
 
-<style>
-.company_box {
-    margin: 12px;
-    position: relative;
-}
-.comMsg {
-    background: #fff;
-    padding:24px;
-    margin-bottom: 20px;
-}
+<style lang="less" scope>
 
-.demo-drawer-footer{
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        border-top: 1px solid #e8e8e8;
-        padding: 10px 16px;
-        text-align: right;
-        background: #fff;
+.demo-drawer-footer {
+    margin:0 auto;
 }
-.btnMedal {
-    position: absolute;
-    top: -2px;
-    right: 0px;
-}
-
 .ivu-form .ivu-form-item-label {
     width:60px;
 }
-
+.ivu-drawer-content{
+    background: #f8f8f8;
+}
+.ivu-input {
+    background: #fff;
+}
+.ivu-form .ivu-form-item-label {
+    font-size: 16px;
+}
+.ivu-drawer-header p, .ivu-drawer-header-inner {
+    font-size: 18px;
+}
+.formitem {
+    width: 70%;
+    margin-left: 25%;
+}
+.forminput {
+    width: 67%;
+}
 </style>

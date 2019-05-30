@@ -1,8 +1,9 @@
 <template>
     <div class="company_box">
         <div style="margin:18px;">
-            <Title :title="'部门管理'"></Title>
-            <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
+             <Row>
+                <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
+            </Row>
         </div>
         <Drawer
             title="部门管理添加"
@@ -14,13 +15,8 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="部门名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入部门名称"  style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="领导" label-position="top">
-                            <Input v-model="formData.leader" placeholder="请输入领导名称" style="width:86%;"/>
+                        <FormItem label="产品名称" label-position="left">
+                            <Input v-model="formData.name" placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -36,7 +32,7 @@
             </template>
             <template slot-scope="{ row, index }" slot="action">
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
-                <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
+                <Button type="primary" shape="circle"  @click="modifyParent(row,index)">更改</Button>
             </template>
         </Table>
 
@@ -51,11 +47,33 @@
     import Title from "@/components/assembly/title";
 
     import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import {mapState} from 'vuex'
 
     export default {
         data () {
             return {
-                data1: [],
+                data1: [
+                    {
+                        "name":"闻海大数据平台",
+                        "leader":"张三",
+                        "createTime":"2019-06-31 03:06:55"
+                    },
+                    {
+                        "name":"天湖超级智算平台",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },
+                    {
+                        "name":"“红旗”县级融媒体中心",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },{
+                        "name":"“晴天”多语言舆情监测分析系统",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },
+                    
+                ],
                 value3: false,
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -81,7 +99,7 @@
                 },
                 tableColumns1: [
                     {
-                        title: '部门名称',
+                        title: '产品名称',
                         key: 'name'
                     },
                     {
@@ -89,7 +107,7 @@
                         key: 'leader'
                     },
                     {
-                        title: '创建时间',
+                        title: '更改时间',
                         key: 'createTime',
                     },
                     {
@@ -101,16 +119,27 @@
                 ]
             }
         },
-        mounted () {
-            // getDepartment().then(res => {
-            //     this.data1 = res.obj
-            // })
+        computed: {
+            // cosnole.log(this.$store.state)
+            // this.dataTypes = this.$store.state.guanli;
+            // guanli(){
+            //     return  this.$store.state.guanli
+            // },
+            ...mapState(['guanli'])
         },
+        // watch:{
+        //    guanli(newVal){
+        //        console.log(newVal)
+        //    } 
+        // },
         methods: {
             cleardata() {
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
+            },
+            changeTable() {
+                
             },
             addModalShow () {
                this.cleardata();
@@ -122,13 +151,17 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                let datas = this.formData,that = this;
-                addDepartment(datas).then(res => {
-                    if(res.success) {
-                         this.value3 = false
-                         this.data1.push(that.formData);
-                    }
-                })
+                
+                // this.data1[this.num].name =  this.formData.name;
+                
+                // this.value3 = false;
+                // let datas = this.formData,that = this;
+                // addDepartment(datas).then(res => {
+                //     if(res.success) {
+                //          this.value3 = false
+                //          this.data1.push(that.formData);
+                //     }
+                // })
                 // if(this.num==1) {
                 //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
                 //         if(result.data.success){
@@ -145,10 +178,10 @@
                 //     })
                 // }
             },
-            removeParent( row,index ) {
-                
-                removeDepartment(row.id).then(res => {
-                })
+            modifyParent( row,index ) {
+                this.value3 = true;
+                // this.formData = row;
+                this.num = index;
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {
                 //     this.axios({
@@ -161,17 +194,6 @@
                 //     })
                 // }  
             },
-            // modifyItem( row,index ) {
-            //     this.value3 = true;
-            //     this.num = 2;
-            //     let that = this;
-            //     this.axios.get('http://localhost:8096/departMent/selectById/'+row.id).then(function (result) {
-            //         if(result.data.success){
-            //             that.formData = result.data.obj;
-                        
-            //         }
-            //     })
-            // },
             
         },
         components:{
@@ -179,3 +201,27 @@
         }
     }
 </script>
+
+
+<style lang="less">
+.MaterialList {
+    width: 180px;
+    height: 30px;
+    border-color: #dcdcdc;
+    font-size: 16px;
+    color:#5f5f5f;
+    border-radius: 4px;
+    margin-top: -4px;
+    outline-style: none;
+}
+.ivu-table td, .ivu-table th {
+    text-align: center;
+    font-size: 14px;
+    color:#5b5b5b;
+}
+.ivu-table th {
+    font-size: 16px;
+    font-weight: 700;
+    color:#5b5b5b;
+}
+</style>

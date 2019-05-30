@@ -1,10 +1,20 @@
 <template>
     <div class="company_box">
-        <Title :title="'单位管理'"></Title>
-        <Button  class="btnMedal" @click="addModalShow" type="primary">添加</Button>
-        <!-- 模态框 -->
+        <div style="margin:18px;">
+             <Row>
+                <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
+                <Col span="19"> 
+                    <select class="MaterialList" @change="changeTable">
+                        <option value="">产品物料</option>
+                        <option value="">产品演示地址</option>
+                        <option value="">应用案例</option>
+                        <option value="">闻思报告</option>
+                    </select>
+                </Col>
+            </Row>
+        </div>
         <Drawer
-            title="单位管理添加"
+            title="部门管理添加"
             v-model="value3"
             width="720"
             :mask-closable="false"
@@ -13,60 +23,15 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="单位名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入单位名称"  style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="负责人" label-position="top">
-                            <Input v-model="formData.leader" placeholder="请输入负责人" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="联系人" label-position="top">
-                            <Input v-model="formData.contacter" placeholder="请输入联系人名称" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="地址" label-position="top">
-                            <Input v-model="formData.address" placeholder="请输入地址" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="电话" label-position="top">
-                            <Input v-model="formData.telephone" placeholder="请输入电话" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="传真" label-position="top">
-                            <Input v-model="formData.fax" placeholder="请输入传真" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="邮件" label-position="top">
-                            <Input v-model="formData.email" placeholder="请输入邮件" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                     <Col span="24">
-                        <FormItem label="备注" label-position="top">
-                            <Input v-model="formData.note" placeholder="请输入备注" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                     <Col span="24">
-                        <FormItem label="邮编" label-position="top">
-                            <Input v-model="formData.zipCode" placeholder="请输入邮编" style="width:86%;"/>
-                        </FormItem>
-                    </Col>
-                      <Col span="24">
-                        <FormItem label="网站" label-position="top">
-                            <Input v-model="formData.web" placeholder="请输入网站" style="width:86%;"/>
+                        <FormItem label="产品名称" label-position="left">
+                            <Input v-model="formData.name" placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
                 <Button type="primary"  @click="addRole()">确定</Button>
+                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data1" :columns="tableColumns1" stripe>
@@ -74,8 +39,8 @@
                 <strong>{{ row.name }}</strong>
             </template>
             <template slot-scope="{ row, index }" slot="action">
-                <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button>
-                <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
+                <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
+                <Button type="primary" shape="circle"  @click="modifyParent(row,index)">更改</Button>
             </template>
         </Table>
 
@@ -88,11 +53,35 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
-    import qs from 'qs'
+
+    import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import {mapState} from 'vuex'
+
     export default {
         data () {
             return {
-                data1: [],
+                data1: [
+                    {
+                        "name":"闻海大数据平台",
+                        "leader":"张三",
+                        "createTime":"2019-06-31 03:06:55"
+                    },
+                    {
+                        "name":"天湖超级智算平台",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },
+                    {
+                        "name":"“红旗”县级融媒体中心",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },{
+                        "name":"“晴天”多语言舆情监测分析系统",
+                         "leader":"张三",
+                         "createTime":"2019-06-31 03:06:55"
+                    },
+                    
+                ],
                 value3: false,
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -103,24 +92,22 @@
                 num:1,
                 formData: {
                     address: "",
-                    contacter: "",
+                    contacter: null,
                     createTime: "",
-                    dbindex: null,
-                    dbip: null,
-                    email: "",
+                    email: null,
                     fax: "",
-                    id: 1,
+                    id: "",
+                    instId: null,
                     leader: "",
                     name: "",
-                    note: "",
-                    status: 0,
-                    telephone: "",
-                    web: null,
-                    zipCode: null,
+                    note: null,
+                    status: "",
+                    telephone: null,
+                    userDep: null
                 },
                 tableColumns1: [
                     {
-                        title: '单位名称',
+                        title: '产品名称',
                         key: 'name'
                     },
                     {
@@ -128,7 +115,7 @@
                         key: 'leader'
                     },
                     {
-                        title: '创建时间',
+                        title: '更改时间',
                         key: 'createTime',
                     },
                     {
@@ -140,20 +127,27 @@
                 ]
             }
         },
-        created(){
-              let that = this;
-              this.axios({
-                  method: 'get',
-                  url:'http://localhost:8096/institution/getList',
-              }).then(function(result){
-                that.data1 = result.data.obj;
-              })
+        computed: {
+            // cosnole.log(this.$store.state)
+            // this.dataTypes = this.$store.state.guanli;
+            // guanli(){
+            //     return  this.$store.state.guanli
+            // },
+            ...mapState(['guanli'])
         },
+        // watch:{
+        //    guanli(newVal){
+        //        console.log(newVal)
+        //    } 
+        // },
         methods: {
             cleardata() {
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
+            },
+            changeTable() {
+                
             },
             addModalShow () {
                this.cleardata();
@@ -165,45 +159,48 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                let datas = this.formData,that = this;
-                if(this.num==1) {
-                    this.axios.post('http://localhost:8096/institution/add', qs.stringify(datas)).then(function (result) {
-                        if(result.data.success){
-                            that.value3 = false
-                            that.data1.push(that.formData);
-                        }
-                    })
-                }else {
-                    this.axios.post('http://localhost:8096/institution/update', qs.stringify(datas)).then(function (result) {
-                        if(result.data.success){
-                            that.value3 = false
-                            that.data1.splice(index,1,that.formData)
-                        }
-                    })
-                }
+                
+                // this.data1[this.num].name =  this.formData.name;
+                
+                // this.value3 = false;
+                // let datas = this.formData,that = this;
+                // addDepartment(datas).then(res => {
+                //     if(res.success) {
+                //          this.value3 = false
+                //          this.data1.push(that.formData);
+                //     }
+                // })
+                // if(this.num==1) {
+                //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
+                //         if(result.data.success){
+                //             that.value3 = false,
+                //             that.data1.push(that.formData);
+                //         }
+                //     })
+                // }else {
+                //     this.axios.post('http://localhost:8096/departMent/updateDepartMent', qs.stringify(datas)).then(function (result) {
+                //         if(result.data.success){
+                //             that.value3 = false
+                //             that.data1.splice(index,1,that.formData)
+                //         }
+                //     })
+                // }
             },
-            removeParent( row,index ) {
-                 let that = this;
-                if(confirm('确定要删除吗')) {
-                    this.axios({
-                        method: 'get',
-                        url:'http://localhost:8096/institution/deleteById/'+row.id,
-                    }).then(function(result){
-                        if(result) {
-                            that.data1.splice(index,1)
-                        }
-                    })
-                }  
-            },
-            modifyItem( row,index ) {
+            modifyParent( row,index ) {
                 this.value3 = true;
-                this.num = 2;
-                let that = this;
-                this.axios.get('http://localhost:8096/institution/selectById/'+row.id).then(function (result) {
-                    if(result.data.success){
-                        that.formData = result.data.obj;
-                    }
-                })
+                // this.formData = row;
+                this.num = index;
+                //  let that = this;
+                // if(confirm('确定要删除吗')) {
+                //     this.axios({
+                //         method: 'get',
+                //         url:'http://localhost:8096/departMent/deleteById/'+row.id,
+                //     }).then(function(result){
+                //         if(result) {
+                //             that.data1.splice(index,1)
+                //         }
+                //     })
+                // }  
             },
             
         },
@@ -214,35 +211,25 @@
 </script>
 
 
-<style>
-.company_box {
-    margin: 12px;
-    position: relative;
+<style lang="less">
+.MaterialList {
+    width: 180px;
+    height: 30px;
+    border-color: #dcdcdc;
+    font-size: 16px;
+    color:#5f5f5f;
+    border-radius: 4px;
+    margin-top: -4px;
+    outline-style: none;
 }
-.comMsg {
-    background: #fff;
-    padding:24px;
-    margin-bottom: 20px;
+.ivu-table td, .ivu-table th {
+    text-align: center;
+    font-size: 14px;
+    color:#5b5b5b;
 }
-
-.demo-drawer-footer{
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        border-top: 1px solid #e8e8e8;
-        padding: 10px 16px;
-        text-align: right;
-        background: #fff;
+.ivu-table th {
+    font-size: 16px;
+    font-weight: 700;
+    color:#5b5b5b;
 }
-.btnMedal {
-    position: absolute;
-    top: -2px;
-    right: 0px;
-}
-
-.ivu-form .ivu-form-item-label {
-    width:60px;
-}
-
 </style>

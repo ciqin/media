@@ -12,8 +12,14 @@ import {
   Submenu,
   Row,
   Col,
-  Input
-
+  Input,
+  Drawer,
+  FormItem,
+  Table,
+  Form,
+  MenuGroup,
+  DropdownItem,
+  DropdownMenu
 } from 'iview'
 
 
@@ -29,6 +35,13 @@ const view = (Vue) => {
   Vue.component('Row', Row)
   Vue.component('Col', Col)
   Vue.component('Input', Input)
+  Vue.component('Drawer', Drawer)
+  Vue.component('FormItem', FormItem)
+  Vue.component('Table', Table)
+  Vue.component('Form', Form)
+  Vue.component('MenuGroup', MenuGroup)
+  Vue.component('DropdownMenu', DropdownMenu)
+  Vue.component('DropdownItem', DropdownItem)
 }
 
 

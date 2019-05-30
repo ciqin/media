@@ -24,7 +24,7 @@ export default {
     margin-bottom: 20px;
 }
 .title h3 {
-    border-left: 4px solid #3aa2eb;
+    border-left: 6px solid #3aa2eb;
     padding-left: 16px;
     color: #3aa2eb;
     font-size: 16px;

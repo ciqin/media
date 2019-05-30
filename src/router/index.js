@@ -64,60 +64,47 @@ const routes = [
         name: 'hongqi',
         component:resolve => require(['@/components/hongqi/hongqi'], resolve)
       },
-      // {
-      //   path: '/index/yunji',
-      //   name: 'yunji',
-      //   component:resolve => require(['@/components/yunji/yunji'], resolve)
-      // },
-      //{
-      //   path: '/index/yayi',
-      //   name: 'yayi',
-      //   component:resolve => require(['@/components/yayi/yayi'], resolve)
-      // },{
-      //   path: '/index/wensi',
-      //   name: 'wensi',
-      //   component:resolve => require(['@/components/wensi/wensi'], resolve)
-      // },{
-      //   path: '/index/zhitu',
-      //   name: 'zhitu',
-      //   component:resolve => require(['@/components/zhitu/zhitu'], resolve)
-      // },{
-      //   path: '/index/jinzhunxian',
-      //   name: 'jinzhunxian',
-      //   component:resolve => require(['@/components/jinzhunxian/jinzhunxian'], resolve)
-      // },{
-      //   path: '/index/tianhu',
-      //   name: 'tianhu',
-      //   component:resolve => require(['@/components/tianhu/tianhu'], resolve)
-      // },{
-      //   path: '/index/other',
-      //   name: 'other',
-      //   component:resolve => require(['@/components/other/other'], resolve)
-      // },
-      // {
-      //   // path: '/index/system',
-      //   // name: 'system',
-      //   // component:resolve => require(['@/components/system/system'], resolve),
-      //   // children:[
-      //   //     {
-      //   //       path: '/index/system/com',
-      //   //       name: 'com',
-      //   //       component:resolve => require(['@/components/system/com/com'], resolve)
-      //   //     },{
-      //   //       path: '/index/system/user',
-      //   //       name: 'user',
-      //   //       component:resolve => require(['@/components/system/user/user'], resolve)
-      //   //     },{
-      //   //       path: '/index/system/role',
-      //   //       name: 'role',
-      //   //       component:resolve => require(['@/components/system/role/role'], resolve)
-      //   //     },{
-      //   //       path: '/index/system/department',
-      //   //       name: 'department',
-      //   //       component:resolve => require(['@/components/system/department/department'], resolve)
-      //   //     }
-      //   // ]
-      // }
+      {
+        path: '/index/system',
+        name: 'system',
+        component:resolve => require(['@/components/system/system'], resolve),
+        children:[
+            {
+              path: '/index/system/user',
+              name: 'user',
+              component:resolve => require(['@/components/system/user/user'], resolve)
+            },
+            {
+              path: '/index/system/project',
+              name: 'project',
+              component:resolve => require(['@/components/system/com/com'], resolve)
+            },
+            {
+              path: '/index/system/yanshi',
+              name: 'project',
+              component:resolve => require(['@/components/system/com/yanshi'], resolve)
+            },
+            {
+              path: '/index/system/wensi',
+              name: 'project',
+              component:resolve => require(['@/components/system/com/wensi'], resolve)
+            },
+            {
+              path: '/index/system/yinyong',
+              name: 'project',
+              component:resolve => require(['@/components/system/com/yinyong'], resolve)
+            },
+            {
+              path: '/index/system/role',
+              name: 'role',
+              component:resolve => require(['@/components/system/role/role'], resolve)
+            },{
+              path: '/index/system/department',
+              name: 'department',
+              component:resolve => require(['@/components/system/department/department'], resolve)
+            }
+        ]
+      }
     ]
   },
   {
@@ -129,6 +116,7 @@ const routes = [
 
 const router = new Router({
   mode : 'history',
+  linkActiveClass: 'active_change',
   routes
 })
 

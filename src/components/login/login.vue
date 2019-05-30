@@ -47,7 +47,6 @@ export default {
             param.username = this.userName;
             param.password = this.password;
             this.taplogin(param)
-           
         },
         async taplogin (param) {
             try {

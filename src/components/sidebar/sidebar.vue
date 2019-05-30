@@ -80,6 +80,11 @@ import {mapActions, mapGetters} from 'vuex';
           text: '闻思报告',
           img:"/static/images/yinyong/s_icon4.png",
            url:"/index/hongqi"
+        }, {
+          "autoId": 5,
+          text: '权限管理',
+          img:"/static/images/yinyong/s_icon5.png",
+           url:"/index/system"
         }
         ],
         className:0

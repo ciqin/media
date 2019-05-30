@@ -18,7 +18,7 @@
 
 <script>
 
-import {mapActions, mapState,mapGetters} from 'vuex';
+//import {mapActions, mapState,mapGetters} from 'vuex';
 
 import { getProduct } from '@/http/api'
 
