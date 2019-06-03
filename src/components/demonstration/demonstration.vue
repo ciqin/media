@@ -10,7 +10,7 @@
         <div class="product_ys">
             <p>{{dataType.namePar}}{{dataType.name}}</p>
             <iframe :src="dataType.url" v-if="dataType.type==1" frameborder="0"></iframe>
-            <video src="dataType.url" v-if="dataType.type==2"></video>
+            <video src="/static/images/yansi/video/YL.mp4" v-if="dataType.type==2" controls="controls"></video>
         </div>
     </div>  
 </template>

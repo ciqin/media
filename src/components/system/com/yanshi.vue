@@ -30,12 +30,15 @@
             <template slot-scope="{ row }" slot="name">
                 <strong>{{ row.name }}</strong>
             </template>
+            <template slot-scope="{row}" slot="action">
+                <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
+                <input type="text" :value="row.url">
+            </template>
             <template slot-scope="{ row, index }" slot="action">
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
                 <Button type="primary" shape="circle"  @click="modifyParent(row,index)">更改</Button>
             </template>
         </Table>
-
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -46,34 +49,14 @@
 <script>
     import Title from "@/components/assembly/title";
 
-    import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getSisurl} from '@/http/api';
+
     import {mapState} from 'vuex'
 
     export default {
         data () {
             return {
-                data1: [
-                    {
-                        "name":"闻海大数据平台",
-                        "leader":"张三",
-                        "createTime":"2019-06-31 03:06:55"
-                    },
-                    {
-                        "name":"天湖超级智算平台",
-                         "leader":"张三",
-                         "createTime":"2019-06-31 03:06:55"
-                    },
-                    {
-                        "name":"“红旗”县级融媒体中心",
-                         "leader":"张三",
-                         "createTime":"2019-06-31 03:06:55"
-                    },{
-                        "name":"“晴天”多语言舆情监测分析系统",
-                         "leader":"张三",
-                         "createTime":"2019-06-31 03:06:55"
-                    },
-                    
-                ],
+                data1: [],
                 value3: false,
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -110,6 +93,17 @@
                         title: '更改时间',
                         key: 'createTime',
                     },
+                     {
+                        title: '链接地址',
+                        render: (h, params) => {
+                            return h('Input', {
+                                props: {
+                                    type: 'text',
+                                    value: params.row.url,
+                                }
+                            });
+                        },
+                    },
                     {
                         title: '操作',
                         slot: 'action',
@@ -126,6 +120,11 @@
             //     return  this.$store.state.guanli
             // },
             ...mapState(['guanli'])
+        },
+        mounted () {
+            getSisurl().then(res => {
+                this.data1 = res
+            })
         },
         // watch:{
         //    guanli(newVal){

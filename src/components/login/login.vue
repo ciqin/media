@@ -20,7 +20,7 @@
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
                      <input type="password" placeholder="请输入密码" v-model="password">
                 </div>
-                <span class="tip">密码错误等提示</span>
+                <span class="tip" v-if="tip">{{tip}}</span>
                 <div class="logC">
                     <a><button @click="login">登 录</button></a>
                 </div>
@@ -37,7 +37,8 @@ export default {
   data() {
     return {
       userName:"",
-      password:""
+      password:"",
+      tip:""
     };
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
             try {
                 let res = await  getLogin(param)
                 //  校验登陆是否正确
-                res ==="login"?this.$router.push({path: '/index/company'}):this.userName='',this.password='';
+                res ==="index/company"?this.$router.push({path: '/index/company'}):this.userName='',this.password='',this.tip="用户名密码错误";
             } catch (e) {
                 
             }

@@ -9,7 +9,7 @@
                                 <!-- <img :src="data.img"> -->
                                 {{data.text}}
                             </MenuItem>
-                            <Submenu name="2" v-if="data.secondPerm" :key="data.text" class="itempar">
+                            <Submenu :name="'child-'+index" v-if="data.secondPerm" :key="data.text" class="itempar">
                                 <template slot="title">
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.text}}
@@ -36,6 +36,29 @@ export default {
           text: '政务舆情分析',
         //   img:"/static/images/yinyong/s_icon1_active.png",
           url:"/index/company",
+           secondPerm: [
+            {
+                "autoId": 1,
+                "name": "标题1",
+                "url": "11",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            },
+            {
+                "autoId": 2,
+                "name": "标题2",
+                "url": "222",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            },
+            {
+                "autoId": 3,
+                "name": "标题3",
+                "url": "333",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            }
+        ]
         }, {
           "autoId": 2,
           text: '城市形象品牌监测',
@@ -68,7 +91,30 @@ export default {
           "autoId": 3,
           text: '影响力评估',
         //    img:"/static/images/yinyong/s_icon3.png",
-            url:"/index/qingtian"
+            url:"/index/qingtian",
+             secondPerm: [
+            {
+                "autoId": 1,
+                "name": "标题1",
+                "url": "11",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            },
+            {
+                "autoId": 2,
+                "name": "标题2",
+                "url": "222",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            },
+            {
+                "autoId": 3,
+                "name": "标题3",
+                "url": "333",
+                "icon": "/static/images/icon/pdf_icon.png",
+                "secondPerm": null
+            }
+        ]
         }, {
           "autoId": 4,
           text: '商务智能情报',

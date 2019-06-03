@@ -4,13 +4,13 @@
             <Col span="19">
                 <div class="product_ys">
                     <p>标题</p>
-                    <iframe src="" frameborder="0"></iframe>
+                    <video :src="changeurl" controls="controls"></video>
                 </div>
             </Col>
             <Col span="5" style="border-left:1px solid #dddddd;height:100%;">
                 <div class="videoList">
                     <h3>视频列表</h3>
-                    <div class="item"  v-for="item in applicationList" :key="item.text">{{item.text}}</div>
+                    <div class="item"  v-for="item in applicationList" :key="item.text" @click="changeUrl(item)">{{item.text}}</div>
                 </div>
             </Col>
         </Row>
@@ -21,27 +21,35 @@
 export default {
     data() {
         return {
+            changeurl:"/static/images/yansi/video/YL.mp4",
             applicationList:[
                 {
                     text:"video1",
+                    url:"/static/images/yansi/video/YL.mp4"
                 },
                  {
                     text:"video2",
+                    url:""
                 },
                  {
                     text:"video3",
+                    url:"/static/images/yansi/video/YL.mp4"
                 },
                  {
                     text:"video4",
+                    url:"/static/images/yansi/video/YL.mp4"
                 },
                  {
                     text:"video5",
+                    url:"/static/images/yansi/video/YL.mp4"
                 }
             ]
         };
     },
     methods:{
-        
+        changeUrl(item) {
+           this.changeurl = item.url
+        }
     },
     mounted() {
      

@@ -38,3 +38,6 @@ export const removeDepartment = data => getHttp(baseUrl('/test/departMent/delete
 
 //  获取用户列表
 export const getUserList = data => getHttp(baseUrl('/test/user/getUserList'), data)
+
+//  获取应用案例列表json
+export const getapplicationList = data => getHttp(baseUrl('/api/static/anli.json'), data)

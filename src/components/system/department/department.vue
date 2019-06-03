@@ -18,11 +18,11 @@
                             <Input v-model="formData.name" placeholder="请输入部门名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
-                    <Col span="24">
+                    <!-- <Col span="24">
                         <FormItem label="领导" label-position="top">
                             <Input v-model="formData.leader" placeholder="请输入领导名称" style="width:86%;"/>
                         </FormItem>
-                    </Col>
+                    </Col> -->
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
