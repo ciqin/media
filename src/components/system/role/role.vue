@@ -1,42 +1,47 @@
 <template>
     <div class="company_box">
         <div style="margin:18px;">
-            <Title :title="'部门管理'"></Title>
+            <Title :title="'管理员'"></Title>
             <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
         </div>
         <Drawer
-            title="部门管理添加"
+            title="管理员添加"
             v-model="value3"
-            width="720"
+            width="660"
             :mask-closable="false"
             :styles="styles"
         >
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="部门名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入部门名称"  style="width:86%;"/>
+                         <FormItem label="管理员名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入管理员名称" v-model="formData.name" />
                         </FormItem>
                     </Col>
-                    <Col span="24">
-                        <FormItem label="领导" label-position="top">
-                            <Input v-model="formData.leader" placeholder="请输入领导名称" style="width:86%;"/>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入部门名称" v-model="formData.departMentName" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="管理员邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入管理员邮箱" v-model="formData.email" />
                         </FormItem>
                     </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
+                <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="value3 = false">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data1" :columns="tableColumns1" stripe>
             <template slot-scope="{ row }" slot="name">
                 <strong>{{ row.name }}</strong>
             </template>
-            <template slot-scope="{ row, index }" slot="action">
-                <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
-                <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
+            <template slot-scope="{ row , index}" slot="action">
+                <Button shape="circle" icon="ios-create-outline"></Button>
+                <Button shape="circle" icon="ios-trash-outline" @click="removeParent( row , index)"></Button>
             </template>
         </Table>
 
@@ -49,44 +54,39 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
+    
+    import '../../../assets/css/system.css';
 
-    import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import { getRole,removeRole,addRole} from '@/http/api';
 
     export default {
         data () {
             return {
                 data1: [],
                 value3: false,
+                addInput:[],
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
-                    paddingBottom: '53px',
-                    position: 'static'
+                    position: 'static',
+                    padding: '210px 80px 0 80px'
                 },
                 num:1,
                 formData: {
-                    address: "",
-                    contacter: null,
+                    name: "",
                     createTime: "",
                     email: null,
-                    fax: "",
-                    id: "",
-                    instId: null,
+                    departMentName:"",
                     leader: "",
-                    name: "",
-                    note: null,
-                    status: "",
-                    telephone: null,
-                    userDep: null
                 },
                 tableColumns1: [
                     {
-                        title: '部门名称',
+                        title: '管理员名称',
                         key: 'name'
                     },
                     {
-                        title: '操作人',
-                        key: 'leader'
+                        title: '部门名称',
+                        key: 'departMentName'
                     },
                     {
                         title: '创建时间',
@@ -102,9 +102,9 @@
             }
         },
         mounted () {
-            // getDepartment().then(res => {
-            //     this.data1 = res.obj
-            // })
+            getRole().then(res => {
+                this.data1 = res.obj
+            })
         },
         methods: {
             cleardata() {
@@ -123,32 +123,17 @@
             },
             addRole(){
                 let datas = this.formData,that = this;
-                addDepartment(datas).then(res => {
+                addRole(datas).then(res => {
                     if(res.success) {
                          this.value3 = false
                          this.data1.push(that.formData);
                     }
                 })
-                // if(this.num==1) {
-                //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false,
-                //             that.data1.push(that.formData);
-                //         }
-                //     })
-                // }else {
-                //     this.axios.post('http://localhost:8096/departMent/updateDepartMent', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false
-                //             that.data1.splice(index,1,that.formData)
-                //         }
-                //     })
-                // }
             },
             removeParent( row,index ) {
-                
-                removeDepartment(row.id).then(res => {
-                })
+                console.log( row , index)
+                // removeDepartment(row.id).then(res => {
+                // })
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {
                 //     this.axios({
@@ -161,21 +146,23 @@
                 //     })
                 // }  
             },
-            // modifyItem( row,index ) {
-            //     this.value3 = true;
-            //     this.num = 2;
-            //     let that = this;
-            //     this.axios.get('http://localhost:8096/departMent/selectById/'+row.id).then(function (result) {
-            //         if(result.data.success){
-            //             that.formData = result.data.obj;
-                        
-            //         }
-            //     })
+            //  添加输入框
+            // addInputF(){
+            //     let rendom =Math.random().toString(36).substr(2)
+            //     this.addInput.push(rendom)
             // },
-            
+            //  删除输入框
+            // removeInputF(item,index){
+            //     this.addInput.splice(index, 1);
+            // }
         },
         components:{
             Title
         }
     }
 </script>
+<style lang="less" scoped>
+.ivu-input {
+  height: 45px;
+}
+</style>

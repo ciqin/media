@@ -202,7 +202,7 @@
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
 .MaterialList {
     width: 180px;
     height: 30px;

@@ -34,10 +34,39 @@ export const getDepartment = data => getHttp(baseUrl('/test/departMent/getList')
 export const addDepartment = data => postHttp(baseUrl('/test/departMent/add'), data)
 
 //  部门删除
-export const removeDepartment = data => getHttp(baseUrl('/test/departMent/deleteById'), data)
+export const removeDepartment = data => postHttp(baseUrl('/test/departMent/deleteById'), data)
 
-//  获取用户列表
+
+//  用户列表
 export const getUserList = data => getHttp(baseUrl('/test/user/getUserList'), data)
+
+//  用户添加
+export const addUser = data => getHttp(baseUrl('/test/user/addUser'), data)
+
+//  用户删除
+export const removeUser = data => getHttp(baseUrl('/test/user/deleteByUserId'), data)
+
+//  对应id用户信息
+export const selectByIdtUser = data => getHttp(baseUrl('/test/user/selectById'), data)
+
+//  更新修改id用户信息
+export const updateUser = data => getHttp(baseUrl('/test/user/updateUser'), data)
+
 
 //  获取应用案例列表json
 export const getapplicationList = data => getHttp(baseUrl('/api/static/anli.json'), data)
+
+//  管理员列表
+export const getRole = data => getHttp(baseUrl('/test/role/getList'), data)
+
+//  管理员添加
+export const addRole = data => postHttp(baseUrl('/test/role/add'), data)
+
+//  管理员删除
+export const removeRole = data => getHttp(baseUrl('/test/role/deleteById'), data)
+
+//  对应id管理员信息
+export const selectByIdRole = data => getHttp(baseUrl('/test/role/selectById'), data)
+
+// 更新修改id管理员信息
+export const updateRole = data => getHttp(baseUrl('/test/role/update'), data)

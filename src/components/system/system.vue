@@ -93,9 +93,6 @@
         right: 0px;
     }
 
-    .ivu-form .ivu-form-item-label {
-        width:60px;
-    }
     .ivu-table th {
         text-align: center;
         font-size:16px;

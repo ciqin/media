@@ -53,7 +53,13 @@ export default {
             try {
                 let res = await  getLogin(param)
                 //  校验登陆是否正确
-                res ==="index/company"?this.$router.push({path: '/index/company'}):this.userName='',this.password='',this.tip="用户名密码错误";
+                if(res ==="index/company") {
+                    this.$router.push({path: '/index/company'})
+                }else {
+                    this.userName='';
+                    this.password='';
+                    this.tip="用户名密码错误";
+                }
             } catch (e) {
                 
             }

@@ -1,0 +1,93 @@
+.company_box {
+  position: relative;
+}
+.comMsg {
+  background: #fff;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.ivu-table-wrapper {
+  border: 0;
+}
+.demo-drawer-footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: 1px solid #e8e8e8;
+  padding: 10px 16px;
+  text-align: right;
+  background: #fff;
+}
+.btnMedal {
+  position: absolute;
+  top: -2px;
+  right: 0px;
+}
+
+.ivu-table th {
+  text-align: center;
+  font-size: 16px;
+  height: 50px;
+  color: #5b5b5b;
+}
+.ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td,
+.ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td {
+  background-color: #f1f6ff;
+}
+.ivu-table-stripe .ivu-table-body tr td,
+.ivu-table-stripe .ivu-table-fixed-body tr td {
+  text-align: center;
+  font-size: 14px;
+}
+.ivu-table-stripe .ivu-table-body tr td,
+.ivu-table-stripe .ivu-table-fixed-body tr td {
+  background-color: #f1f6ff;
+}
+
+.demo-drawer-footer {
+  margin: 0 auto;
+}
+.ivu-drawer-content {
+  background: #f8f8f8;
+}
+.ivu-input {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding-left: 20px;
+  color: #5b5b5b;
+  font-size: 16px;
+}
+.ivu-form .ivu-form-item-label {
+  font-size: 16px;
+  text-align: right;
+  float:left;
+  width: 115px;
+}
+.ivu-form-item-content {
+    float: right;
+    width: calc(100% - 115px);
+}
+.ivu-drawer-header p,
+.ivu-drawer-header-inner {
+  font-size: 18px;
+}
+.formitem {
+  width: 70%;
+  margin-left: 25%;
+}
+.forminput {
+  width: 67%;
+}
+.demo-drawer-footer {
+  background: transparent;
+  position: relative;
+  border: 0;
+  padding: 16px 0;
+}
+.setW {
+  width: 120px;
+  height: 40px;
+  font-size: 18px;
+}

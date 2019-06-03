@@ -7,27 +7,28 @@
         <Drawer
             title="部门管理添加"
             v-model="value3"
-            width="720"
+            width="660"
             :mask-closable="false"
             :styles="styles"
         >
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="部门名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入部门名称"  style="width:86%;"/>
+                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入部门名称" v-model="formData.name" />
                         </FormItem>
                     </Col>
-                    <!-- <Col span="24">
-                        <FormItem label="领导" label-position="top">
-                            <Input v-model="formData.leader" placeholder="请输入领导名称" style="width:86%;"/>
-                        </FormItem>
+                    <!-- <Col span="24" style="margin-top:12px;" v-for="(item , index) in addInput" :key="item">
+                        <div style="width:420px;margin:0 auto;">
+                            <Input  placeholder="请输入部门名称"  style="width:370px;"/>
+                            <Icon type="md-close" :size="26" style="margin-left:16px;" @click="removeInputF(item,index)"/>
+                        </div>
                     </Col> -->
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
+                <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="value3 = false">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data1" :columns="tableColumns1" stripe>
@@ -49,6 +50,8 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
+    
+    import '../../../assets/css/system.css';
 
     import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
 
@@ -57,11 +60,12 @@
             return {
                 data1: [],
                 value3: false,
+                addInput:[],
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
-                    paddingBottom: '53px',
-                    position: 'static'
+                    position: 'static',
+                    padding: '210px 80px 0 80px'
                 },
                 num:1,
                 formData: {
@@ -147,7 +151,8 @@
             },
             removeParent( row,index ) {
                 
-                removeDepartment(row.id).then(res => {
+                removeDepartment({id:row.id}).then(res => {
+                    console.log(res)
                 })
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {
@@ -161,71 +166,23 @@
                 //     })
                 // }  
             },
-            // modifyItem( row,index ) {
-            //     this.value3 = true;
-            //     this.num = 2;
-            //     let that = this;
-            //     this.axios.get('http://localhost:8096/departMent/selectById/'+row.id).then(function (result) {
-            //         if(result.data.success){
-            //             that.formData = result.data.obj;
-                        
-            //         }
-            //     })
+            //  添加输入框
+            // addInputF(){
+            //     let rendom =Math.random().toString(36).substr(2)
+            //     this.addInput.push(rendom)
             // },
-            
+            //  删除输入框
+            // removeInputF(item,index){
+            //     this.addInput.splice(index, 1);
+            // }
         },
         components:{
             Title
         }
     }
 </script>
-
-
-<style lang="less" scope>
-.company_box {
-    position: relative;
-}
-.comMsg {
-    background: #fff;
-    padding:24px;
-    margin-bottom: 20px;
-}
-.ivu-table-wrapper {
-    border:0;
-}
-.demo-drawer-footer{
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        border-top: 1px solid #e8e8e8;
-        padding: 10px 16px;
-        text-align: right;
-        background: #fff;
-}
-.btnMedal {
-    position: absolute;
-    top: -2px;
-    right: 0px;
-}
-
-.ivu-form .ivu-form-item-label {
-    width:60px;
-}
-.ivu-table th {
-    text-align: center;
-    font-size:16px;
-    height: 50px;
-    color:#5b5b5b;
-}
-.ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td {
-    background-color: #f1f6ff;
-}
-.ivu-table-stripe .ivu-table-body tr td, .ivu-table-stripe .ivu-table-fixed-body tr td {
-    text-align: center;
-    font-size: 14px;
-}
-.ivu-table-stripe .ivu-table-body tr td, .ivu-table-stripe .ivu-table-fixed-body tr td {
-    background-color: #f1f6ff;
+<style lang="less" scoped>
+.ivu-input {
+  height: 45px;
 }
 </style>

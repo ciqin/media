@@ -5,47 +5,44 @@
             <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
         </div>
         <!-- 模态框 -->
-        <Drawer
-            title="用户管理添加"
-            v-model="value3"
-            width="720"
-            :mask-closable="false"
-            :styles="styles"
-            class="rermovebox">
-            <Form :model="formData">
-                <Row :gutter="32">
-                    <Col span="24">
-                        <FormItem label="用户名称" label-position="left" calss="formitem" style="width:50%;margin-left: 25%;">
-                            <Input v-model="formData.username" placeholder="请输入用户名称"  class="forminput" style="width:80%;"/>
-                        </FormItem>
-                    </Col>
-                     <Col span="24">
-                        <FormItem label="部门" label-position="top"  style="width:50%;margin-left: 25%;">
-                            <Select v-model="formData.institutionId" placeholder="请输入单位" style="width:80%;"> 
-                                <Option value="1">部门1</Option>
-                                <Option value="2">部门2</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="24">
-                        <FormItem label="邮件" label-position="top"  style="width:50%;margin-left: 25%;">
-                            <Input v-model="formData.email" placeholder="请输入邮件" style="width:80%;"/>
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
-            <div class="demo-drawer-footer">
-                <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
-            </div>
-        </Drawer>    
+            <Drawer
+                :title="titleName"
+                v-model="value3"
+                width="660"
+                :mask-closable="false"
+                :styles="styles"
+            >
+                <Form :model="formData">
+                    <Row :gutter="32">
+                        <Col span="24">
+                            <FormItem label="用户名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                                <Input  placeholder="请输入用户名称" v-model="formData.name" />
+                            </FormItem>
+                        </Col>
+                        <Col span="24" style="margin-top: 16px;">
+                            <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                                <Input  placeholder="请输入部门名称" v-model="formData.departMentName" />
+                            </FormItem>
+                        </Col>
+                        <Col span="24" style="margin-top: 16px;">
+                            <FormItem label="用户邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                                <Input  placeholder="请输入用户邮箱" v-model="formData.email" />
+                            </FormItem>
+                        </Col>
+                    </Row>
+                </Form>
+                <div class="demo-drawer-footer">
+                    <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
+                    <Button class="setW" @click="value3 = false">关闭</Button>
+                </div>
+            </Drawer>
         <Table :data="data1" :columns="tableColumns1" stripe>
             <template slot-scope="{ row }" slot="name">
                 <strong>{{ row.name }}</strong>
             </template>
             <template slot-scope="{ row, index }" slot="action">
-                <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button>
-                <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
+                <Button shape="circle" icon="ios-create-outline" @click="modifyItem( row , index)"></Button>
+                <Button shape="circle" icon="ios-trash-outline" @click="removeParent( row , index)"></Button>
             </template>
         </Table>
 
@@ -58,8 +55,10 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
-    
-    import {getUserList} from "@/http/api"
+
+     import '../../../assets/css/system.css';
+
+    import {getUserList,removeUser,addUser,selectByIdtUser,updateUser} from "@/http/api"
 
     export default {
         data () {
@@ -69,10 +68,10 @@
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
-                    paddingBottom: '53px',
+                    padding: '210px 80px 0 80px',
                     position: 'static',
-                    paddingTop:"160px"
                 },
+                titleName:"用户管理添加",
                 num:1,
                 formData: {
                     address: null,
@@ -104,13 +103,8 @@
                     },
                     {
                         title: '部门名称',
-                        key: 'institutionName',
+                        key: 'departmentName',
                     },
-                    {
-                        title: '操作人',
-                        key: 'roleName',
-                    },
-                    
                     {
                         title: '创建时间',
                         key: 'createTime',
@@ -124,16 +118,6 @@
                 ]
             }
         },
-        // created(){
-        //       let that = this;
-              
-        //       this.axios({
-        //           method: 'get',
-        //           url:'http://localhost:8096/user/getUserList',
-        //       }).then(function(result){
-        //         that.data1 = result.data.obj;
-        //       })
-        // },
          mounted () {
             getUserList().then(res => {
                 this.data1 = res.obj
@@ -147,6 +131,7 @@
             },
             addModalShow () {
                this.cleardata();
+               this.titleName = "用户管理添加";
                this.value3 = true;
                this.num = 1;
             },
@@ -173,26 +158,19 @@
                 }
             },
             removeParent( row,index ) {
-                 let that = this;
-                if(confirm('确定要删除吗')) {
-                    this.axios({
-                        method: 'get',
-                        url:'http://localhost:8096/user/deleteByUserId/'+row.id,
-                    }).then(function(result){
-                        if(result) {
-                            that.data1.splice(index,1)
-                        }
-                    })
-                }
+                 removeParent().then(res => {
+                     if(1) {
+
+                     }
+                 })
             },
             modifyItem( row,index ) {
                 this.value3 = true;
+                this.titleName = "用户管理修改";
                 this.num = 2;
-                let that = this;
-                this.axios.get('http://localhost:8096/user/selectById/'+row.id).then(function (result) {
-                    if(result.data.success){
-                        that.formData = result.data.obj
-                        
+                selectByIdtUser().then(( res ) => {
+                    if(res.data.success) {
+                        this.formData = res
                     }
                 })
             },
@@ -204,32 +182,3 @@
     }
 </script>
 
-
-<style lang="less" scope>
-
-.demo-drawer-footer {
-    margin:0 auto;
-}
-.ivu-form .ivu-form-item-label {
-    width:60px;
-}
-.ivu-drawer-content{
-    background: #f8f8f8;
-}
-.ivu-input {
-    background: #fff;
-}
-.ivu-form .ivu-form-item-label {
-    font-size: 16px;
-}
-.ivu-drawer-header p, .ivu-drawer-header-inner {
-    font-size: 18px;
-}
-.formitem {
-    width: 70%;
-    margin-left: 25%;
-}
-.forminput {
-    width: 67%;
-}
-</style>
