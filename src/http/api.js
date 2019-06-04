@@ -38,19 +38,19 @@ export const removeDepartment = data => postHttp(baseUrl('/test/departMent/delet
 
 
 //  用户列表
-export const getUserList = data => getHttp(baseUrl('/test/user/getUserList'), data)
+export const getUserList = data => postHttp(baseUrl('/test/user/getUserList'), data)
 
 //  用户添加
-export const addUser = data => getHttp(baseUrl('/test/user/addUser'), data)
+export const addUser = data => postHttp(baseUrl('/test/user/addUser'), data)
 
 //  用户删除
-export const removeUser = data => getHttp(baseUrl('/test/user/deleteByUserId'), data)
+export const removeUser = data => postHttp(baseUrl('/test/user/deleteByUserId'), data)
 
 //  对应id用户信息
-export const selectByIdtUser = data => getHttp(baseUrl('/test/user/selectById'), data)
+export const selectByIdtUser = data => postHttp(baseUrl('/test/user/selectById'), data)
 
 //  更新修改id用户信息
-export const updateUser = data => getHttp(baseUrl('/test/user/updateUser'), data)
+export const updateUser = data => postHttp(baseUrl('/test/user/updateUser'), data)
 
 
 //  获取应用案例列表json

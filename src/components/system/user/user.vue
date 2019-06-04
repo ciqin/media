@@ -51,6 +51,12 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal
+            v-model="modal1"
+            title=""
+            @on-ok="ok">
+            确定删除吗？
+        </Modal>
     </div>
 </template>
 <script>
@@ -65,6 +71,7 @@
             return {
                 data1: [],
                 value3: false,
+                modal1: false,
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -124,13 +131,24 @@
             })
         },
         methods: {
+             removeParent( row,index ) {
+                 this.modal1 = true;
+                //  removeUser({"id":row.id}).then(res => {
+                //      res.success?this.$message('删除成功'):this.$message('删除失败')
+                //  })
+            },
+            ok () {
+                 removeUser({"id":row.id}).then(res => {
+                     res.success?this.$message('删除成功'):this.$message('删除失败')
+                 })
+            },
             cleardata() {
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
             },
             addModalShow () {
-               this.cleardata();
+               this.cleardata();    
                this.titleName = "用户管理添加";
                this.value3 = true;
                this.num = 1;
@@ -140,14 +158,14 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                let datas = this.formData,that = this;
+                //let datas = this.formData,that = this;
                 if(this.num==1) {
-                    this.axios.post('http://localhost:8096/user/addUser', qs.stringify(datas)).then(function (result) {
-                        if(result.data.success){
-                            that.value3 = false;
-                            that.data1.push(that.formData);
+                    addUser(this.formData).then(( res ) => {
+                        if(res.success) {
+                            this.value3 = false;
                         }
                     })
+                    
                 }else {
                     this.axios.post('http://localhost:8096/user/updateUser', qs.stringify(datas)).then(function (result) {
                         if(result.data.success){
@@ -157,13 +175,7 @@
                     })
                 }
             },
-            removeParent( row,index ) {
-                 removeParent().then(res => {
-                     if(1) {
-
-                     }
-                 })
-            },
+           
             modifyItem( row,index ) {
                 this.value3 = true;
                 this.titleName = "用户管理修改";
