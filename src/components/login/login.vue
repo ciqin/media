@@ -24,7 +24,7 @@
                 <div class="logC">
                     <a><button @click="login">登 录</button></a>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </template>
@@ -50,6 +50,7 @@ export default {
             let param = new Object();
             param.username = this.userName;
             param.password = this.password;
+            param.ContentType = true
             this.taplogin(param)
         },
         async taplogin (param) {
@@ -66,12 +67,12 @@ export default {
                     this.tip="用户名密码错误";
                 }
             } catch (e) {
-                
+
             }
         }
     },
      components:{
- 
+
   }
 };
 </script>
@@ -128,7 +129,7 @@ export default {
                     font-size: 14px;
                     color:#000;
                     border-radius: 4px;
-                    border:1px solid #b8b8b8; 
+                    border:1px solid #b8b8b8;
                     outline-style: none;
                 }
             }
@@ -149,7 +150,7 @@ export default {
                         color: white;
                         font-size: 18px;
                         letter-spacing: 0.5rem;
-                        border-radius:2px; 
+                        border-radius:2px;
                     }
                 }
             }

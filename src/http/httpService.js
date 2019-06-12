@@ -11,15 +11,16 @@ const vue = new Vue()
 
 // 创建Axios实例对象，配置请求前缀，请求超时时间以及不需要带跨域凭证
 const Axios = http.create({
-  baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
+  // baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
+  baseURL: path.API_URL
 })
 
 // 请求拦截
 Axios.interceptors.request.use(config => {
-  //config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-  //config.headers['Content-Type'] = 'application/json;charset=UTF-8'
-  config.headers['Content-Type'] = 'application/json; charset=UTF-8'
-  //if(config[0]!="qs") {config.headers['Content-Type'] = 'application/json;charset=UTF-8'}else {config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'}
+  if (config.data.ContentType) {
+    delete config.data.ContentType
+    config.headers = Object.assign(config.headers, { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'})
+  }
   return config
 }, error => {
   return Promise.reject(error)
