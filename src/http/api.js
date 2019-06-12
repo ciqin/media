@@ -1,9 +1,6 @@
 /**
  * 此文件为接口统一管理文件
  */
-
-
-
  const baseUrl = url => {
      if ((url.includes('api') ||url.includes('test')) && process.env.NODE_ENV !== 'development' ) {
          return url.split('/').splice(2).join('/')
@@ -14,9 +11,8 @@
 
 import { getHttp, postHttp } from "./httpService"
 
-
 //  login
-export const getLogin = data => postHttp(baseUrl('/test/login'), data)
+export const getLogin = data => postHttp(baseUrl('/test/login'), data,"qs")
 
 // 产品物料展示
 export const getProduct = data => getHttp(baseUrl('/api/static/company.json'), data)

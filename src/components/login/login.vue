@@ -32,6 +32,9 @@
 <script>
 
 import { getLogin } from '@/http/api'
+
+
+
 export default {
   name: "seller",
   data() {
@@ -54,6 +57,8 @@ export default {
                 let res = await  getLogin(param)
                 //  校验登陆是否正确
                 if(res ==="index/company") {
+                    this.$store.commit("commonLogin","login");
+                    localStorage.setItem("islogin","login")
                     this.$router.push({path: '/index/company'})
                 }else {
                     this.userName='';

@@ -150,7 +150,6 @@
                 // }
             },
             removeParent( row,index ) {
-                
                 removeDepartment({id:row.id}).then(res => {
                     console.log(res)
                 })

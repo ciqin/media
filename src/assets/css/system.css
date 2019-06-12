@@ -91,3 +91,39 @@
   height: 40px;
   font-size: 18px;
 }
+.MaterialList {
+  width: 180px;
+  height: 30px;
+  border-color: #dcdcdc;
+  font-size: 16px;
+  color:#5f5f5f;
+  border-radius: 4px;
+  margin-top: -4px;
+  outline-style: none;
+}
+.ivu-table td, .ivu-table th {
+  text-align: center;
+  font-size: 14px;
+  color:#5b5b5b;
+}
+.ivu-table th {
+  font-size: 16px;
+  font-weight: 700;
+  color:#5b5b5b;
+}
+.titleChild {
+  padding:20px;
+  float: left;
+  img{
+      margin-right: 12px;
+  }
+  span{
+      font-size: 16px;
+      color:#5f5f5f;
+      font-weight: 700;
+  }
+}
+.btnMedalChild {
+  float: right;
+  margin-top: 20px;
+}

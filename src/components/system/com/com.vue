@@ -5,10 +5,10 @@
                 <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
                 <Col span="19"> 
                     <select class="MaterialList" @change="changeTable">
-                        <option value="">产品物料</option>
-                        <option value="">产品演示地址</option>
-                        <option value="">应用案例</option>
-                        <option value="">闻思报告</option>
+                        <option value="">产品册</option>
+                        <option value="">PPT</option>
+                        <option value="">视频资料</option>
+                        <option value="">技术白皮书</option>
                     </select>
                 </Col>
             </Row>
@@ -91,19 +91,7 @@
                 },
                 num:1,
                 formData: {
-                    address: "",
-                    contacter: null,
-                    createTime: "",
-                    email: null,
-                    fax: "",
-                    id: "",
-                    instId: null,
-                    leader: "",
                     name: "",
-                    note: null,
-                    status: "",
-                    telephone: null,
-                    userDep: null
                 },
                 tableColumns1: [
                     {
@@ -159,37 +147,17 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                
-                // this.data1[this.num].name =  this.formData.name;
-                
-                // this.value3 = false;
-                // let datas = this.formData,that = this;
-                // addDepartment(datas).then(res => {
-                //     if(res.success) {
-                //          this.value3 = false
-                //          this.data1.push(that.formData);
-                //     }
-                // })
-                // if(this.num==1) {
-                //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false,
-                //             that.data1.push(that.formData);
-                //         }
-                //     })
-                // }else {
-                //     this.axios.post('http://localhost:8096/departMent/updateDepartMent', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false
-                //             that.data1.splice(index,1,that.formData)
-                //         }
-                //     })
-                // }
+                this.data1[this.num].name = this.formData.name;
+                this.value3 = false;
             },
             modifyParent( row,index ) {
+                
                 this.value3 = true;
                 // this.formData = row;
                 this.num = index;
+                this.formData.name = row.name;
+                //this.data1[index].name =  this.formData.name
+                //this.formData.
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {
                 //     this.axios({
@@ -231,5 +199,21 @@
     font-size: 16px;
     font-weight: 700;
     color:#5b5b5b;
+}
+.titleChild {
+    padding:20px;
+    float: left;
+    img{
+        margin-right: 12px;
+    }
+    span{
+        font-size: 16px;
+        color:#5f5f5f;
+        font-weight: 700;
+    }
+}
+.btnMedalChild {
+    float: right;
+    margin-top: 20px;
 }
 </style>

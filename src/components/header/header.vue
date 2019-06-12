@@ -16,13 +16,20 @@
         </Dropdown>
         <img class="m10" src="../../assets/images/user.png" style="width:36px;position: relative;top: 15px;">
       </li>
-
+    
       <li>
         <a href="javascript:" target style="margin-right:30px;">
-          <Icon type="ios-power-outline" :color="'#f65959'" :size="28"/>
+          <Icon type="ios-power-outline" :color="'#f65959'" :size="28" @click="showModal"/>
         </a>
+          
       </li>
     </ul>
+     <Modal
+        v-model="modal5"
+        title=""
+        width="250" @on-ok="SignOut">
+        <p>确定退出吗？</p>
+    </Modal>
   </div>
 </template>
 
@@ -32,19 +39,19 @@ export default {
   name: "seller",
   data() {
     return {
-      userName: "Marry"
+      userName: "Marry",
+      modal5:false
     };
   },
   methods: {
-    // SignOut() {
-    //   // 筛选状态
-    //   let that = this;
-    //   this.axios.post("http://localhost:8096/logout").then(function(result) {
-    //     if (result.data == "loginOut") {
-    //       that.$router.replace("/");
-    //     }
-    //   });
-    // }
+    SignOut() {
+      // 筛选状态
+      localStorage.setItem("islogin","")
+      this.$router.replace("/")
+    },
+    showModal(){
+      this.modal5 = true;
+    }
   }
 };
 </script>

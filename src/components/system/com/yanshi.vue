@@ -53,6 +53,7 @@
 
     import {mapState} from 'vuex'
 
+     import '../../../assets/css/system.css';
     export default {
         data () {
             return {
@@ -61,8 +62,8 @@
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
-                    paddingBottom: '53px',
-                    position: 'static'
+                    padding: '210px 80px 0 80px',
+                    position: 'static',
                 },
                 num:1,
                 formData: {
@@ -200,27 +201,3 @@
         }
     }
 </script>
-
-
-<style lang="less" scoped>
-.MaterialList {
-    width: 180px;
-    height: 30px;
-    border-color: #dcdcdc;
-    font-size: 16px;
-    color:#5f5f5f;
-    border-radius: 4px;
-    margin-top: -4px;
-    outline-style: none;
-}
-.ivu-table td, .ivu-table th {
-    text-align: center;
-    font-size: 14px;
-    color:#5b5b5b;
-}
-.ivu-table th {
-    font-size: 16px;
-    font-weight: 700;
-    color:#5b5b5b;
-}
-</style>

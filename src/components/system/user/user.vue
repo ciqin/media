@@ -16,7 +16,7 @@
                     <Row :gutter="32">
                         <Col span="24">
                             <FormItem label="用户名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                                <Input  placeholder="请输入用户名称" v-model="formData.name" />
+                                <Input  placeholder="请输入用户名称" v-model="formData.username" />
                             </FormItem>
                         </Col>
                         <Col span="24" style="margin-top: 16px;">
@@ -38,7 +38,7 @@
             </Drawer>
         <Table :data="data1" :columns="tableColumns1" stripe>
             <template slot-scope="{ row }" slot="name">
-                <strong>{{ row.name }}</strong>
+                <strong>{{ row.username }}</strong>
             </template>
             <template slot-scope="{ row, index }" slot="action">
                 <Button shape="circle" icon="ios-create-outline" @click="modifyItem( row , index)"></Button>
@@ -69,9 +69,29 @@
     export default {
         data () {
             return {
-                data1: [],
+                data1: [
+                    {
+                        username: 2,
+                        departMentName: 3,
+                        createTime: 4,
+                        email: 5,
+                    },
+                    {
+                        username: 4,
+                        departMentName: 3,
+                        createTime: 2,
+                        email: 1,
+                    },
+                    {
+                        username: 5,
+                        departMentName: 3,
+                        createTime: 1,
+                        email: 4,
+                    }
+                ],
                 value3: false,
                 modal1: false,
+                removeid:null,
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -81,27 +101,10 @@
                 titleName:"用户管理添加",
                 num:1,
                 formData: {
-                    address: null,
-                    birthday: null,
-                    createTime: null,
-                    deadline: null,
-                    depId:"",
-                    departmentName: "",
-                    email: null,
-                    id: null,
-                    institutionId: null,
-                    institutionName: null,
-                    lastModify: null,
-                    mobile: null,
-                    password: null,
-                    personname: null,
-                    position: null,
-                    roleId: null,
-                    roleName: null,
-                    sex: null,
-                    status: null,
-                    tel: null,
                     username: null,
+                    departMentName: null,
+                    createTime: null,
+                    email: null,
                 },
                 tableColumns1: [
                     {
@@ -110,7 +113,7 @@
                     },
                     {
                         title: '部门名称',
-                        key: 'departmentName',
+                        key: 'departMentName',
                     },
                     {
                         title: '创建时间',
@@ -127,20 +130,24 @@
         },
          mounted () {
             getUserList().then(res => {
-                this.data1 = res.obj
+                // this.data1 = res.obj
+                console.log(this.data1)
             })
         },
         methods: {
              removeParent( row,index ) {
                  this.modal1 = true;
+                 this.removeid = index;
                 //  removeUser({"id":row.id}).then(res => {
                 //      res.success?this.$message('删除成功'):this.$message('删除失败')
                 //  })
             },
             ok () {
-                 removeUser({"id":row.id}).then(res => {
-                     res.success?this.$message('删除成功'):this.$message('删除失败')
-                 })
+                //  removeUser({"id":row.id}).then(res => {
+                //      res.success?this.$message('删除成功'):this.$message('删除失败')
+                //  })
+                this.data1.splice(this.removeid,1)
+             
             },
             cleardata() {
                 for(let key in this.formData) {
@@ -160,31 +167,41 @@
             addRole(){
                 //let datas = this.formData,that = this;
                 if(this.num==1) {
-                    addUser(this.formData).then(( res ) => {
-                        if(res.success) {
-                            this.value3 = false;
-                        }
-                    })
-                    
+                    // addUser(this.formData).then(( res ) => {
+                    //     if(res.success) {
+                    //         this.value3 = false;
+                    //     }
+                    // })
+
+                    this.data1.push(this.formData)
+                    this.value3 = false;
                 }else {
-                    this.axios.post('http://localhost:8096/user/updateUser', qs.stringify(datas)).then(function (result) {
-                        if(result.data.success){
-                            that.value3 = false
-                            that.data1.splice(index,1,that.formData)
-                        }
-                    })
+                    // updateUser(this.formData).then(() => {
+                    //     if(res.success) {
+                    //         this.value3 = false;
+                    //         this.data1.splice(index,1,that.formData)
+                    //     }
+                    // })
+                    this.data1.splice(this.removeid,1,this.formData)
+                    this.value3 = false;
                 }
             },
-           
             modifyItem( row,index ) {
                 this.value3 = true;
                 this.titleName = "用户管理修改";
                 this.num = 2;
-                selectByIdtUser().then(( res ) => {
-                    if(res.data.success) {
-                        this.formData = res
-                    }
-                })
+                this.removeid = index,
+                // selectByIdtUser({id:row.id}).then(( res ) => {               
+                //     if(res) {
+                //         this.formData.name = res.username
+                //         this.formData.departMentName = res.departMentName
+                //         this.formData.email = res.email
+                //     }
+                // })
+              
+                this.formData.username = row.username
+                this.formData.departMentName = row.departMentName
+                this.formData.email = row.email
             },
             
         },

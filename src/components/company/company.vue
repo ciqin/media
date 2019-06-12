@@ -19,6 +19,7 @@
 <script>
 
 //import {mapActions, mapState,mapGetters} from 'vuex';
+import {mapState} from 'vuex'
 
 import { getProduct } from '@/http/api'
 
@@ -61,6 +62,7 @@ export default {
       })
   },
   created(){
+    
     //  console.log(getProduct())
     //   this.axios({
     //         method: 'get',
@@ -77,7 +79,6 @@ export default {
     //   })
   },
   computed:{
-      //...mapGetters(['resturanModifyId','resturanModifydataType']),
   },
 };
 </script>

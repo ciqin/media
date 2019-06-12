@@ -16,7 +16,10 @@ const Axios = http.create({
 
 // 请求拦截
 Axios.interceptors.request.use(config => {
-  // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  //config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+  //config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+  config.headers['Content-Type'] = 'application/json; charset=UTF-8'
+  //if(config[0]!="qs") {config.headers['Content-Type'] = 'application/json;charset=UTF-8'}else {config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'}
   return config
 }, error => {
   return Promise.reject(error)
@@ -43,9 +46,9 @@ export const getHttp = (url, data) => {
 }
 
 // post请求
-export const postHttp = (url, data) => {
+export const postHttp = (url, data,json) => {
   return new Promise((resolve, reject) => {
-    Axios.post(url, qs.stringify(data)).then(res => {
+    Axios.post(url,data).then(res => {
       resolve(res.data)
       // if (res.data.code !== 200) vue.$message('获取数据失败，请刷新')
       // else resolve(res.data.output)

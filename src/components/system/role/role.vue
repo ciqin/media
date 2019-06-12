@@ -40,7 +40,7 @@
                 <strong>{{ row.name }}</strong>
             </template>
             <template slot-scope="{ row , index}" slot="action">
-                <Button shape="circle" icon="ios-create-outline"></Button>
+                <Button shape="circle" icon="ios-create-outline" @click="modifyItem( row , index)"></Button>
                 <Button shape="circle" icon="ios-trash-outline" @click="removeParent( row , index)"></Button>
             </template>
         </Table>
@@ -50,6 +50,12 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal
+            v-model="modal1"
+            title=""
+            @on-ok="ok">
+            确定删除吗？
+        </Modal>
     </div>
 </template>
 <script>
@@ -62,8 +68,33 @@
     export default {
         data () {
             return {
-                data1: [],
+                data1: [
+                    {
+                        createTime: 1553797251000,
+                        depId: 9,
+                        departMentName: "部门6666",
+                        id: 1,
+                        institutionId: 2,
+                        institutionName: "单位31231231231",
+                        level: 4,
+                        name: "普通用户",
+                        userId: null
+                    },
+                    {
+                        createTime: 1553797251000,
+                        depId: 9,
+                        departMentName: "部门6",
+                        id: 1,
+                        institutionId: 2,
+                        institutionName: "单位3",
+                        level: 4,
+                        name: "超级管理员",
+                        userId: null
+                    }
+                ],
                 value3: false,
+                modal1: false,
+                removeid:null,
                 addInput:[],
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -103,13 +134,42 @@
         },
         mounted () {
             getRole().then(res => {
-                this.data1 = res.obj
+                // this.data1 = res.obj
+                //console.log(this.data1)
             })
         },
         methods: {
             cleardata() {
                 for(let key in this.formData) {
                     this.formData[key] = ''
+                }
+            },
+             ok () {
+                //  removeUser({"id":row.id}).then(res => {
+                //      res.success?this.$message('删除成功'):this.$message('删除失败')
+                //  })
+                this.data1.splice(this.removeid,1)
+            },
+            addRole(){
+                //let datas = this.formData,that = this;
+                if(this.num==1) {
+                    // addUser(this.formData).then(( res ) => {
+                    //     if(res.success) {
+                    //         this.value3 = false;
+                    //     }
+                    // })
+
+                    this.data1.push(this.formData)
+                    this.value3 = false;
+                }else {
+                    // updateUser(this.formData).then(() => {
+                    //     if(res.success) {
+                    //         this.value3 = false;
+                    //         this.data1.splice(index,1,that.formData)
+                    //     }
+                    // })
+                    this.data1.splice(this.removeid,1,this.formData)
+                    this.value3 = false;
                 }
             },
             addModalShow () {
@@ -131,20 +191,25 @@
                 })
             },
             removeParent( row,index ) {
-                console.log( row , index)
-                // removeDepartment(row.id).then(res => {
+                this.modal1 = true;
+                this.removeid = index;
+            },
+             modifyItem( row,index ) {
+                this.value3 = true;
+                this.titleName = "用户管理修改";
+                this.num = 2;
+                this.removeid = index,
+                // selectByIdtUser({id:row.id}).then(( res ) => {               
+                //     if(res) {
+                //         this.formData.name = res.username
+                //         this.formData.departMentName = res.departMentName
+                //         this.formData.email = res.email
+                //     }
                 // })
-                //  let that = this;
-                // if(confirm('确定要删除吗')) {
-                //     this.axios({
-                //         method: 'get',
-                //         url:'http://localhost:8096/departMent/deleteById/'+row.id,
-                //     }).then(function(result){
-                //         if(result) {
-                //             that.data1.splice(index,1)
-                //         }
-                //     })
-                // }  
+              
+                this.formData.username = row.username
+                this.formData.departMentName = row.departMentName
+                this.formData.email = row.email
             },
             //  添加输入框
             // addInputF(){
