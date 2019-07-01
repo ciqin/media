@@ -34,9 +34,8 @@
               label="文件名称:"
               label-position="left"
               calss="formitem"
-              style="width:100%;margin:0 auto;"
-            >
-              <Input placeholder="请输入文件名称" v-model="formData.name"/>
+              style="width:100%;margin:0 auto;">
+            <Input placeholder="请输入文件名称" v-model="formData.name"/>
             </FormItem>
           </Col>
         </Row>
@@ -88,6 +87,7 @@ export default {
       value3: false,
       modal1:false,
       removeid:null,
+      addchangeType:1,
       dataName: "闻思报告添加",
       styles: {
         height: "calc(100% - 55px)",
@@ -160,19 +160,29 @@ export default {
     changeTable() {},
     addModalShow() {
       this.cleardata();
+      this.dataName = "闻思报告添加";
       this.value3 = true;
-      this.num = 1;
+      this.addchangeType = 1;
     },
     changePage() {
       // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
       this.tableData1 = this.mockTableData1();
     },
     addRole() {
-      this.data1[this.num].name = this.formData.name;
-      this.value3 = false;
+      if(this.addchangeType === 1) {
+          this.data1.push({
+              name:this.formData.name
+          })
+          this.value3 = false
+      }else {
+          this.data1[this.num].name = this.formData.name;
+          this.value3 = false;
+      }
     },
     modifyParent(row, index) {
       this.value3 = true;
+      this.dataName = "闻思报告修改"
+      this.addchangeType = 2;
       //this.value3 = true;
       this.formData = row;
       this.num = index;

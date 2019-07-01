@@ -24,7 +24,7 @@ export const getSisurl = data => getHttp(baseUrl('/api/static/sisurl.json'), dat
 export const getUserurl = data => getHttp(baseUrl('/api/static/userUrl.json'), data)
 
 //  部门列表
-export const getDepartment = data => getHttp(baseUrl('/test/departMent/getList'), data)
+export const getDepartment = data => postHttp(baseUrl('/test/departMent/getList'), data)
 
 //  部门添加
 export const addDepartment = data => postHttp(baseUrl('/test/departMent/add'), data)
@@ -53,7 +53,7 @@ export const updateUser = data => postHttp(baseUrl('/test/user/updateUser'), dat
 export const getapplicationList = data => getHttp(baseUrl('/api/static/anli.json'), data)
 
 //  管理员列表
-export const getRole = data => getHttp(baseUrl('/test/role/getList'), data)
+export const getRole = data => postHttp(baseUrl('/test/role/getList'), data)
 
 //  管理员添加
 export const addRole = data => postHttp(baseUrl('/test/role/add'), data)

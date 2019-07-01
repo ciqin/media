@@ -1,15 +1,15 @@
 <template>
     <div class="company_box">
         <Input v-model="value" placeholder="请输入检索报告..." style="width: 180px;margin-left:18px;" search/>
-        <Button type="primary" style="margin-left:16px;">搜索</Button>
+        <Button type="primary" style="margin-left:16px;" @click="searchWord">搜索</Button>
         <Menu :open-names="['1']" width="auto" accordion active-name="0-1" style="margin-top:22px;"> 
                     <div v-for="(data,index) in datas" :key="data.text">
-                            <MenuItem :name="index+'-1'" v-if="!data.secondPerm" class="itempar">
+                            <MenuItem :name="index+'-1'" v-if="!data.secondPerm && !data.show" class="itempar">
                                 <div class="no_bk" @click="changeImg(data,index)"></div>
                                 <!-- <img :src="data.img"> -->
                                 {{data.text}}
                             </MenuItem>
-                            <Submenu :name="'child-'+index" v-if="data.secondPerm" :key="data.text" class="itempar">
+                            <Submenu :name="'child-'+index" v-if="data.secondPerm && !data.show" :key="data.text" class="itempar">
                                 <template slot="title">
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.text}}
@@ -109,7 +109,7 @@ export default {
             },
             {
                 "autoId": 3,
-                "name": "标题3",
+                "name": "标题123456",
                 "url": "333",
                 "icon": "/static/images/icon/pdf_icon.png",
                 "secondPerm": null
@@ -128,7 +128,18 @@ export default {
     };
   },
   methods :{
-
+      searchWord( ) {
+        let that = this;
+        this.datas.forEach(function ( val , ind) {
+           let  showItem  = null;
+           val.secondPerm?val.secondPerm.find((value, index, arr) =>{
+                if(value.name ===that.value){
+                   return  showItem = 1
+                }
+            }):""; 
+            showItem ===1 ?val.show = 0:val.show = 1;
+        })
+      }
   },
 
 };

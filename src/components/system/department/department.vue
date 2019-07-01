@@ -14,7 +14,7 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入部门名称" v-model="formData.name" />
                         </FormItem>
                     </Col>
@@ -107,7 +107,7 @@
         },
         mounted () {
             getDepartment().then(res => {
-                this.data1 = res.obj
+                this.data1 = res
             })
         },
         methods: {
@@ -150,8 +150,8 @@
                 // }
             },
             removeParent( row,index ) {
-                removeDepartment({id:row.id}).then(res => {
-                    console.log(res)
+                removeDepartment({ContentType:true,id:row.id}).then(res => {
+                    
                 })
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {

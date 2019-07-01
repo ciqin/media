@@ -11,24 +11,25 @@ const vue = new Vue()
 
 // 创建Axios实例对象，配置请求前缀，请求超时时间以及不需要带跨域凭证
 const Axios = http.create({
-  // baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
-  baseURL: path.API_URL
+   baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
+  //baseURL: path.API_URL
 })
 
 // 请求拦截
 Axios.interceptors.request.use(config => {
-  if (config.data.ContentType) {
+  if (config.data && config.data.ContentType) {
     delete config.data.ContentType
+    config.data = qs.stringify(config.data);
     config.headers = Object.assign(config.headers, { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'})
   }
   return config
 }, error => {
-  return Promise.reject(error)
+  return Promise.reject(error)                  
 })
 
 // 相应拦截，可以在错误响应中做操作，response包含错误信息
 Axios.interceptors.response.use(resopne => {
-  return resopne
+  return resopne 
 }, error => {
   const { response } = error
   return Promise.reject(error)
@@ -47,7 +48,7 @@ export const getHttp = (url, data) => {
 }
 
 // post请求
-export const postHttp = (url, data,json) => {
+export const postHttp = (url, data) => {
   return new Promise((resolve, reject) => {
     Axios.post(url,data).then(res => {
       resolve(res.data)

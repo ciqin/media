@@ -134,8 +134,7 @@
         },
         mounted () {
             getRole().then(res => {
-                // this.data1 = res.obj
-                //console.log(this.data1)
+
             })
         },
         methods: {

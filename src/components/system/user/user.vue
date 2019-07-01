@@ -1,6 +1,6 @@
 <template>
     <div class="company_box">
-         <div style="margin:18px;">
+        <div style="margin:18px;">
             <Title :title="'用户管理'"></Title>
             <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
         </div>
@@ -10,8 +10,7 @@
                 v-model="value3"
                 width="660"
                 :mask-closable="false"
-                :styles="styles"
-            >
+                :styles="styles">
                 <Form :model="formData">
                     <Row :gutter="32">
                         <Col span="24">
@@ -45,7 +44,6 @@
                 <Button shape="circle" icon="ios-trash-outline" @click="removeParent( row , index)"></Button>
             </template>
         </Table>
-
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
@@ -109,7 +107,7 @@
                 tableColumns1: [
                     {
                         title: '用户名称',
-                        key: 'username'
+                        key: 'username' 
                     },
                     {
                         title: '部门名称',
@@ -173,6 +171,8 @@
                     //     }
                     // })
 
+                    this.falg.empty(this.formData.departMentName)?this.$message('用户名称为空'):"";
+
                     this.data1.push(this.formData)
                     this.value3 = false;
                 }else {
@@ -198,7 +198,6 @@
                 //         this.formData.email = res.email
                 //     }
                 // })
-              
                 this.formData.username = row.username
                 this.formData.departMentName = row.departMentName
                 this.formData.email = row.email

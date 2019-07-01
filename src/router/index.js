@@ -123,12 +123,12 @@ router.beforeEach((to, from, next) => {
   if(to.path === "/") {
       next()
   }else {
-    // if(localStorage.getItem("islogin") === "login") {
-    //     next();
-    // }else {
-    //     next({"path":"/"})
-    // }
-    next();
+    if(localStorage.getItem("islogin") === "login") {
+        next();
+    }else {
+        next({"path":"/"})
+    }
+    //next();
   }
   //console.log(to.meta)
   // if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限

@@ -84,7 +84,7 @@ import {mapActions, mapGetters} from 'vuex';
           "autoId": 5,
           text: '权限管理',
           img:"/static/images/yinyong/s_icon5.png",
-           url:"/index/system"
+           url:"/index/system/department"
         }
         ],
         className:0

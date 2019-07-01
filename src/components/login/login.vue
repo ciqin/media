@@ -57,7 +57,7 @@ export default {
             try {
                 let res = await  getLogin(param)
                 //  校验登陆是否正确
-                if(res ==="index/company") {
+                if(res ==="login") {
                     this.$store.commit("commonLogin","login");
                     localStorage.setItem("islogin","login")
                     this.$router.push({path: '/index/company'})

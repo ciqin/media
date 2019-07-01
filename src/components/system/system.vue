@@ -1,11 +1,11 @@
 <template>
     <div class="clearfix">
         <Menu mode="horizontal" :theme="theme1" active-name="1">
-            <MenuItem name="2" to="/index/system/department">
+            <MenuItem name="1" to="/index/system/department">
                 <Icon type="ios-people" />
                 部门管理
             </MenuItem>
-            <MenuItem name="1" to="/index/system/role">
+            <MenuItem name="2" to="/index/system/role">
                 <Icon type="ios-person-add" />
                 管理员
             </MenuItem>
