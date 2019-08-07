@@ -120,16 +120,22 @@ const router = new Router({
   routes
 })
 router.beforeEach((to, from, next) => {
+  // window.addEventListener("load",function () {
+  //   //location.href = "/index/company"
+  //   // console.log(next)
+  //   // return ;
+  // })
   if(to.path === "/") {
       next()
   }else {
     if(localStorage.getItem("islogin") === "login") {
+        window.localStorage.setItem("link",to.fullPath)
         next();
     }else {
         next({"path":"/"})
+        // next()
     }
-    //next();
-  }
+  } 
   //console.log(to.meta)
   // if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
   //     if (store.state.token) {  // 通过vuex state获取当前的token是否存在

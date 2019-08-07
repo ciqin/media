@@ -69,28 +69,28 @@
         data () {
             return {
                 data1: [
-                    {
-                        createTime: 1553797251000,
-                        depId: 9,
-                        departMentName: "部门6666",
-                        id: 1,
-                        institutionId: 2,
-                        institutionName: "单位31231231231",
-                        level: 4,
-                        name: "普通用户",
-                        userId: null
-                    },
-                    {
-                        createTime: 1553797251000,
-                        depId: 9,
-                        departMentName: "部门6",
-                        id: 1,
-                        institutionId: 2,
-                        institutionName: "单位3",
-                        level: 4,
-                        name: "超级管理员",
-                        userId: null
-                    }
+                    // {
+                    //     createTime: 1553797251000,
+                    //     depId: 9,
+                    //     departMentName: "部门6666",
+                    //     id: 1,
+                    //     institutionId: 2,
+                    //     institutionName: "单位31231231231",
+                    //     level: 4,
+                    //     name: "普通用户",
+                    //     userId: null
+                    // },
+                    // {
+                    //     createTime: 1553797251000,
+                    //     depId: 9,
+                    //     departMentName: "部门6",
+                    //     id: 1,
+                    //     institutionId: 2,
+                    //     institutionName: "单位3",
+                    //     level: 4,
+                    //     name: "超级管理员",
+                    //     userId: null
+                    // }
                 ],
                 value3: false,
                 modal1: false,
@@ -134,7 +134,7 @@
         },
         mounted () {
             getRole().then(res => {
-
+                console.log(res)
             })
         },
         methods: {
@@ -157,7 +157,6 @@
                     //         this.value3 = false;
                     //     }
                     // })
-
                     this.data1.push(this.formData)
                     this.value3 = false;
                 }else {
@@ -205,7 +204,6 @@
                 //         this.formData.email = res.email
                 //     }
                 // })
-              
                 this.formData.username = row.username
                 this.formData.departMentName = row.departMentName
                 this.formData.email = row.email

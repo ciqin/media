@@ -13,7 +13,7 @@ module.exports = {
         pathRewrite: {"^/api" : ""}
       },
       '/test':{
-        target: 'http://localhost:8096',
+        target: 'http://localhost:8096/',
         changeOrigin: true,
         pathRewrite: {"^/test" : ""}
       }

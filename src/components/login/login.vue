@@ -55,7 +55,7 @@ export default {
         },
         async taplogin (param) {
             try {
-                let res = await  getLogin(param)
+                let res = await  getLogin(param);
                 //  校验登陆是否正确
                 if(res ==="login") {
                     this.$store.commit("commonLogin","login");

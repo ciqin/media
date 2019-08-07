@@ -128,8 +128,7 @@
         },
          mounted () {
             getUserList().then(res => {
-                // this.data1 = res.obj
-                console.log(this.data1)
+                this.data1 = res.obj
             })
         },
         methods: {
@@ -144,7 +143,7 @@
                 //  removeUser({"id":row.id}).then(res => {
                 //      res.success?this.$message('删除成功'):this.$message('删除失败')
                 //  })
-                this.data1.splice(this.removeid,1)
+                this.data1.splice(this.removeid,1);
              
             },
             cleardata() {
@@ -165,11 +164,11 @@
             addRole(){
                 //let datas = this.formData,that = this;
                 if(this.num==1) {
-                    // addUser(this.formData).then(( res ) => {
-                    //     if(res.success) {
-                    //         this.value3 = false;
-                    //     }
-                    // })
+                    addUser(this.formData).then(( res ) => {
+                        if(res.success) {
+                            this.value3 = false;
+                        }
+                    })
 
                     this.falg.empty(this.formData.departMentName)?this.$message('用户名称为空'):"";
 

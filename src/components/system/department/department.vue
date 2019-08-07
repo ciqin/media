@@ -46,6 +46,12 @@
                 <Page :total="100" :current="1" @on-change="changePage"></Page>
             </div>
         </div>
+        <Modal
+            v-model="modal1"
+            title=""
+            @on-ok="ok">
+            确定删除吗？
+        </Modal>
     </div>
 </template>
 <script>
@@ -68,18 +74,16 @@
                     padding: '210px 80px 0 80px'
                 },
                 num:1,
+                modal1: false,
+                removeState:"false",
                 formData: {
                     address: "",
                     contacter: null,
-                    createTime: "",
                     email: null,
                     fax: "",
-                    id: "",
-                    instId: null,
                     leader: "",
                     name: "",
                     note: null,
-                    status: "",
                     telephone: null,
                     userDep: null
                 },
@@ -126,11 +130,13 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                let datas = this.formData,that = this;
+                let datas = this.formData;
+                datas.ContentType = true;
                 addDepartment(datas).then(res => {
                     if(res.success) {
-                         this.value3 = false
-                         this.data1.push(that.formData);
+                        getDepartment().then(res => {
+                            this.data1 = res
+                        })
                     }
                 })
                 // if(this.num==1) {
@@ -149,21 +155,20 @@
                 //     })
                 // }
             },
+            ok() {
+                this.removeState = true;
+            },
             removeParent( row,index ) {
-                removeDepartment({ContentType:true,id:row.id}).then(res => {
-                    
-                })
-                //  let that = this;
-                // if(confirm('确定要删除吗')) {
-                //     this.axios({
-                //         method: 'get',
-                //         url:'http://localhost:8096/departMent/deleteById/'+row.id,
-                //     }).then(function(result){
-                //         if(result) {
-                //             that.data1.splice(index,1)
-                //         }
-                //     })
-                // }  
+                this.modal1 = true;
+                if(confirm('确定要删除吗')) {
+                    removeDepartment({ContentType:true,id:row.id}).then(res => {
+                        if(res.success){
+                            getDepartment().then(res => {
+                                this.data1 = res
+                            })
+                        }
+                    })
+                }  
             },
             //  添加输入框
             // addInputF(){

@@ -2,6 +2,7 @@
  * 此文件为接口统一管理文件
  */
  const baseUrl = url => {
+
      if ((url.includes('api') || url.includes('test')) && process.env.NODE_ENV !== 'development' ) {
          return url.split('/').splice(2).join('/')
      } else {
@@ -53,7 +54,7 @@ export const updateUser = data => postHttp(baseUrl('/test/user/updateUser'), dat
 export const getapplicationList = data => getHttp(baseUrl('/api/static/anli.json'), data)
 
 //  管理员列表
-export const getRole = data => postHttp(baseUrl('/test/role/getList'), data)
+export const getRole = data => getHttp(baseUrl('/test/role/getList'), data)
 
 //  管理员添加
 export const addRole = data => postHttp(baseUrl('/test/role/add'), data)
