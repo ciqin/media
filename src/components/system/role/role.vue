@@ -65,7 +65,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getRole,removeRole,addRole,getdepartmentlist,selectByIdRole} from '@/http/api';
+    import { getRole,removeRole,addRole,getdepartmentlist,selectByIdRole,updateRole} from '@/http/api';
 
     export default {
         data () {
@@ -116,7 +116,6 @@
         mounted () {
             getRole().then(res => {
                 this.data1 = res.obj;
-                console.log(this.data1)
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
@@ -142,28 +141,6 @@
                      }
                 })
             },
-            // addRole(){
-            //     //let datas = this.formData,that = this;
-            //     if(this.num==1) {
-            //         console.log(this.formData)
-            //         // addUser(this.formData).then(( res ) => {
-            //         //     if(res.success) {
-            //         //         this.value3 = false;
-            //         //     }
-            //         // })
-            //         // this.data1.push(this.formData)
-                    
-            //     }else {
-            //         updateUser(this.formData).then(() => {
-            //             if(res.success) {
-            //                 this.value3 = false;
-            //                 this.data1.splice(index,1,that.formData)
-            //             }
-            //         })
-            //         this.data1.splice(this.removeid,1,this.formData)
-            //         this.value3 = false;
-            //     }
-            // },
             changeData(event) {
                 let index = event.target.selectedIndex;
                 let instid = event.target.options[index].getAttribute("instid");
@@ -186,7 +163,6 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
-                
                 if(this.num==1) { 
                     addRole(datas).then(res => {
                         if(res.success) {
@@ -197,10 +173,12 @@
                         }
                     })
                 }else {
-                    updateUser(this.formData).then(() => {
+                    updateRole(this.formData).then(() => {
                         if(res.success) {
                             this.value3 = false;
-                            this.data1.splice(index,1,that.formData)
+                            getRole().then(res => {
+                                this.data1 = res.obj;
+                            })
                         }
                     })
                 }
@@ -213,12 +191,16 @@
                 this.value3 = true;
                 this.titleName = "用户管理修改";
                 this.num = 2;
-                //this.removeid = index,
                 selectByIdRole({ContentType:true,id:row.id}).then(( res ) => {               
                     if(res) {
-                        this.formData.name = res.obj.name
-                        this.formData.departMentName = res.obj.departMentName
-                        this.formData.email = res.obj.email
+                        this.formData.name = res.obj.name;
+                        document.querySelectorAll(".MaterialList option").forEach( ( v , i ) => {
+                            if(v.value == res.obj.depId) {
+                                v.selected  = true;
+                            }
+                        })
+                        this.formData.depId = res.obj.depId;
+                        this.formData.email = res.obj.email;
                     }
                 })
             },
