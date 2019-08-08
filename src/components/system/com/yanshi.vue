@@ -19,6 +19,11 @@
                             <Input v-model="formData.name" placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
+                    <Col span="24">
+                        <FormItem label="产品链接地址" label-position="left">
+                            <Input v-model="formData.url" placeholder="请输入产品链接地址"  style="width:86%;"/>
+                        </FormItem>
+                    </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -32,7 +37,9 @@
             </template>
             <template slot-scope="{row}" slot="action">
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
-                <input type="text" :value="row.url">
+                <!-- <input type="text" :value="row.url"> -->
+                <strong>{{ row.url }}</strong>
+                <!-- <span>{{}}</span> -->
             </template>
             <template slot-scope="{ row, index }" slot="action">
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
@@ -67,19 +74,9 @@
                 },
                 num:1,
                 formData: {
-                    address: "",
-                    contacter: null,
-                    createTime: "",
-                    email: null,
-                    fax: "",
-                    id: "",
-                    instId: null,
-                    leader: "",
+                    icon: "",
                     name: "",
-                    note: null,
-                    status: "",
-                    telephone: null,
-                    userDep: null
+                    url: null,
                 },
                 tableColumns1: [
                     {
@@ -91,19 +88,20 @@
                         key: 'leader'
                     },
                     {
-                        title: '更改时间',
+                        title: '创建时间',
                         key: 'createTime',
                     },
                      {
                         title: '链接地址',
-                        render: (h, params) => {
-                            return h('Input', {
-                                props: {
-                                    type: 'text',
-                                    value: params.row.url,
-                                }
-                            });
-                        },
+                        key:"url",
+                        // render: (h, params) => {
+                        //     return h('Input', {
+                        //         props: {
+                        //             type: 'text',
+                        //             value: params.row.url,
+                        //         }
+                        //     });
+                        // },
                     },
                     {
                         title: '操作',
@@ -177,11 +175,21 @@
                 //         }
                 //     })
                 // }
+                this.value3 = false;
+                this.data1.splice(this.num, 1, this.formData);
+                
             },
             modifyParent( row,index ) {
+                // this.cleardata();
+                this.formData = row;
                 this.value3 = true;
                 // this.formData = row;
                 this.num = index;
+                // this.data1.splice(index, 1, this.formData)
+                // console.log(row,this.data1)
+                // this.data1
+                // console.log(this.data1)
+                // this.data.
                 //  let that = this;
                 // if(confirm('确定要删除吗')) {
                 //     this.axios({

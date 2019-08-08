@@ -68,24 +68,7 @@
         data () {
             return {
                 data1: [
-                    {
-                        username: 2,
-                        departMentName: 3,
-                        createTime: 4,
-                        email: 5,
-                    },
-                    {
-                        username: 4,
-                        departMentName: 3,
-                        createTime: 2,
-                        email: 1,
-                    },
-                    {
-                        username: 5,
-                        departMentName: 3,
-                        createTime: 1,
-                        email: 4,
-                    }
+                   
                 ],
                 value3: false,
                 modal1: false,
@@ -134,17 +117,20 @@
         methods: {
              removeParent( row,index ) {
                  this.modal1 = true;
-                 this.removeid = index;
-                //  removeUser({"id":row.id}).then(res => {
-                //      res.success?this.$message('删除成功'):this.$message('删除失败')
-                //  })
+                 this.removeid = row.id;
+         
             },
             ok () {
-                //  removeUser({"id":row.id}).then(res => {
-                //      res.success?this.$message('删除成功'):this.$message('删除失败')
-                //  })
-                this.data1.splice(this.removeid,1);
-             
+                 removeUser({ContentType:true,"id":this.removeid}).then(res => {
+                     if(res.success) {
+                         this.$message('删除成功');
+                         getUserList().then(res => {
+                            this.data1 = res.obj
+                        })
+                     }else {
+                         this.$message('删除失败');
+                     }
+                 })
             },
             cleardata() {
                 for(let key in this.formData) {
@@ -164,23 +150,27 @@
             addRole(){
                 //let datas = this.formData,that = this;
                 if(this.num==1) {
-                    addUser(this.formData).then(( res ) => {
-                        if(res.success) {
-                            this.value3 = false;
-                        }
+                    let datas = this.formData;
+                    datas.ContentType = true;
+                    addUser(datas).then(( res ) => {
+                        //console.log(res)
+                        // if(res.success) {
+                            
+                        // }
                     })
 
-                    this.falg.empty(this.formData.departMentName)?this.$message('用户名称为空'):"";
+                    // this.falg.empty(this.formData.departMentName)?this.$message('用户名称为空'):"";
 
-                    this.data1.push(this.formData)
-                    this.value3 = false;
+                    // this.data1.push(this.formData)
+                    // this.value3 = false;
                 }else {
-                    // updateUser(this.formData).then(() => {
-                    //     if(res.success) {
-                    //         this.value3 = false;
-                    //         this.data1.splice(index,1,that.formData)
-                    //     }
-                    // })
+                    updateUser(this.formData).then(res => {
+                        console.log(res.success)
+                        if(res.success) {
+                            this.value3 = false;
+                            this.data1.splice(index,1,that.formData)
+                        }
+                    })
                     this.data1.splice(this.removeid,1,this.formData)
                     this.value3 = false;
                 }
@@ -190,16 +180,17 @@
                 this.titleName = "用户管理修改";
                 this.num = 2;
                 this.removeid = index,
-                // selectByIdtUser({id:row.id}).then(( res ) => {               
-                //     if(res) {
-                //         this.formData.name = res.username
-                //         this.formData.departMentName = res.departMentName
-                //         this.formData.email = res.email
-                //     }
-                // })
-                this.formData.username = row.username
-                this.formData.departMentName = row.departMentName
-                this.formData.email = row.email
+                selectByIdtUser({id:row.id}).then(( res ) => {  
+                    console.log(res)             
+                    if(res) {
+                        this.formData.name = res.username
+                        this.formData.departMentName = res.departMentName
+                        this.formData.email = res.email
+                    }
+                })
+                // this.formData.username = row.username
+                // this.formData.departMentName = row.departMentName
+                // this.formData.email = row.email
             },
             
         },

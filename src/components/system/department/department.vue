@@ -75,7 +75,7 @@
                 },
                 num:1,
                 modal1: false,
-                removeState:"false",
+                removeId:0,
                 formData: {
                     address: "",
                     contacter: null,
@@ -135,50 +135,25 @@
                 addDepartment(datas).then(res => {
                     if(res.success) {
                         getDepartment().then(res => {
-                            this.data1 = res
+                            this.value3 = false;
+                            this.data1 = res;
                         })
                     }
                 })
-                // if(this.num==1) {
-                //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false,
-                //             that.data1.push(that.formData);
-                //         }
-                //     })
-                // }else {
-                //     this.axios.post('http://localhost:8096/departMent/updateDepartMent', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false
-                //             that.data1.splice(index,1,that.formData)
-                //         }
-                //     })
-                // }
             },
             ok() {
-                this.removeState = true;
-            },
-            removeParent( row,index ) {
-                this.modal1 = true;
-                if(confirm('确定要删除吗')) {
-                    removeDepartment({ContentType:true,id:row.id}).then(res => {
+                    removeDepartment({ContentType:true,id:this.removeId}).then(res => {
                         if(res.success){
                             getDepartment().then(res => {
                                 this.data1 = res
                             })
                         }
                     })
-                }  
             },
-            //  添加输入框
-            // addInputF(){
-            //     let rendom =Math.random().toString(36).substr(2)
-            //     this.addInput.push(rendom)
-            // },
-            //  删除输入框
-            // removeInputF(item,index){
-            //     this.addInput.splice(index, 1);
-            // }
+            removeParent( row,index ) {
+                this.modal1 = true;
+                this.removeId = row.id;
+            },
         },
         components:{
             Title

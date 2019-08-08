@@ -59,11 +59,14 @@ export const getRole = data => getHttp(baseUrl('/test/role/getList'), data)
 //  管理员添加
 export const addRole = data => postHttp(baseUrl('/test/role/add'), data)
 
+//  部门列表
+export const getdepartmentlist = data => postHttp(baseUrl('/test/role/getdepartmentlist'), data)
+
 //  管理员删除
-export const removeRole = data => getHttp(baseUrl('/test/role/deleteById'), data)
+export const removeRole = data => postHttp(baseUrl('/test/role/deleteById'), data)
 
 //  对应id管理员信息
-export const selectByIdRole = data => getHttp(baseUrl('/test/role/selectById'), data)
+export const selectByIdRole = data => postHttp(baseUrl('/test/role/selectById'), data)
 
 // 更新修改id管理员信息
-export const updateRole = data => getHttp(baseUrl('/test/role/update'), data)
+export const updateRole = data => postHttp(baseUrl('/test/role/update'), data)

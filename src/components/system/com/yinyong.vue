@@ -1,21 +1,114 @@
 <template>
     <div class="company_box">
+        <!-- 应用案例添加-->
+        <Drawer :title="dataName" v-model="value3" width="660" :mask-closable="false" :styles="styles">
+            <Form :model="formData1">
+                <Row :gutter="32">
+                <Col span="24">
+                    <FormItem
+                        label="案例名称:"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;">
+                        <Input placeholder="请输入文件案例名称" v-model="formData1.name"/>
+                    </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                            <select class="MaterialList" style="width:100%;">
+                                <option value="1">媒体行业应用案例</option>
+                                <option value="2">政务领域应用案例</option>
+                                <option value="3">舆情领域应用案例</option>
+                                <option value="4">警务领域应用案例</option>
+                            </select>
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="PPT:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <!-- <Input   v-model="formData.email" /> -->
+                             <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">ppt上传(支持多个文件)</Button>
+                            </Upload>
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="word:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">word上传(支持多个文件)</Button>
+                            </Upload>
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="产品册:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">产品册上传(支持多个文件)</Button>
+                            </Upload>
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="视频:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/"  class="updata">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">视频上传(支持多个文件)</Button>
+                            </Upload>
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="地址名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input   v-model="formData.email" />
+                        </FormItem>
+                </Col>
+                <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="链接:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input   v-model="formData.email" />
+                        </FormItem>
+                </Col>
+                </Row>
+            </Form>
+            <div class="demo-drawer-footer">
+                <Button type="primary" class="setW" @click="addCase()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="value3 = false">关闭</Button>
+            </div>
+        </Drawer>
+        <!-- 子文档添加 -->
+        <Drawer :title="dataName" v-model="value4" width="660" :mask-closable="false" :styles="styles">
+            <Form :model="formData">
+                <Row :gutter="32">
+                <Col span="24">
+                    <FormItem
+                    label="文件名称:"
+                    label-position="left"
+                    calss="formitem"
+                    style="width:100%;margin:0 auto;">
+                    <Input placeholder="请输入文件名称" v-model="formData.name"/>
+                    </FormItem>
+                </Col>
+                </Row>
+            </Form>
+            <div class="demo-drawer-footer">
+                <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="value3 = false">关闭</Button>
+            </div>
+        </Drawer>
         <div style="padding:18px 18px 0 18px;border-bottom:1px solid #d1d1d1;">
              <Row>
                 <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
                 <Col span="19"> 
                     <select class="MaterialList" @change="changeTable">
-                        <option value="">媒体行业应用案例</option>
-                        <option value="">政务领域应用案例</option>
-                        <option value="">舆情领域应用案例</option>
-                        <option value="">警务领域应用案例</option>
+                        <option value="1">媒体行业应用案例</option>
+                        <option value="2">政务领域应用案例</option>
+                        <option value="3">舆情领域应用案例</option>
+                        <option value="4">警务领域应用案例</option>
                     </select>
                      <select class="MaterialList" @change="changeTable" style="margin-left: 30px;">
-                        <option value="">新华社</option>
-                        <option value="">新华社1</option>
-                        <option value="">新华社2</option>
-                        <option value="">新华社3</option>
-                        <option value="">新华社4</option>
+                        <option :value="index" v-for="(item,index) in caseArr" :key="index">{{item.name}}</option>
                     </select>
                 </Col>
                 <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加</Button>
@@ -27,7 +120,7 @@
                     <img src="/static/images/icon/ppt_icon.png" >
                     <span>{{item.title}}</span>
                 </div>
-                <Button  class="btnMedalChild" @click="addModalShow" type="primary" style="margin-right: 25px;">添加</Button>
+                <Button  class="btnMedalChild" @click="addModalCase" type="primary" style="margin-right: 25px;">添加</Button>
             </div>
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
@@ -41,11 +134,7 @@
                 </Table>
             </div>
         </div>
-        <!-- <div style="margin: 10px;overflow: hidden">
-            <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
-            </div>
-        </div> -->
+        
     </div>
 </template>
 <script>
@@ -53,34 +142,34 @@
 
     import { getDepartment,removeDepartment,getapplicationList} from '@/http/api';
     import {mapState} from 'vuex'
-
+    import "../../../assets/css/system.css";
     export default {
         data () {
             return {
                 data1: [],
                 data:[],
                 value3: false,
+                value4:false,
                 styles: {
-                    height: 'calc(100% - 55px)',
-                    overflow: 'auto',
-                    paddingBottom: '53px',
-                    position: 'static'
+                    height: "calc(100% - 55px)",
+                    overflow: "auto",
+                    padding: "210px 80px 0 80px",
+                    position: "static"
                 },
+                caseArr:[{
+                    name:'新华社'
+                },{
+                    name:'新华社1'
+                },{
+                    name:'新华社2'
+                }],
                 num:1,
-                formData: {
-                    address: "",
-                    contacter: null,
-                    createTime: "",
-                    email: null,
-                    fax: "",
-                    id: "",
-                    instId: null,
-                    leader: "",
+                dataName: "应用案例添加",
+                formData1: {
                     name: "",
-                    note: null,
-                    status: "",
-                    telephone: null,
-                    userDep: null
+                },
+                formData: {
+                    name: "",
                 },
                 tableColumns1: [
                     {
@@ -141,32 +230,10 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                
-                // this.data1[this.num].name =  this.formData.name;
-                
-                // this.value3 = false;
-                // let datas = this.formData,that = this;
-                // addDepartment(datas).then(res => {
-                //     if(res.success) {
-                //          this.value3 = false
-                //          this.data1.push(that.formData);
-                //     }
-                // })
-                // if(this.num==1) {
-                //     this.axios.post('http://localhost:8096/departMent/add', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false,
-                //             that.data1.push(that.formData);
-                //         }
-                //     })
-                // }else {
-                //     this.axios.post('http://localhost:8096/departMent/updateDepartMent', qs.stringify(datas)).then(function (result) {
-                //         if(result.data.success){
-                //             that.value3 = false
-                //             that.data1.splice(index,1,that.formData)
-                //         }
-                //     })
-                // }
+            },
+            addCase() {
+                this.value3 = false;
+                this.caseArr.push(this.formData1)
             },
             modifyParent( row,index ) {
                 this.value3 = true;
@@ -191,43 +258,3 @@
         }
     }
 </script>
-
-
-<style lang="less" scoped>
-.MaterialList {
-    width: 180px;
-    height: 30px;
-    border-color: #dcdcdc;
-    font-size: 16px;
-    color:#5f5f5f;
-    border-radius: 4px;
-    margin-top: -4px;
-    outline-style: none;
-}
-.ivu-table td, .ivu-table th {
-    text-align: center;
-    font-size: 14px;
-    color:#5b5b5b;
-}
-.ivu-table th {
-    font-size: 16px;
-    font-weight: 700;
-    color:#5b5b5b;
-}
-.titleChild {
-    padding:20px;
-    float: left;
-    img{
-        margin-right: 12px;
-    }
-    span{
-        font-size: 16px;
-        color:#5f5f5f;
-        font-weight: 700;
-    }
-}
-.btnMedalChild {
-    float: right;
-    margin-top: 20px;
-}
-</style>

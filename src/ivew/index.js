@@ -20,7 +20,8 @@ import {
   MenuGroup,
   DropdownItem,
   DropdownMenu,
-  Modal
+  Modal,
+  Upload
 } from 'iview'
 
 
@@ -44,6 +45,7 @@ const view = (Vue) => {
   Vue.component('DropdownMenu', DropdownMenu)
   Vue.component('DropdownItem', DropdownItem)
   Vue.component('Modal', Modal)
+  Vue.component('Upload', Upload)
 }
 
 

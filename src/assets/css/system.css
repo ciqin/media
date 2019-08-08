@@ -114,16 +114,24 @@
 .titleChild {
   padding:20px;
   float: left;
-  img{
-      margin-right: 12px;
-  }
-  span{
-      font-size: 16px;
+}
+.titleChild img{
+  margin-right: 12px;
+}
+
+.titleChild span {
+  font-size: 16px;
       color:#5f5f5f;
       font-weight: 700;
-  }
 }
 .btnMedalChild {
   float: right;
   margin-top: 20px;
+}
+
+.updata {
+  width: 100%;
+}
+.updata>div {
+  width: 100%;
 }

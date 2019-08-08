@@ -20,7 +20,9 @@
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入部门名称" v-model="formData.departMentName" />
+                             <select class="MaterialList" style="width:100%;" @change="changeData($event)">
+                                <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
+                            </select>
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
@@ -63,35 +65,12 @@
     
     import '../../../assets/css/system.css';
 
-    import { getRole,removeRole,addRole} from '@/http/api';
+    import { getRole,removeRole,addRole,getdepartmentlist} from '@/http/api';
 
     export default {
         data () {
             return {
-                data1: [
-                    // {
-                    //     createTime: 1553797251000,
-                    //     depId: 9,
-                    //     departMentName: "部门6666",
-                    //     id: 1,
-                    //     institutionId: 2,
-                    //     institutionName: "单位31231231231",
-                    //     level: 4,
-                    //     name: "普通用户",
-                    //     userId: null
-                    // },
-                    // {
-                    //     createTime: 1553797251000,
-                    //     depId: 9,
-                    //     departMentName: "部门6",
-                    //     id: 1,
-                    //     institutionId: 2,
-                    //     institutionName: "单位3",
-                    //     level: 4,
-                    //     name: "超级管理员",
-                    //     userId: null
-                    // }
-                ],
+                data1: [],
                 value3: false,
                 modal1: false,
                 removeid:null,
@@ -105,10 +84,12 @@
                 num:1,
                 formData: {
                     name: "",
-                    createTime: "",
+                    createtime: "",
                     email: null,
                     departMentName:"",
                     leader: "",
+                    institutionId:"",
+                    depId:''
                 },
                 tableColumns1: [
                     {
@@ -121,7 +102,7 @@
                     },
                     {
                         title: '创建时间',
-                        key: 'createTime',
+                        key: 'createtime',
                     },
                     {
                         title: '操作',
@@ -134,7 +115,13 @@
         },
         mounted () {
             getRole().then(res => {
-                console.log(res)
+                this.data1 = res.obj;
+            })
+            getdepartmentlist().then( res => {
+                this.bmData = res.obj;
+                this.formData.institutionId =  res.obj[0].instId;
+                this.formData.depId =  res.obj[0].id;
+                this.formData.createtime =  res.obj[0].createTime;   
             })
         },
         methods: {
@@ -143,48 +130,61 @@
                     this.formData[key] = ''
                 }
             },
-             ok () {
-                //  removeUser({"id":row.id}).then(res => {
-                //      res.success?this.$message('删除成功'):this.$message('删除失败')
-                //  })
-                this.data1.splice(this.removeid,1)
+            ok () {
+                 removeRole({ContentType:true,"id":this.removeid}).then( res => {
+                     res.success?this.$message('删除成功'):this.$message('删除失败')
+                })
             },
-            addRole(){
-                //let datas = this.formData,that = this;
-                if(this.num==1) {
-                    // addUser(this.formData).then(( res ) => {
-                    //     if(res.success) {
-                    //         this.value3 = false;
-                    //     }
-                    // })
-                    this.data1.push(this.formData)
-                    this.value3 = false;
-                }else {
-                    // updateUser(this.formData).then(() => {
-                    //     if(res.success) {
-                    //         this.value3 = false;
-                    //         this.data1.splice(index,1,that.formData)
-                    //     }
-                    // })
-                    this.data1.splice(this.removeid,1,this.formData)
-                    this.value3 = false;
-                }
+            // addRole(){
+            //     //let datas = this.formData,that = this;
+            //     if(this.num==1) {
+            //         console.log(this.formData)
+            //         // addUser(this.formData).then(( res ) => {
+            //         //     if(res.success) {
+            //         //         this.value3 = false;
+            //         //     }
+            //         // })
+            //         // this.data1.push(this.formData)
+                    
+            //     }else {
+            //         updateUser(this.formData).then(() => {
+            //             if(res.success) {
+            //                 this.value3 = false;
+            //                 this.data1.splice(index,1,that.formData)
+            //             }
+            //         })
+            //         this.data1.splice(this.removeid,1,this.formData)
+            //         this.value3 = false;
+            //     }
+            // },
+            changeData(event) {
+                let index = event.target.selectedIndex;
+                let instid = event.target.options[index].getAttribute("instid");
+                let id = event.target.options[index].value;
+                let createtime = event.target.options[index].getAttribute("createtime");
+                this.formData.institutionId =  instid;
+                this.formData.depId =  id;
+                this.formData.createtime =  createtime;
             },
             addModalShow () {
-               this.cleardata();
+                // this.cleardata();
                this.value3 = true;
                this.num = 1;
+               
             },
             changePage () {
                 // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                let datas = this.formData,that = this;
+                let datas = this.formData;
+                datas.ContentType = true;
                 addRole(datas).then(res => {
                     if(res.success) {
-                         this.value3 = false
-                         this.data1.push(that.formData);
+                        this.value3 = false;
+                        getRole().then(res => {
+                            this.data1 = res.obj;
+                        })
                     }
                 })
             },
@@ -197,26 +197,17 @@
                 this.titleName = "用户管理修改";
                 this.num = 2;
                 this.removeid = index,
-                // selectByIdtUser({id:row.id}).then(( res ) => {               
-                //     if(res) {
-                //         this.formData.name = res.username
-                //         this.formData.departMentName = res.departMentName
-                //         this.formData.email = res.email
-                //     }
-                // })
+                selectByIdtUser({id:row.id}).then(( res ) => {               
+                    if(res) {
+                        this.formData.name = res.username
+                        this.formData.departMentName = res.departMentName
+                        this.formData.email = res.email
+                    }
+                })
                 this.formData.username = row.username
                 this.formData.departMentName = row.departMentName
                 this.formData.email = row.email
             },
-            //  添加输入框
-            // addInputF(){
-            //     let rendom =Math.random().toString(36).substr(2)
-            //     this.addInput.push(rendom)
-            // },
-            //  删除输入框
-            // removeInputF(item,index){
-            //     this.addInput.splice(index, 1);
-            // }
         },
         components:{
             Title
