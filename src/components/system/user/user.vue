@@ -5,36 +5,39 @@
             <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
         </div>
         <!-- 模态框 -->
-            <Drawer
-                :title="titleName"
-                v-model="value3"
-                width="660"
-                :mask-closable="false"
-                :styles="styles">
-                <Form :model="formData">
-                    <Row :gutter="32">
-                        <Col span="24">
-                            <FormItem label="用户名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                                <Input  placeholder="请输入用户名称" v-model="formData.username" />
-                            </FormItem>
-                        </Col>
-                        <Col span="24" style="margin-top: 16px;">
-                            <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                                <Input  placeholder="请输入部门名称" v-model="formData.departMentName" />
-                            </FormItem>
-                        </Col>
-                        <Col span="24" style="margin-top: 16px;">
-                            <FormItem label="用户邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                                <Input  placeholder="请输入用户邮箱" v-model="formData.email" />
-                            </FormItem>
-                        </Col>
-                    </Row>
-                </Form>
-                <div class="demo-drawer-footer">
-                    <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
-                    <Button class="setW" @click="value3 = false">关闭</Button>
-                </div>
-            </Drawer>
+        <Drawer
+            title="管理员添加"
+            v-model="value3"
+            width="660"
+            :mask-closable="false"
+            :styles="styles"
+        >
+            <Form :model="formData">
+                <Row :gutter="32">
+                    <Col span="24">
+                         <FormItem label="管理员名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入管理员名称" v-model="formData.name" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <select class="MaterialList" style="width:100%;padding-left: 18px" @change="changeData($event)">
+                                <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
+                            </select>
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="管理员邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入管理员邮箱" v-model="formData.email" />
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Form>
+            <div class="demo-drawer-footer">
+                <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="value3 = false">关闭</Button>
+            </div>
+        </Drawer> 
         <Table :data="data1" :columns="tableColumns1" stripe>
             <template slot-scope="{ row }" slot="name">
                 <strong>{{ row.username }}</strong>
@@ -62,14 +65,12 @@
 
      import '../../../assets/css/system.css';
 
-    import {getUserList,removeUser,addUser,selectByIdtUser,updateUser} from "@/http/api"
+    import {getUserList,removeUser,addUser,selectByIdtUser,updateUser,getdepartmentlist} from "@/http/api"
 
     export default {
         data () {
             return {
-                data1: [
-                   
-                ],
+                data1: [ ],
                 value3: false,
                 modal1: false,
                 removeid:null,
@@ -87,6 +88,7 @@
                     createTime: null,
                     email: null,
                 },
+                bmData:[],
                 tableColumns1: [
                     {
                         title: '用户名称',
@@ -113,12 +115,17 @@
             getUserList().then(res => {
                 this.data1 = res.obj
             })
+            getdepartmentlist().then( res => {
+                this.bmData = res.obj;
+                this.formData.institutionId =  res.obj[0].instId;
+                this.formData.depId =  res.obj[0].id;
+                this.formData.createtime =  res.obj[0].createTime;   
+            })
         },
         methods: {
              removeParent( row,index ) {
                  this.modal1 = true;
                  this.removeid = row.id;
-         
             },
             ok () {
                  removeUser({ContentType:true,"id":this.removeid}).then(res => {
@@ -137,42 +144,46 @@
                     this.formData[key] = ''
                 }
             },
+            changeData(event) {
+                let index = event.target.selectedIndex;
+                let instid = event.target.options[index].getAttribute("instid");
+                let id = event.target.options[index].value;
+                let createtime = event.target.options[index].getAttribute("createtime");
+                this.formData.institutionId =  instid;
+                this.formData.depId =  id;
+                this.formData.createtime =  createtime;
+            },
             addModalShow () {
-               this.cleardata();    
+            //    this.cleardata();    
                this.titleName = "用户管理添加";
                this.value3 = true;
                this.num = 1;
             },
             changePage () {
                 // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
-                this.tableData1 = this.mockTableData1();
+                // this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                //let datas = this.formData,that = this;
-                if(this.num==1) {
-                    let datas = this.formData;
-                    datas.ContentType = true;
-                    addUser(datas).then(( res ) => {
-                        //console.log(res)
-                        // if(res.success) {
-                            
-                        // }
-                    })
-
-                    // this.falg.empty(this.formData.departMentName)?this.$message('用户名称为空'):"";
-
-                    // this.data1.push(this.formData)
-                    // this.value3 = false;
-                }else {
-                    updateUser(this.formData).then(res => {
-                        console.log(res.success)
+                let datas = this.formData;
+                datas.ContentType = true;
+                if(this.num==1) { 
+                    addUser(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            this.data1.splice(index,1,that.formData)
+                            getRole().then(res => {
+                                this.data1 = res.obj;
+                            })
                         }
                     })
-                    this.data1.splice(this.removeid,1,this.formData)
-                    this.value3 = false;
+                }else {
+                    updateUser(this.formData).then(() => {
+                        if(res.success) {
+                            this.value3 = false;
+                            getRole().then(res => {
+                                this.data1 = res.obj;
+                            })
+                        }
+                    })
                 }
             },
             modifyItem( row,index ) {
@@ -180,17 +191,13 @@
                 this.titleName = "用户管理修改";
                 this.num = 2;
                 this.removeid = index,
-                selectByIdtUser({id:row.id}).then(( res ) => {  
-                    console.log(res)             
+                selectByIdtUser({id:row.id}).then(( res ) => {             
                     if(res) {
                         this.formData.name = res.username
                         this.formData.departMentName = res.departMentName
                         this.formData.email = res.email
                     }
                 })
-                // this.formData.username = row.username
-                // this.formData.departMentName = row.departMentName
-                // this.formData.email = row.email
             },
             
         },

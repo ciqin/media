@@ -1,6 +1,5 @@
 <template>
   <div class="color-list">
-   
      <Menu :open-names="['1']" width="auto" accordion active-name="0-1" > 
           <div v-for="(data,index) in datas" :key="data.text">
                   <MenuItem :name="index+'-1'" v-if="!data.secondPerm" :to="data.url">
@@ -16,16 +15,7 @@
                       <MenuItem v-for="(datachild,index) in data.secondPerm" :key="datachild.name" :name="'child-'+index" :to="datachild.url">{{datachild.name}}</MenuItem>
                 </Submenu>
           </div>
-                <!-- <MenuItem :name="index+'-1'" v-for="(data,index) in datas" v-if="!data.secondPerm" :key="data.text" :to="data.url"><Icon type="ios-stats"/>{{data.text}}</MenuItem>
-                <Submenu name="2" v-for="data in datas" v-if="data.secondPerm" :key="data.text">
-                    <template slot="title">
-                        <Icon type="ios-people" />
-                        {{data.text}}
-                    </template>
-                    <MenuItem v-for="(datachild,index) in data.secondPerm" :key="datachild.name" :name="'child-'+index" :to="datachild.url">{{datachild.name}}</MenuItem>
-                </Submenu> -->
-          </Menu>
-         
+      </Menu>
   </div>
 </template>
 <script>
@@ -47,29 +37,6 @@ import {mapActions, mapGetters} from 'vuex';
           text: '产品演示地址',
           img:"/static/images/yinyong/s_icon2.png",
           url:"/index/wenhai",
-        //   secondPerm: [
-        //     {
-        //         "autoId": 1,
-        //         "name": "文字介绍",
-        //         "url": "11",
-        //         "icon": null,
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 2,
-        //         "name": "演示文稿",
-        //         "url": "222",
-        //         "icon": null,
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 3,
-        //         "name": "演示地址",
-        //         "url": "333",
-        //         "icon": null,
-        //         "secondPerm": null
-        //     }
-        // ]
         }, {
           "autoId": 3,
           text: '应用案例',
@@ -107,7 +74,9 @@ import {mapActions, mapGetters} from 'vuex';
         this.$router.push({ path:item.url})
       },
       changeImg ( data ,index) {
-        var oldData = this.datas;
+        let oldData = this.datas;
+        let navData =JSON.stringify(data)
+        window.localStorage.setItem("nav",navData)
         oldData.forEach(function ( v , i ) {
           v.img = "/static/images/yinyong/s_icon"+(i+1)+".png"
         })
