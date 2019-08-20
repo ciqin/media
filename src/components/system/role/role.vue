@@ -90,7 +90,8 @@
                     departMentName:"",
                     leader: "",
                     institutionId:"",
-                    depId:''
+                    depId:'',
+                    id:""
                 },
                 tableColumns1: [
                     {
@@ -117,12 +118,13 @@
         mounted () {
             getRole().then(res => {
                 this.data1 = res.obj;
-                this.couponSelected = this.data1[0].depId;
+                console.log(res.obj)
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
                 this.formData.institutionId =  res.obj[0].instId;
                 this.formData.depId =  res.obj[0].id;
+                this.couponSelected = this.data1[0].depId;
                 this.formData.createtime =  res.obj[0].createTime;   
             })
         },
@@ -196,6 +198,7 @@
                         this.formData.name = res.obj.name;
                         this.couponSelected = row.depId;
                         this.formData.email = res.obj.email;
+                        this.formData.id = res.obj.id;
                     }
                 })
             },

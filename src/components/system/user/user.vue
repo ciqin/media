@@ -88,6 +88,7 @@
                     departmentName: null,
                     createTime: null,
                     email: null,
+                    id:null
                 },
                 bmData:[],
                 tableColumns1: [
@@ -115,12 +116,13 @@
          mounted () {
             getUserList().then(res => {
                 this.data1 = res.obj;
+                this.couponSelected = this.data1[0].depId;
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
-                this.couponSelected = this.data1[0].depId;
+                
                 this.formData.institutionId =  res.obj[0].instId;
-                this.formData.depId =  res.obj[0].id;
+                this.formData.depId =  res.obj[0].depId;
                 this.formData.createtime =  res.obj[0].createTime;   
             })
         },
@@ -129,7 +131,7 @@
                  this.modal1 = true;
                  this.removeid = row.id;
             },
-            ok () {
+            ok() {
                  removeUser({ContentType:true,"id":this.removeid}).then(res => {
                      if(res.success) {
                          this.$message('删除成功');
@@ -149,7 +151,7 @@
             changeData(event) {
                 var index = event.target.selectedIndex;
                 this.formData.depId = event.target.value;
-                this.formData.departMentName = event.target.options[index].text;
+                this.formData.departmentName = event.target.options[index].text;
                 this.formData.createtime = event.target.options[index].getAttribute("createtime");
             },
             addModalShow () {
@@ -175,7 +177,6 @@
                         }
                     })
                 }else {
-                    datas.username = this.formData.name;
                     updateUser(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
@@ -193,9 +194,10 @@
                 this.removeid = index,
                 selectByIdtUser({id:row.id}).then(( res ) => {             
                     if(res) {
-                        this.formData.username = res.username
+                        this.formData.username = res.username;
                         this.couponSelected = row.depId;
-                        this.formData.email = res.email
+                        this.formData.email = res.email;
+                        this.formData.id = res.id;
                     }
                 })
             },
