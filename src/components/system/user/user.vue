@@ -21,7 +21,7 @@
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <select class="MaterialList" style="width:100%;padding-left: 18px" @change="changeData($event)">
+                             <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="couponSelected" @change="changeData($event)">
                                 <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
                             </select>
                         </FormItem>
@@ -74,6 +74,7 @@
                 value3: false,
                 modal1: false,
                 removeid:null,
+                couponSelected: 0, 
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -113,10 +114,11 @@
         },
          mounted () {
             getUserList().then(res => {
-                this.data1 = res.obj
+                this.data1 = res.obj;
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
+                this.couponSelected = this.data1[0].depId;
                 this.formData.institutionId =  res.obj[0].instId;
                 this.formData.depId =  res.obj[0].id;
                 this.formData.createtime =  res.obj[0].createTime;   
@@ -145,13 +147,10 @@
                 }
             },
             changeData(event) {
-                let index = event.target.selectedIndex;
-                let instid = event.target.options[index].getAttribute("instid");
-                let id = event.target.options[index].value;
-                let createtime = event.target.options[index].getAttribute("createtime");
-                this.formData.institutionId =  instid;
-                this.formData.depId =  id;
-                this.formData.createtime =  createtime;
+                var index = event.target.selectedIndex;
+                this.formData.depId = event.target.value;
+                this.formData.departMentName = event.target.options[index].text;
+                this.formData.createtime = event.target.options[index].getAttribute("createtime");
             },
             addModalShow () {
             //    this.cleardata();    
@@ -176,7 +175,8 @@
                         }
                     })
                 }else {
-                    updateUser(datas).then(() => {
+                    datas.username = this.formData.name;
+                    updateUser(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
                              getUserList().then(res => {
@@ -194,7 +194,7 @@
                 selectByIdtUser({id:row.id}).then(( res ) => {             
                     if(res) {
                         this.formData.username = res.username
-                        this.formData.departMentName = res.departMentName
+                        this.couponSelected = row.depId;
                         this.formData.email = res.email
                     }
                 })

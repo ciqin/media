@@ -20,8 +20,8 @@
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <select class="MaterialList" style="width:100%;padding-left: 18px" @change="changeData($event)">
-                                <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
+                             <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="couponSelected" @change="changeData($event)">
+                                <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" :name ="item.name" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
                             </select>
                         </FormItem>
                     </Col>
@@ -75,6 +75,7 @@
                 modal1: false,
                 removeid:null,
                 addInput:[],
+                couponSelected: 0, 
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -116,6 +117,7 @@
         mounted () {
             getRole().then(res => {
                 this.data1 = res.obj;
+                this.couponSelected = this.data1[0].depId;
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
@@ -142,13 +144,10 @@
                 })
             },
             changeData(event) {
-                let index = event.target.selectedIndex;
-                let instid = event.target.options[index].getAttribute("instid");
-                let id = event.target.options[index].value;
-                let createtime = event.target.options[index].getAttribute("createtime");
-                this.formData.institutionId =  instid;
-                this.formData.depId =  id;
-                this.formData.createtime =  createtime;
+                var index = event.target.selectedIndex;
+                this.formData.depId = event.target.value;
+                this.formData.departMentName = event.target.options[index].text;
+                this.formData.createtime = event.target.options[index].getAttribute("createtime");
             },
             addModalShow () {
                 // this.cleardata();
@@ -173,7 +172,8 @@
                         }
                     })
                 }else {
-                    updateRole(this.formData).then(() => {
+                    datas.username = this.formData.name;
+                    updateRole(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
                             getRole().then(res => {
@@ -194,12 +194,7 @@
                 selectByIdRole({ContentType:true,id:row.id}).then(( res ) => {               
                     if(res) {
                         this.formData.name = res.obj.name;
-                        document.querySelectorAll(".MaterialList option").forEach( ( v , i ) => {
-                            if(v.value == res.obj.depId) {
-                                v.selected  = true;
-                            }
-                        })
-                        this.formData.depId = res.obj.depId;
+                        this.couponSelected = row.depId;
                         this.formData.email = res.obj.email;
                     }
                 })
