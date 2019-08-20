@@ -16,7 +16,7 @@
                 <Row :gutter="32">
                     <Col span="24">
                          <FormItem label="管理员名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入管理员名称" v-model="formData.name" />
+                             <Input  placeholder="请输入管理员名称" v-model="formData.username" />
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
@@ -84,7 +84,7 @@
                 num:1,
                 formData: {
                     username: null,
-                    departMentName: null,
+                    departmentName: null,
                     createTime: null,
                     email: null,
                 },
@@ -96,7 +96,7 @@
                     },
                     {
                         title: '部门名称',
-                        key: 'departMentName',
+                        key: 'departmentName',
                     },
                     {
                         title: '创建时间',
@@ -170,17 +170,17 @@
                     addUser(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole().then(res => {
-                                this.data1 = res.obj;
+                             getUserList().then(res => {
+                                this.data1 = res.obj
                             })
                         }
                     })
                 }else {
-                    updateUser(this.formData).then(() => {
+                    updateUser(datas).then(() => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole().then(res => {
-                                this.data1 = res.obj;
+                             getUserList().then(res => {
+                                this.data1 = res.obj
                             })
                         }
                     })
@@ -193,7 +193,7 @@
                 this.removeid = index,
                 selectByIdtUser({id:row.id}).then(( res ) => {             
                     if(res) {
-                        this.formData.name = res.username
+                        this.formData.username = res.username
                         this.formData.departMentName = res.departMentName
                         this.formData.email = res.email
                     }
