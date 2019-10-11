@@ -78,10 +78,10 @@
             </div>
         </Drawer>
         <!-- 子文档添加 -->
-        <Drawer :title="Filename" v-model="value4" width="660" :mask-closable="false" :styles="styles">
+        <Drawer :title="filename" v-model="value4" width="660" :mask-closable="false" :styles="styles">
             <Form :model="formData">
                 <Row :gutter="32">
-                    <Col span="20" v-if="Filename=='地址'">
+                    <Col span="20" v-if="filename=='地址'">
                         <div v-for="n in fileItem" :key="n">
                         <FormItem
                         :label="'地址'+n+':'"
@@ -147,6 +147,26 @@
             @on-ok="ok">
             确定删除吗？
         </Modal>
+        <!-- 编辑按钮 -->
+        <Drawer :title="filename" v-model="value5" width="660" :mask-closable="false" :styles="styles">
+            <Form :model="formData">
+                <Row :gutter="32">
+                    <Col span="20">
+                        <FormItem label="文件名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input v-model="fileInfo.name" />
+                        </FormItem>
+                        <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input v-model="fileInfo.author" />
+                        </FormItem>
+                    </Col>
+                    
+                </Row>
+            </Form>
+            <div class="demo-drawer-footer">
+                <Button type="primary" class="setW" @click="editFile()" style="margin-right:16px;">确定</Button>
+                <Button class="setW" @click="closeFileAdd()">关闭</Button>
+            </div>
+        </Drawer>
         <div v-for="(item,index) in data" :key="item.title">
             <div class="clearfix">
                 <div class="titleChild">
@@ -160,8 +180,8 @@
                     <template slot-scope="{ row }" slot="name">
                         <strong>{{ row.name }}</strong>
                     </template>
-                    <template  slot="action">
-                        <Button shape="circle" icon="ios-create-outline" @click="editItem(item)"></Button>
+                    <template  slot="action" slot-scope="{ row, index }" >
+                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row)"></Button>
                         <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(index)"></Button>
                     </template>
                 </Table>
@@ -186,7 +206,13 @@
                 value5:false,
                 modal1:false,
                 fileItem: 1,
-                Filename:'',
+                filename:'',
+                fileInfo:{
+                    name: '',
+                    author: '',
+                    dateHistory: ''
+
+                },
                 styles: {
                     height: "calc(100% - 55px)",
                     overflow: "auto",
@@ -283,7 +309,7 @@
             },
             addModalCase(title){ //添加文件
                 this.value4 = true;
-                this.Filename = title;
+                this.filename = title;
 
             },
             modifyParent( row,index ) {
@@ -302,18 +328,28 @@
                 //     })
                 // }  
             },
-            editItem(index){ //编辑
-                value5 = true;
+            editItem(item){ //编辑
+                this.value5 = true;
+
+                // console.log(index);
+                this.fileInfo.name = item.names;
+                this.fileInfo.author = item.operation;
+                this.clearFileData;
+            
             },
             deleteItem(index){ //删除
-
+                this.modal1 = true;
             },
             clearFileData(){
                 this.value4 = false;
+                this.value5 = false;
                 this.fileItem = 1;
             },
             addFileItem(){
                 this.fileItem+=1;
+            },
+            ok(){
+                
             }
             
         },
