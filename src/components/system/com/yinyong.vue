@@ -81,20 +81,24 @@
         <Drawer :title="dataName" v-model="value4" width="660" :mask-closable="false" :styles="styles">
             <Form :model="formData">
                 <Row :gutter="32">
-                <Col span="24">
-                    <FormItem
-                    label="文件名称:"
-                    label-position="left"
-                    calss="formitem"
-                    style="width:100%;margin:0 auto;">
-                    <Input placeholder="请输入文件名称" v-model="formData.name"/>
-                    </FormItem>
-                </Col>
+                    <Col span="20">
+                        
+                        <FormItem
+                        label="文件名称:"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;"
+                        v-for="n in fileItem" :key="n">
+                        <Input placeholder="请输入文件名称" v-model="formData.name"/>
+                        </FormItem>
+                    </Col>
+                    <!-- <Icon type="ios-add" size="24" @click=""/> -->
+                    <Button icon="ios-add" @click="addFileItem()"></Button>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
-                <Button class="setW" @click="value3 = false">关闭</Button>
+                <Button class="setW" @click="value4 = false">关闭</Button>
             </div>
         </Drawer>
         <div style="padding:18px 18px 0 18px;border-bottom:1px solid #d1d1d1;">
@@ -114,7 +118,14 @@
                 <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加</Button>
             </Row>
         </div>
-        <div v-for="item in data" :key="item.title">
+        
+        <Modal
+            v-model="modal1"
+            title=""
+            @on-ok="ok">
+            确定删除吗？
+        </Modal>
+        <div v-for="(item,index) in data" :key="item.title">
             <div class="clearfix">
                 <div class="titleChild">
                     <img src="/static/images/icon/ppt_icon.png" >
@@ -128,8 +139,8 @@
                         <strong>{{ row.name }}</strong>
                     </template>
                     <template  slot="action">
-                        <Button shape="circle" icon="ios-create-outline"></Button>
-                        <Button shape="circle" icon="ios-trash-outline"></Button>
+                        <Button shape="circle" icon="ios-create-outline" @click="editItem(item)"></Button>
+                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(index)"></Button>
                     </template>
                 </Table>
             </div>
@@ -150,6 +161,9 @@
                 data:[],
                 value3: false,
                 value4:false,
+                value5:false,
+                modal1:false,
+                fileItem: 1,
                 styles: {
                     height: "calc(100% - 55px)",
                     overflow: "auto",
@@ -170,6 +184,9 @@
                 },
                 formData: {
                     name: "",
+                },
+                itemData: {
+                    
                 },
                 tableColumns1: [
                     {
@@ -230,10 +247,15 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
+                this.value4 = false;
+                //store data function
             },
             addCase() {
                 this.value3 = false;
                 this.caseArr.push(this.formData1)
+            },
+            addModalCase(){ //添加文件
+                this.value4 = true;
             },
             modifyParent( row,index ) {
                 this.value3 = true;
@@ -251,6 +273,15 @@
                 //     })
                 // }  
             },
+            editItem(index){ //编辑
+                value5 = true;
+            },
+            deleteItem(index){ //删除
+
+            },
+            addFileItem(){
+                this.fileItem+=1;
+            }
             
         },
         components:{
