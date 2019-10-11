@@ -78,18 +78,40 @@
             </div>
         </Drawer>
         <!-- 子文档添加 -->
-        <Drawer :title="dataName" v-model="value4" width="660" :mask-closable="false" :styles="styles">
+        <Drawer :title="Filename" v-model="value4" width="660" :mask-closable="false" :styles="styles">
             <Form :model="formData">
                 <Row :gutter="32">
-                    <Col span="20">
+                    <Col span="20" v-if="Filename=='地址'">
+                        <div v-for="n in fileItem" :key="n">
+                        <FormItem
+                        :label="'地址'+n+':'"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;">
+                            <Input v-model="formData.address" />
+                        </FormItem>
+                        <FormItem
+                        :label="'链接'+n+':'"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;">
+                            <Input v-model="formData.url" />
+                        </FormItem>
+                        </div>
+                    </Col>
+                    <Col span="20" v-else>
                         
                         <FormItem
-                        label="文件名称:"
+                        :label="'文件名称'+n+':'"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;"
                         v-for="n in fileItem" :key="n">
-                        <Input placeholder="请输入文件名称" v-model="formData.name"/>
+                            <Upload
+                                multiple
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">请选择文件</Button>
+                            </Upload>
                         </FormItem>
                     </Col>
                     <!-- <Icon type="ios-add" size="24" @click=""/> -->
@@ -98,7 +120,7 @@
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
-                <Button class="setW" @click="value4 = false">关闭</Button>
+                <Button class="setW" @click="closeFileAdd()">关闭</Button>
             </div>
         </Drawer>
         <div style="padding:18px 18px 0 18px;border-bottom:1px solid #d1d1d1;">
@@ -131,7 +153,7 @@
                     <img src="/static/images/icon/ppt_icon.png" >
                     <span>{{item.title}}</span>
                 </div>
-                <Button  class="btnMedalChild" @click="addModalCase" type="primary" style="margin-right: 25px;">添加</Button>
+                <Button  class="btnMedalChild" @click="addModalCase(item.title)" type="primary" style="margin-right: 25px;">添加</Button>
             </div>
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
@@ -164,6 +186,7 @@
                 value5:false,
                 modal1:false,
                 fileItem: 1,
+                Filename:'',
                 styles: {
                     height: "calc(100% - 55px)",
                     overflow: "auto",
@@ -247,15 +270,21 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                this.value4 = false;
+                this.clearFileData();
                 //store data function
+                
+            },
+            closeFileAdd(){
+                this.clearFileData();
             },
             addCase() {
                 this.value3 = false;
                 this.caseArr.push(this.formData1)
             },
-            addModalCase(){ //添加文件
+            addModalCase(title){ //添加文件
                 this.value4 = true;
+                this.Filename = title;
+
             },
             modifyParent( row,index ) {
                 this.value3 = true;
@@ -278,6 +307,10 @@
             },
             deleteItem(index){ //删除
 
+            },
+            clearFileData(){
+                this.value4 = false;
+                this.fileItem = 1;
             },
             addFileItem(){
                 this.fileItem+=1;
