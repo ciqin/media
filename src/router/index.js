@@ -11,6 +11,11 @@ const routes = [
     component: resolve => require(['@/components/index/index'], resolve),
     children:[
       {
+        path: '/index/test',
+        name: 'test',
+        component:resolve => require(['@/components/test/test'], resolve)
+      },
+      {
         path: '/index/company',
         name: 'company',
         component:  resolve => require(['@/components/company/company'], resolve),
@@ -112,6 +117,7 @@ const routes = [
     name: 'login',
     component:resolve => require(['@/components/login/login'], resolve)
   }
+  
 ]
 
 const router = new Router({
