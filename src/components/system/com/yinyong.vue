@@ -16,10 +16,11 @@
                 <Col span="24" style="margin-top: 16px;">
                          <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                             <select class="MaterialList" style="width:100%;">
-                                <option value="1">媒体行业应用案例</option>
+                                <!-- <option value="1">媒体行业应用案例</option>
                                 <option value="2">政务领域应用案例</option>
                                 <option value="3">舆情领域应用案例</option>
-                                <option value="4">警务领域应用案例</option>
+                                <option value="4">警务领域应用案例</option> -->
+                                <option :value="index" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
                             </select>
                         </FormItem>
                 </Col>
@@ -127,17 +128,18 @@
              <Row>
                 <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
                 <Col span="19"> 
-                    <select class="MaterialList" @change="changeTable">
-                        <option value="1">媒体行业应用案例</option>
+                    <select class="MaterialList" v-model="selectedCases.v">
+                        <!-- <option value="1">媒体行业应用案例</option>
                         <option value="2">政务领域应用案例</option>
                         <option value="3">舆情领域应用案例</option>
-                        <option value="4">警务领域应用案例</option>
+                        <option value="4">警务领域应用案例</option> -->
+                        <option :value="index" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
                     </select>
-                     <select class="MaterialList" @change="changeTable" style="margin-left: 30px;">
-                        <option :value="index" v-for="(item,index) in caseArr" :key="index">{{item.name}}</option>
+                     <select class="MaterialList" style="margin-left: 30px;" v-model="selectedCases.c">
+                        <option :value="index" v-for="(cases,index) in caseArr" :key="index">{{cases.namechild}}</option>
                     </select>
                 </Col>
-                <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加</Button>
+                <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加应用案例</Button>
             </Row>
         </div>
         
@@ -173,7 +175,7 @@
                     <img src="/static/images/icon/ppt_icon.png" >
                     <span>{{item.title}}</span>
                 </div>
-                <Button  class="btnMedalChild" @click="addModalCase(item.title)" type="primary" style="margin-right: 25px;">添加</Button>
+                <Button  class="btnMedalChild" @click="addModalCase(item.title)" type="primary" style="margin-right: 25px;">添加文件</Button>
             </div>
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
@@ -194,7 +196,7 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
 
-    import { getDepartment,removeDepartment,getapplicationList} from '@/http/api';
+    import { getDepartment,removeDepartment,getapplicationList,getUserurl} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -220,13 +222,15 @@
                     padding: "210px 80px 0 80px",
                     position: "static"
                 },
-                caseArr:[{
-                    name:'新华社'
-                },{
-                    name:'新华社1'
-                },{
-                    name:'新华社2'
-                }],
+                // caseArr:[{
+                //     name:'新华社'
+                // },{
+                //     name:'新华社1'
+                // },{
+                //     name:'新华社2'
+                // }],
+                vendorsArr:[],
+                caseArr: [],
                 num:1,
                 dataName: "应用案例添加",
                 formData1: {
@@ -237,6 +241,10 @@
                 },
                 itemData: {
                     
+                },
+                selectedCases:{
+                    'v':0,
+                    'c':0
                 },
                 tableColumns1: [
                     {
@@ -276,7 +284,11 @@
          mounted () {
             getapplicationList().then(res => {
                 this.data = res
-            })
+            });
+            getUserurl().then(res=>{
+                this.vendorsArr = res;
+                this.caseArr = this.vendorsArr[0].demonstrationArr;
+            });
         },
         methods: {
             cleardata() {
@@ -358,6 +370,21 @@
                 
             }
             
+        },
+        watch:{
+            selectedCases:{
+                handler(newVal,oldVal){
+                    let param = {
+                        'firstId':newVal.v,
+                        'secondId':newVal.c
+                    };
+                    getapplicationList(param).then(res => {
+                        this.data = res
+                    });
+                    console.log("已请求数据");
+                },
+                deep:true
+            }
         },
         components:{
             Title

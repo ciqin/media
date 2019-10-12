@@ -70,3 +70,6 @@ export const selectByIdRole = data => postHttp(baseUrl('/test/role/selectById'),
 
 // 更新修改id管理员信息
 export const updateRole = data => postHttp(baseUrl('/test/role/update'), data)
+
+
+
