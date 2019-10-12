@@ -378,6 +378,7 @@
                         'firstId':newVal.v,
                         'secondId':newVal.c
                     };
+                    this.caseArr = this.vendorsArr[parseInt(newVal.v)].demonstrationArr;
                     getapplicationList(param).then(res => {
                         this.data = res
                     });
