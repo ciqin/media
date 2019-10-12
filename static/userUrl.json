@@ -37,22 +37,22 @@
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社"
+          "namechild": "新华社a"
         },
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社1"
+          "namechild": "新华社b"
         },
         {
           "type": 2,
           "url": "",
-          "namechild": "新华社2"
+          "namechild": "新华社c"
         },
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社3"
+          "namechild": "新华社d"
         }
       ]
     },
@@ -63,22 +63,22 @@
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社"
+          "namechild": "新华社一"
         },
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社1"
+          "namechild": "新华社二"
         },
         {
           "type": 2,
           "url": "",
-          "namechild": "新华社2"
+          "namechild": "新华社三"
         },
         {
           "type": 1,
           "url": "",
-          "namechild": "新华社3"
+          "namechild": "新华社四"
         }
       ]
     },
