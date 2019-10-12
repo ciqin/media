@@ -116,7 +116,11 @@ const routes = [
     path: '/',
     name: 'login',
     component:resolve => require(['@/components/login/login'], resolve)
-  }
+  },{
+    path: '/mytest',
+    name: 'test1',
+    component:resolve => require(['@/components/test/test'], resolve)
+  },
   
 ]
 

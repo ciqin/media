@@ -163,7 +163,7 @@
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button type="primary" class="setW" @click="editFile()" style="margin-right:16px;">确定</Button>
+                <Button type="primary" class="setW" @click="submitItemInfo()" style="margin-right:16px;">确定</Button>
                 <Button class="setW" @click="closeFileAdd()">关闭</Button>
             </div>
         </Drawer>
@@ -192,6 +192,7 @@
 </template>
 <script>
     import Title from "@/components/assembly/title";
+    import {momentDate} from "@/common/utils/utilDateFormat"
 
     import { getDepartment,removeDepartment,getapplicationList} from '@/http/api';
     import {mapState} from 'vuex'
@@ -210,7 +211,7 @@
                 fileInfo:{
                     name: '',
                     author: '',
-                    dateHistory: ''
+                    createtime: ''
 
                 },
                 styles: {
@@ -334,8 +335,13 @@
                 // console.log(index);
                 this.fileInfo.name = item.names;
                 this.fileInfo.author = item.operation;
-                this.clearFileData;
+                this.fileInfo.createtime = momentDate("YYYY-MM-DD hh:mm:ss");
+                
             
+            },
+            submitItemInfo(){ //提交编辑修改后的信息
+                // do something
+                this.clearFileData();
             },
             deleteItem(index){ //删除
                 this.modal1 = true;
