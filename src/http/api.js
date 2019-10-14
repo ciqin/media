@@ -11,6 +11,7 @@
  }
 
 import { getHttp, postHttp } from "./httpService"
+import Axios from "_axios@0.18.1@axios"
 
 //  login
 export const getLogin = data => postHttp(baseUrl('/test/login'), data)
@@ -70,6 +71,21 @@ export const selectByIdRole = data => postHttp(baseUrl('/test/role/selectById'),
 
 // 更新修改id管理员信息
 export const updateRole = data => postHttp(baseUrl('/test/role/update'), data)
+
+// 应用案例上传文件
+
+export const uploadFile = (data) => upload(baseUrl('/test/upload'),data)
+
+// 应用案例文件信息编辑修改
+export const updateFileInfo = (data) => postHttp(baseUrl('/test/system/update'),data)
+
+// 应用案例文件删除
+
+export const removeFile = (data) => postHttp(baseUrl('/test/system/deleteById'),data)
+
+// 添加应用案例地址
+
+export const addLink = (data) => postHttp(baseUrl('/test/system/addLink'),data)
 
 
 

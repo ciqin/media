@@ -15,7 +15,7 @@
                 </Col>
                 <Col span="24" style="margin-top: 16px;">
                          <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                            <select class="MaterialList" style="width:100%;">
+                            <select class="MaterialList" style="width:100%;" v-model="formData1.casesIndex">
                                 <!-- <option value="1">媒体行业应用案例</option>
                                 <option value="2">政务领域应用案例</option>
                                 <option value="3">舆情领域应用案例</option>
@@ -29,7 +29,7 @@
                              <!-- <Input   v-model="formData.email" /> -->
                              <Upload
                                 multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.ppts">
                                 <Button icon="ios-cloud-upload-outline" style="width:100%;">ppt上传(支持多个文件)</Button>
                             </Upload>
                         </FormItem>
@@ -38,7 +38,7 @@
                          <FormItem label="word:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Upload
                                 multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.words">
                                 <Button icon="ios-cloud-upload-outline" style="width:100%;">word上传(支持多个文件)</Button>
                             </Upload>
                         </FormItem>
@@ -47,7 +47,7 @@
                          <FormItem label="产品册:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Upload
                                 multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.brochures">
                                 <Button icon="ios-cloud-upload-outline" style="width:100%;">产品册上传(支持多个文件)</Button>
                             </Upload>
                         </FormItem>
@@ -56,19 +56,19 @@
                          <FormItem label="视频:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Upload
                                 multiple
-                                action="//jsonplaceholder.typicode.com/posts/"  class="updata">
+                                action="//jsonplaceholder.typicode.com/posts/"  class="updata"  v-model="formData1.videos">
                                 <Button icon="ios-cloud-upload-outline" style="width:100%;">视频上传(支持多个文件)</Button>
                             </Upload>
                         </FormItem>
                 </Col>
                 <Col span="24" style="margin-top: 16px;">
                          <FormItem label="地址名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input   v-model="formData.email" />
+                             <Input   v-model="formData1.linkName" />
                         </FormItem>
                 </Col>
                 <Col span="24" style="margin-top: 16px;">
                          <FormItem label="链接:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input   v-model="formData.email" />
+                             <Input   v-model="formData1.link" />
                         </FormItem>
                 </Col>
                 </Row>
@@ -79,44 +79,52 @@
             </div>
         </Drawer>
         <!-- 子文档添加 -->
-        <Drawer :title="filename" v-model="value4" width="660" :mask-closable="false" :styles="styles">
+        <Drawer :title="fileTypeName" v-model="value4" width="660" :mask-closable="false" :styles="styles">
             <Form :model="formData">
                 <Row :gutter="32">
-                    <Col span="20" v-if="filename=='地址'">
-                        <div v-for="n in fileItem" :key="n">
+                    <Col span="20" v-if="fileTypeName=='地址'">
+                        <div v-for="(item,index) in formData" :key="index">
                         <FormItem
-                        :label="'地址'+n+':'"
+                        :label="'地址'+index+':'"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
-                            <Input v-model="formData.address" />
+                            <Input  v-model = "item.linkName"/>
                         </FormItem>
                         <FormItem
-                        :label="'链接'+n+':'"
+                        :label="'链接'+index+':'"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
-                            <Input v-model="formData.url" />
+                            <Input  v-model = "item.link"/>
                         </FormItem>
                         </div>
+                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input :value="username" disabled />
+                        </FormItem>
                     </Col>
+                    
                     <Col span="20" v-else>
-                        
+                        <div v-for="(item,index) in formData" :key="index">
                         <FormItem
-                        :label="'文件名称'+n+':'"
+                        :label="fileTypeName+'文件'+index+':'"
                         label-position="left"
                         calss="formitem"
-                        style="width:100%;margin:0 auto;"
-                        v-for="n in fileItem" :key="n">
+                        style="width:100%;margin:0 auto;">
                             <Upload
-                                multiple
+                                
                                 action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                <Button icon="ios-cloud-upload-outline" style="width:100%;">请选择文件</Button>
+                                <Button icon="ios-cloud-upload-outline" v-model="item.files" style="width:100%;">可以上传多个文件</Button>
                             </Upload>
+                        </FormItem>
+                       
+                        </div>
+                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input :value="username" disabled />
                         </FormItem>
                     </Col>
                     <!-- <Icon type="ios-add" size="24" @click=""/> -->
-                    <Button icon="ios-add" @click="addFileItem()"></Button>
+                    <Button icon="ios-add" @click="addFileItem()" ></Button>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -150,15 +158,26 @@
             确定删除吗？
         </Modal>
         <!-- 编辑按钮 -->
-        <Drawer :title="filename" v-model="value5" width="660" :mask-closable="false" :styles="styles">
+        <Drawer :title="fileTypeName" v-model="value5" width="660" :mask-closable="false" :styles="styles">
             <Form :model="formData">
                 <Row :gutter="32">
-                    <Col span="20">
-                        <FormItem label="文件名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                    <!-- <Col span="20" v-if="fileTypeName=='地址'">
+                        <FormItem label="产品名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input v-model="fileInfo.name" />
+                        </FormItem>
+                        <FormItem label="地址链接：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input v-model="fileInfo.name" />
                         </FormItem>
                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input v-model="fileInfo.author" />
+                             <Input :value="username" disabled />
+                        </FormItem>
+                    </Col> -->
+                    <Col span="20">
+                        <FormItem label="产品名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input v-model="fileInfo.name" />
+                        </FormItem>
+                        <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input :value="username" disabled />
                         </FormItem>
                     </Col>
                     
@@ -183,8 +202,8 @@
                         <strong>{{ row.name }}</strong>
                     </template>
                     <template  slot="action" slot-scope="{ row, index }" >
-                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row)"></Button>
-                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(index)"></Button>
+                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row,item.title,index)"></Button>
+                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row,item.title,index)"></Button>
                     </template>
                 </Table>
             </div>
@@ -196,23 +215,27 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
 
-    import { getDepartment,removeDepartment,getapplicationList,getUserurl} from '@/http/api';
+    import { getDepartment,removeDepartment,getapplicationList,getUserurl,uploadFile,updateFileInfo,removeFile} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
         data () {
             return {
+                username: 'Marry',
+                fileTypeIndex: '',
+                fileItemIndex: '',
                 data1: [],
                 data:[],
                 value3: false,
-                value4:false,
-                value5:false,
-                modal1:false,
-                fileItem: 1,
-                filename:'',
-                fileInfo:{
+                value4: false,
+                value5: false,
+                modal1: false,
+                
+                fileTypeName: '',
+                files: [],
+                fileInfo: {
                     name: '',
-                    author: '',
+                    // author: '',
                     createtime: ''
 
                 },
@@ -235,14 +258,25 @@
                 dataName: "应用案例添加",
                 formData1: {
                     name: "",
+                    casesIndex: '',
+                    cases:'',
+                    ppts: [],
+                    words: [],
+                    brochures: [],
+                    videos: [],
+                    link: '',
+                    linkName: ''
                 },
-                formData: {
+                formData: [{
                     name: "",
-                },
+                    files: [],
+                    link: '',
+                    linkName: ''
+                }],
                 itemData: {
                     
                 },
-                selectedCases:{
+                selectedCases:{ //下拉框级联选择
                     'v':0,
                     'c':0
                 },
@@ -295,6 +329,7 @@
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
+                
             },
             changeTable() {
                 
@@ -310,6 +345,36 @@
             },
             addRole(){
                 this.clearFileData();
+                let data = new FormData();
+                data.append('fileType',this.fileTypeName);
+                if(this.fileTypeName!="地址"){
+                    // data.append('files',this.formData.files);
+                    let files = [];
+                    formData.forEach((v,i) => {
+                        files.concat(v.files[0])
+                    });
+                    data.append('files',files);
+                    uploadFile(data).then(res => {
+                        getapplicationList().then(res => {
+                            this.data = res
+                        });
+                        vue.$message("添加成功");
+                    });
+                }else{
+                    // data.append('linkName',this.formData.linkName);
+                    // data.append('link',this.formData.link);
+                    for(i in formData){
+                        data.append('linkName'+i,this.formData[i].linkName);
+                        data.append('link'+i,this.formData[i].link);
+                    }
+                    addLink(data).then(res => {
+                        getapplicationList().then(res => {
+                            this.data = res
+                        });
+                        vue.$message("添加成功");
+                    });
+                }
+                
                 //store data function
                 
             },
@@ -318,11 +383,36 @@
             },
             addCase() {
                 this.value3 = false;
-                this.caseArr.push(this.formData1)
+                this.cases = this.data[parseInt(this.casesIndex)].title;
+                let data = new FormData();
+                Object.keys(formData1).forEach((v,i)=>{
+                    data.append(v,this.formData1[v]);
+                })
+                uploadFile(data).then(res=>{
+                    vue.$message("添加成功");
+                    // 重载产品列表
+                    getapplicationList().then(res => {
+                        this.data = res
+                        
+                    });
+                    getUserurl().then(res=>{
+                        this.vendorsArr = res;
+                        //用户列表选择到最新加入的
+                        this.selectedCases.v = this.formData1.casesIndex;
+                        this.selectedCases.c = this.vendorsArr.length-1;
+                        this.caseArr = this.vendorsArr[this.selectedCases.c].demonstrationArr;
+                    });
+                });
+                // this.caseArr.push(this.formData1)
+                // this.caseArr.push(this.formData1.name)
             },
-            addModalCase(title){ //添加文件
+            // getCurrentCases() {
+
+            // },
+            addModalCase(title) { //添加文件
                 this.value4 = true;
-                this.filename = title;
+
+                this.fileTypeName = title;
 
             },
             modifyParent( row,index ) {
@@ -341,33 +431,96 @@
                 //     })
                 // }  
             },
-            editItem(item){ //编辑
+            editItem(item,title,index){ //编辑
                 this.value5 = true;
-
-                // console.log(index);
+                this.fileItemIndex= index;
                 this.fileInfo.name = item.names;
-                this.fileInfo.author = item.operation;
+                // this.fileInfo.author = item.operation;
                 this.fileInfo.createtime = momentDate("YYYY-MM-DD hh:mm:ss");
+                let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation}
+                // console.log(item);
+                let i = _.findIndex(this.data,function(o){return o.title==title});
+                // for(let i in this.data){
+                    
+                //     if(_.findIndex(this.data[i].data,t)!=-1){
+                //         this.fileTypeIndex = i;
+                //         // console.log(_.findIndex(this.data[i].data,t));
+                //         break;
+                //     }
+                // }
+                if(i!=-1){
+                    this.fileTypeIndex = i;
+                }
+                this.fileTypeName = title;
+                // console.log(index);
                 
-            
             },
             submitItemInfo(){ //提交编辑修改后的信息
                 // do something
+                console.log(this.fileTypeIndex);
+                console.log(this.data[this.fileTypeIndex]);
+                if(this.fileTypeIndex!==''&&this.fileItemIndex!==''){
+
+                    this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
+                    this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.username;
+                    this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
+                    updateFileInfo(this.fileInfo).then(res=>{
+                        // update current data
+                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
+                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.username;
+                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
+                        vue.$message("修改成功");
+                    });
+                }
+                
                 this.clearFileData();
             },
-            deleteItem(index){ //删除
+            deleteItem(item,title,index){ //删除
+                let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation};
+                let i = _.findIndex(this.data,function(o){return o.title==title});
+                if(i!==-1){
+                    this.fileTypeIndex = i;
+                }
+                // for(let i in this.data){
+                //     if(_.findIndex(this.data[i].data,t)!=-1){
+                //         this.fileTypeIndex = i;
+                //     }
+                // }
+                this.fileItemIndex= index;
                 this.modal1 = true;
             },
             clearFileData(){
                 this.value4 = false;
                 this.value5 = false;
-                this.fileItem = 1;
+                // for(let key in this.formData1) {
+                //     this.formData[key] = ''
+                // }
+                
+                this.formData = [{
+                    name: "",
+                    files: [],
+                    link: '',
+                    linkName: ''
+                }];
+                
             },
             addFileItem(){
-                this.fileItem+=1;
+                this.formData.push({
+                    name: "",
+                    files: [],
+                    link: '',
+                    linkName: ''
+                });
+                
             },
             ok(){
-                
+                if(this.fileItemIndex!==''&&this.fileTypeIndex!==''){
+                    this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
+                    removeFile({'fileItemIndex':this.fileItemIndex,'fileTypeIndex':this.filetypeIndex}).then(res=>{
+                        // this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
+                        vue.$message('删除成功');
+                    })
+                }
             }
             
         },

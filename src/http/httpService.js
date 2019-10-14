@@ -61,3 +61,19 @@ export const postHttp = (url, data) => {
   })
 }
 
+// 上传文件
+export const upload = (url,data) => {
+  return new Promise((resolve, reject) => {
+    let config = {
+      headers:{'Content-Type':'multipart/form-data'}
+    };
+    Axios.post(url,data,config).then(res => {
+      resolve(res.data)
+      // if (res.data.code !== 200) vue.$message('获取数据失败，请刷新')
+      // else resolve(res.data.output)
+    }).catch(error => {
+      reject(error)
+      vue.$message('上传失败')
+    })
+  })
+}
