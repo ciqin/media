@@ -1,16 +1,16 @@
 <template>
   <div class="color-list">
      <Menu :open-names="['1']" width="auto" accordion active-name="0-1" > 
-          <div v-for="(data,index) in datas" :key="data.text">
+          <div v-for="(data,index) in datas" :key="data.name">
                   <MenuItem :name="index+'-1'" v-if="!data.secondPerm" :to="data.url">
                     <div class="no_bk" @click="changeImg(data,index)"></div>
-                    <img :src="data.img">
-                    {{data.text}}
+                    <img :src="data.icon">
+                    {{data.name}}
                   </MenuItem>
                  <Submenu name="2" v-if="data.secondPerm" :key="data.text">
                       <template slot="title">
                           <Icon type="ios-people" />
-                          {{data.text}}
+                          {{data.name}}
                       </template>
                       <MenuItem v-for="(datachild,index) in data.secondPerm" :key="datachild.name" :name="'child-'+index" :to="datachild.url">{{datachild.name}}</MenuItem>
                 </Submenu>
@@ -20,39 +20,39 @@
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex';
-
+import {getSiderBar} from '@/http/api'
 // import list from '../../../static/';
   export default {
     data () {
       return {
         theme2: 'light',
         datas: [
-          {
-          "autoId": 1,
-          text: '产品物料',
-          img:"/static/images/yinyong/s_icon1_active.png",
-          url:"/index/company",
-        }, {
-          "autoId": 2,
-          text: '产品演示地址',
-          img:"/static/images/yinyong/s_icon2.png",
-          url:"/index/wenhai",
-        }, {
-          "autoId": 3,
-          text: '应用案例',
-           img:"/static/images/yinyong/s_icon3.png",
-            url:"/index/qingtian"
-        }, {
-          "autoId": 4,
-          text: '闻思报告',
-          img:"/static/images/yinyong/s_icon4.png",
-           url:"/index/hongqi"
-        }, {
-          "autoId": 5,
-          text: '权限管理',
-          img:"/static/images/yinyong/s_icon5.png",
-           url:"/index/system/department"
-        }
+        //   {
+        //   "autoId": 1,
+        //   text: '产品物料',
+        //   img:"/static/images/yinyong/s_icon1_active.png",
+        //   url:"/index/company",
+        // }, {
+        //   "autoId": 2,
+        //   text: '产品演示地址',
+        //   img:"/static/images/yinyong/s_icon2.png",
+        //   url:"/index/wenhai",
+        // }, {
+        //   "autoId": 3,
+        //   text: '应用案例',
+        //    img:"/static/images/yinyong/s_icon3.png",
+        //     url:"/index/qingtian"
+        // }, {
+        //   "autoId": 4,
+        //   text: '闻思报告',
+        //   img:"/static/images/yinyong/s_icon4.png",
+        //    url:"/index/hongqi"
+        // }, {
+        //   "autoId": 5,
+        //   text: '权限管理',
+        //   img:"/static/images/yinyong/s_icon5.png",
+        //    url:"/index/system/department"
+        // }
         ],
         className:0
       }
@@ -86,6 +86,11 @@ import {mapActions, mapGetters} from 'vuex';
     },
     computed:{
       ...mapGetters(['resturantSidebar','resturantName']),
+    },
+    mounted() {
+      getSiderBar().then(res => {
+          this.datas = res.obj;
+      })
     }
   }
 </script>

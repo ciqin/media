@@ -88,4 +88,9 @@ export const removeFile = (data) => postHttp(baseUrl('/test/system/deleteById'),
 export const addLink = (data) => postHttp(baseUrl('/test/system/addLink'),data)
 
 
+// 获取侧边栏项目
+
+export const getSiderBar = (data) => getHttp(baseUrl('/test/firstproduct/getAllList'),data)
+
+
 
