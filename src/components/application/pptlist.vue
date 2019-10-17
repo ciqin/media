@@ -33,7 +33,17 @@ export default {
         
     },
     mounted() {
-     
+        //  console.log(this.$store.state.dataType.name); 
+        //  console.log(this.$store.state.dataType.namePar);
+        // load ppt list api and just de-comment those codes below then api can be run well
+        // let param = {
+        //     'productType': this.$store.state.dataType.name,
+        //     'productItem': this.$store.state.dataType.namePar,
+        //     'fileType': 'ppt'
+        // }
+        // getPPTList(param).then(res => {
+        //     this.applicationList =  res;
+        // })
     },
 };
 </script>

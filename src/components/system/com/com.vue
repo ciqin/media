@@ -174,6 +174,12 @@
         },
         components:{
             Title
+        },
+        mounted(){
+            //load production list 
+            // getProductList().then(res => {
+            //     this.data1 = res;
+            // })
         }
     }
 </script>

@@ -33,7 +33,14 @@ export default {
         
     },
     mounted() {
-     
+     // let param = {
+        //     'productType': this.$store.state.dataType.name,
+        //     'productItem': this.$store.state.dataType.namePar,
+        //     'fileType': 'word'
+        // }
+        // getPPTList(param).then(res => {
+        //     this.applicationList =  res;
+        // })
     },
 };
 </script>

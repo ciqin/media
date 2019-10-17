@@ -6,6 +6,7 @@
             <span>{{dataType.namePar}}</span>
             <Icon type="ios-arrow-forward" :size="18" :color="'#b8b8b8'" style="margin-top: .4px;"/>
             <span>{{dataType.name}}</span>
+            <Button :size="buttonSize" icon="ios-download-outline" type="primary" class="download-btn" @click="download(dataType.url)">下载原文件</Button>
         </div>
         <div class="product_ys">
             <p>{{dataType.namePar}}{{dataType.name}}</p>
@@ -26,6 +27,9 @@ export default {
     methods:{
         goBack(){
             this.$router.back(-1)
+        },
+        download(url){
+            window.open(url);
         }
     },
     mounted() {
@@ -42,6 +46,7 @@ export default {
        line-height: 50px;
        border-bottom: 1px solid #dddddd;
        margin-top: -16px;
+       position: relative;
        .line {
             display: inline-block;
             width: 1px;
@@ -59,6 +64,11 @@ export default {
            font-size: 18px;
            color:#5c5c5c;
        }
+       .download-btn{
+           position: absolute;
+           top:10px;
+           right: 20px;
+       }
    }
    .product_ys {
        height: 100%;
@@ -74,5 +84,6 @@ export default {
         width: 100%;
          height: calc(100% - 94px);
        }
+       
    }
 </style>

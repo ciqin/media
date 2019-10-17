@@ -24,9 +24,9 @@
                             </select>
                         </FormItem>
                 </Col>
-                <Col span="24" style="margin-top: 16px;">
+                <!-- <Col span="24" style="margin-top: 16px;">
                          <FormItem label="PPT:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <!-- <Input   v-model="formData.email" /> -->
+                            
                              <Upload
                                 multiple
                                 action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.ppts">
@@ -70,7 +70,7 @@
                          <FormItem label="链接:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input   v-model="formData1.link" />
                         </FormItem>
-                </Col>
+                </Col> -->
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -85,7 +85,7 @@
                     <Col span="20" v-if="fileTypeName=='地址'">
                         <div v-for="(item,index) in formData" :key="index">
                         <FormItem
-                        :label="'地址'+index+':'"
+                        :label="'产品名称'+index+':'"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
@@ -106,17 +106,24 @@
                     
                     <Col span="20" v-else>
                         <div v-for="(item,index) in formData" :key="index">
-                        <FormItem
-                        :label="fileTypeName+'文件'+index+':'"
-                        label-position="left"
-                        calss="formitem"
-                        style="width:100%;margin:0 auto;">
-                            <Upload
-                                
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                <Button icon="ios-cloud-upload-outline" v-model="item.files" style="width:100%;">可以上传多个文件</Button>
-                            </Upload>
-                        </FormItem>
+                            <FormItem
+                            :label="'产品名称'+index+':'"
+                            label-position="left"
+                            calss="formitem"
+                            style="width:100%;margin:0 auto;">
+                                <Input v-model="item.name"/>
+                            </FormItem>
+                            <FormItem
+                            :label="fileTypeName+'文件'+index+':'"
+                            label-position="left"
+                            calss="formitem"
+                            style="width:100%;margin:0 auto;">
+                                <Upload
+                                    action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                    <Button icon="ios-cloud-upload-outline" v-model="item.files" style="width:100%;">选择文件</Button>
+                                </Upload>
+                            </FormItem>
+                            
                        
                         </div>
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
@@ -258,14 +265,14 @@
                 dataName: "应用案例添加",
                 formData1: {
                     name: "",
-                    casesIndex: '',
+                    casesIndex: 0,
                     cases:'',
-                    ppts: [],
-                    words: [],
-                    brochures: [],
-                    videos: [],
-                    link: '',
-                    linkName: ''
+                    // ppts: [],
+                    // words: [],
+                    // brochures: [],
+                    // videos: [],
+                    // link: '',
+                    // linkName: ''
                 },
                 formData: [{
                     name: "",
@@ -348,12 +355,15 @@
                 let data = new FormData();
                 data.append('fileType',this.fileTypeName);
                 if(this.fileTypeName!="地址"){
-                    // data.append('files',this.formData.files);
-                    let files = [];
+                   
                     formData.forEach((v,i) => {
-                        files.concat(v.files[0])
+                        // files.concat(v.files[0]);
+                        if(v.name!=''&&v.files.length!=0){
+                            data.append('productName'+i,v.name);
+                            data.append('file'+i,v.files[0]);
+                        }
                     });
-                    data.append('files',files);
+                    
                     uploadFile(data).then(res => {
                         getapplicationList().then(res => {
                             this.data = res
@@ -369,7 +379,7 @@
                     }
                     addLink(data).then(res => {
                         getapplicationList().then(res => {
-                            this.data = res
+                            this.data = res;
                         });
                         vue.$message("添加成功");
                     });
@@ -383,7 +393,7 @@
             },
             addCase() {
                 this.value3 = false;
-                this.cases = this.data[parseInt(this.casesIndex)].title;
+                this.formData1.cases = this.data[parseInt(this.casesIndex)].title;
                 let data = new FormData();
                 Object.keys(formData1).forEach((v,i)=>{
                     data.append(v,this.formData1[v]);
