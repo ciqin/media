@@ -58,7 +58,7 @@ export default {
                 let res = await  getLogin(param);
                 //  校验登陆是否正确
                 // if(res ==="login") {
-                console.log(res.success);
+                // console.log(res.success);
                 if(res.success) {
                     let nickName = res.obj.personname;
                     this.$store.commit("commonLogin",res.msg);

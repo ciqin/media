@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getSisurl,getContentList } from "@/http/api";
+import { getSisurl,getProductDemo } from "@/http/api";
 import qs from 'qs';
 export default {
   name: "seller",
@@ -38,8 +38,8 @@ export default {
       //    univeral api to get second title data
     let fid = parseInt(this.id);
     let param = qs.stringify({'fid':fid});
-    getContentList(param).then(res => {
-        this.sisurlArr  = res.obj;    
+    getProductDemo(param).then(res => {
+        this.sisurlArr  = res;    
     });
     //    getSisurl().then(res => {
     //       this.sisurlArr = res
