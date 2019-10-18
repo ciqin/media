@@ -100,7 +100,7 @@
                         </FormItem>
                         </div>
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input :value="username" disabled />
+                             <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     
@@ -127,7 +127,7 @@
                        
                         </div>
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input :value="username" disabled />
+                             <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     <!-- <Icon type="ios-add" size="24" @click=""/> -->
@@ -184,7 +184,7 @@
                              <Input v-model="fileInfo.name" />
                         </FormItem>
                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input :value="username" disabled />
+                             <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     
@@ -228,7 +228,7 @@
     export default {
         data () {
             return {
-                username: 'Marry',
+                userName: localStorage.getItem("user"),
                 fileTypeIndex: '',
                 fileItemIndex: '',
                 data1: [],
@@ -354,6 +354,7 @@
                 this.clearFileData();
                 let data = new FormData();
                 data.append('fileType',this.fileTypeName);
+                data.append('user',this.userName);
                 if(this.fileTypeName!="地址"){
                    
                     formData.forEach((v,i) => {
@@ -472,7 +473,7 @@
                 if(this.fileTypeIndex!==''&&this.fileItemIndex!==''){
 
                     this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
-                    this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.username;
+                    this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.userName;
                     this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
                     updateFileInfo(this.fileInfo).then(res=>{
                         // update current data

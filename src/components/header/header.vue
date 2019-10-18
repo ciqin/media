@@ -39,7 +39,8 @@ export default {
   name: "seller",
   data() {
     return {
-      userName: "Marry",
+      // userName: "Marry",
+      userName: '',
       modal5:false
     };
   },
@@ -52,6 +53,10 @@ export default {
     showModal(){
       this.modal5 = true;
     }
+  },
+  mounted(){
+    // this.userName = this.$store.state.user;
+    this.userName = localStorage.getItem("user");
   }
 };
 </script>

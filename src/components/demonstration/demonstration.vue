@@ -33,7 +33,15 @@ export default {
         }
     },
     mounted() {
-        this.dataType = this.$store.state.dataType
+        
+        this.dataType = this.$store.state.dataType;
+        if(!this.dataType){
+            let strObj = localStorage.getItem("demostration");
+            if(strObj){
+                this.dataType = JSON.parse(strObj);
+            }
+
+        }
     },
 };
 </script>

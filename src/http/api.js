@@ -92,5 +92,8 @@ export const addLink = (data) => postHttp(baseUrl('/test/system/addLink'),data)
 
 export const getSiderBar = (data) => getHttp(baseUrl('/test/firstproduct/getAllList'),data)
 
+// 获取内容页的列表信息
+export const getContentList = (data) => postHttp(baseUrl('/test/appl/getFirstList'),data)
+
 
 

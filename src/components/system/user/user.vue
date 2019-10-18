@@ -35,7 +35,7 @@
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
-                <Button class="setW" @click="value3 = false">关闭</Button>
+                <Button class="setW" @click="value3 = false;cleardata()">关闭</Button>
             </div>
         </Drawer> 
         <Table :data="data1" :columns="tableColumns1" stripe>
@@ -66,6 +66,7 @@
      import '../../../assets/css/system.css';
 
     import {getUserList,removeUser,addUser,selectByIdtUser,updateUser,getdepartmentlist} from "@/http/api"
+    import {momentDate} from "@/common/utils/utilDateFormat"
 
     export default {
         data () {
@@ -74,7 +75,7 @@
                 value3: false,
                 modal1: false,
                 removeid:null,
-                couponSelected: 0, 
+                couponSelected: null, 
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -86,7 +87,7 @@
                 formData: {
                     username: null,
                     departmentName: null,
-                    createTime: null,
+                    create_time: null,
                     email: null,
                     id:null
                 },
@@ -116,14 +117,14 @@
          mounted () {
             getUserList().then(res => {
                 this.data1 = res.obj;
-                this.couponSelected = this.data1[0].depId;
+                // this.couponSelected = this.data1[0].depId;
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
                 
-                this.formData.institutionId =  res.obj[0].instId;
-                this.formData.depId =  res.obj[0].depId;
-                this.formData.createtime =  res.obj[0].createTime;   
+                // this.formData.institutionId =  res.obj[0].instId;
+                // this.formData.depId =  res.obj[0].depId;
+                // this.formData.createTime =  res.obj[0].createTime;   
             })
         },
         methods: {
@@ -152,7 +153,8 @@
                 var index = event.target.selectedIndex;
                 this.formData.depId = event.target.value;
                 this.formData.departmentName = event.target.options[index].text;
-                this.formData.createtime = event.target.options[index].getAttribute("createtime");
+                // this.formData.createtime = event.target.options[index].getAttribute("createtime");
+                this.formData.create_time = momentDate("YYYY-MM-DD hh:mm:ss");
             },
             addModalShow () {
             //    this.cleardata();    
@@ -170,7 +172,7 @@
                 if(this.num==1) { 
                     addUser(datas).then(res => {
                         if(res.success) {
-                            this.value3 = false;
+                            // this.value3 = false;
                              getUserList().then(res => {
                                 this.data1 = res.obj
                             })
@@ -179,13 +181,15 @@
                 }else {
                     updateUser(datas).then(res => {
                         if(res.success) {
-                            this.value3 = false;
+                            // this.value3 = false;
                              getUserList().then(res => {
                                 this.data1 = res.obj
                             })
                         }
                     })
                 }
+                this.value3 = false;
+                this.cleardata();
             },
             modifyItem( row,index ) {
                 this.value3 = true;
@@ -201,6 +205,16 @@
                     }
                 })
             },
+            cleardata(){
+                this.formData = {
+                    username: null,
+                    departmentName: null,
+                    create_time: null,
+                    email: null,
+                    id:null
+                }
+                this.couponSelected = null;
+            }
             
         },
         components:{

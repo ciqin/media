@@ -3,7 +3,8 @@
          <Row type="flex">
             <Col span="12" order="4" v-for="item in sisurlArr" :key="item.name">
                 <div class="address_box">
-                    <img :src="item.icon">
+                    <img :src="item.relevantInfo">
+                    <!-- <a :href="item.url" target="_blank"><span>{{item.name}}</span></a> -->
                     <a :href="item.url" target="_blank"><span>{{item.name}}</span></a>
                     <div class="langchange" v-if="item.children">
                         <a v-for="cItem in item.children" :href="cItem.url" :key="cItem.name" target="_blank">
@@ -18,11 +19,13 @@
 </template>
 
 <script>
-import { getSisurl } from "@/http/api";
+import { getSisurl,getContentList } from "@/http/api";
+import qs from 'qs';
 export default {
   name: "seller",
   data() {
     return {
+        id:this.$route.params.id,
         sisurlArr:''
     };
   },
@@ -32,9 +35,15 @@ export default {
       }
   },
   mounted () {
-       getSisurl().then(res => {
-          this.sisurlArr = res
-      })
+      //    univeral api to get second title data
+    let fid = parseInt(this.id);
+    let param = qs.stringify({'fid':fid});
+    getContentList(param).then(res => {
+        this.sisurlArr  = res.obj;    
+    });
+    //    getSisurl().then(res => {
+    //       this.sisurlArr = res
+    //   })
   },
 };
 </script>

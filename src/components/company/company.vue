@@ -27,6 +27,7 @@ export default {
   name: "seller",
   data() {
     return {
+      id:this.$route.params.id,
       msgNum: 5,
       userName:"Marry",
       conHtml:'',
@@ -52,11 +53,17 @@ export default {
           obj.name = demonstration.namechild;
           obj.type = demonstration.type;
           obj.url = demonstration.url;
+          let strObj = JSON.stringify(obj)
+          localStorage.setItem('demostration',strObj)
           this.$store.commit("commonDataType",obj);
       },
   },
 
   mounted () {
+    //    univeral api to get second title data
+    // getContentList({'fid':this.id}).then(res => {
+    //     this.productArr  = res.obj;    
+    //});
        getProduct().then(res => {
           this.productArr = res
       })

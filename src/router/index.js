@@ -11,32 +11,32 @@ const routes = [
     component: resolve => require(['@/components/index/index'], resolve),
     children:[
       {
-        path: '/index/test',
+        path: '/index/test/:id',
         name: 'test',
         component:resolve => require(['@/components/test/test'], resolve)
       },
       {
-        path: '/index/company',
+        path: '/index/company/:id',
         name: 'company',
         component:  resolve => require(['@/components/company/company'], resolve),
       },
       {
-        path: '/index/demonstration',
+        path: '/index/demonstration/',
         name: 'com',
         component:resolve => require(['@/components/demonstration/demonstration'], resolve)
       },
       {
-        path: '/index/wenhai',
+        path: '/index/wenhai/:id',
         name: 'wenhai',
         component:resolve => require(['@/components/wenhai/wenhai'], resolve)
       },
       {
-        path: '/index/qingtian',
+        path: '/index/qingtian/:id',
         name: 'qingtian',
         component:resolve => require(['@/components/qingtian/qingtian'], resolve),
       },
       {
-        path: '/index/application',
+        path: '/index/application/',
         name: 'application',
         component:  resolve => require(['@/components/application/application'], resolve),
         children:[
@@ -64,12 +64,12 @@ const routes = [
         ]
       },
       {
-        path: '/index/hongqi',
+        path: '/index/hongqi/:id',
         name: 'hongqi',
         component:resolve => require(['@/components/hongqi/hongqi'], resolve)
       },
       {
-        path: '/index/system',
+        path: '/index/system/',
         name: 'system',
         component:resolve => require(['@/components/system/system'], resolve),
         children:[
@@ -104,7 +104,7 @@ const routes = [
               component:resolve => require(['@/components/system/role/role'], resolve)
             },
             {
-              path: '/index/system/department',
+              path: '/index/system/department/:id',
               name: 'department',
               component:resolve => require(['@/components/system/department/department'], resolve)
             }

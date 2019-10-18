@@ -1,7 +1,7 @@
 <template>
     <div class="clearfix">
         <Menu mode="horizontal" :theme="theme1" active-name="1">
-            <MenuItem name="1" to="/index/system/department">
+            <MenuItem name="1" :to="'/index/system/department/'+id">
                 <Icon type="ios-people" />
                 部门管理
             </MenuItem>
@@ -32,6 +32,7 @@
    export default { 
        data() {
         return{
+                id:this.$route.params.id,
                 theme1: 'light',
                 linkArr:[
                     {

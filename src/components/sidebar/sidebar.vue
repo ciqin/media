@@ -2,7 +2,7 @@
   <div class="color-list">
      <Menu :open-names="['1']" width="auto" accordion active-name="0-1" > 
           <div v-for="(data,index) in datas" :key="data.name">
-                  <MenuItem :name="index+'-1'" v-if="!data.secondPerm" :to="data.url">
+                  <MenuItem :name="index+'-1'" v-if="!data.secondPerm" :to="data.url+'/'+data.autoId">
                     <div class="no_bk" @click="changeImg(data,index)"></div>
                     <img :src="data.icon">
                     {{data.name}}

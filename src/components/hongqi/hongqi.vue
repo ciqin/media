@@ -29,6 +29,7 @@ export default {
   name: "seller",
   data() {
     return {
+        id:this.$route.params.id,
         value:"",
         datas: [
           {
@@ -141,6 +142,12 @@ export default {
         })
       }
   },
+  mounted(){
+      //    univeral api to get second title data
+    // getContentList({'fid':this.id}).then(res => {
+    //     this.datas  = res.obj;    
+    //});
+  }
 
 };
 </script>
