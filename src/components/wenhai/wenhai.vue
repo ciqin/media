@@ -20,7 +20,7 @@
 
 <script>
 import { getSisurl,getProductDemo } from "@/http/api";
-import qs from 'qs';
+// import qs from 'qs';
 export default {
   name: "seller",
   data() {
@@ -37,7 +37,8 @@ export default {
   mounted () {
       //    univeral api to get second title data
     let fid = parseInt(this.id);
-    let param = qs.stringify({'fid':fid});
+    // let param = qs.stringify({'fid':fid});
+    let param = {'fid':fid};
     getProductDemo(param).then(res => {
         this.sisurlArr  = res;    
     });
