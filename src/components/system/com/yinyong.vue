@@ -229,8 +229,8 @@
         data () {
             return {
                 userName: localStorage.getItem("user"),
-                fileTypeIndex: '',
-                fileItemIndex: '',
+                // fileTypeIndex: '',
+                // fileItemIndex: '',
                 data1: [],
                 data:[],
                 value3: false,
@@ -244,7 +244,6 @@
                     name: '',
                     // author: '',
                     id: '',
-                    createtime: ''
 
                 },
                 styles: {
@@ -331,7 +330,7 @@
                 
                 this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
                 // 加载内容信息
-                loadCasesContent();
+                this.loadCasesContent();
                 
             });
         },
@@ -413,12 +412,6 @@
             },
             addCase() {
                 this.value3 = false;
-                // this.formData1.cases = this.data[parseInt(this.casesId)].title;
-                // let data = new FormData();
-                // Object.keys(formData1).forEach((v,i)=>{
-                //     data.append(v,this.formData1[v]);
-                // })
-                // let param = qs.stringify({'fid':this.formData1.casesId,'name':this.formData1.name});
                 let sort = this.caseArr?this.caseArr.length+1:1;
                 let param = {'fid':this.formData1.casesId,'name':this.formData1.name,'sort':sort};
 
@@ -426,19 +419,11 @@
                     this.$message("添加成功");
                     // 重载产品列表
                     
-                    // getUserurl().then(res=>{
-                    //     this.vendorsArr = res;
-                    //     //用户列表选择到最新加入的
-                    //     this.selectedCases.v = this.formData1.casesId;
-                    //     this.selectedCases.c = this.vendorsArr.length-1;
-                    //     this.caseArr = this.vendorsArr[this.selectedCases.c].demonstrationArr;
-                    // });
-                    // let param = {'fid':this.$route.params.id}
                     getContentList({'fid':this.$route.params.id}).then(res => {
                         this.vendorsArr = res.obj;
-                        this.caseArr = this.vendorsArr[0].children;
-                        this.selectedCases.v = this.vendorsArr[0].autoId;
-                        this.selectedCases.c = this.caseArr[0].autoId;
+                        this.caseArr = this.vendorsArr?this.vendorsArr[0].children:'';
+                        this.selectedCases.v = this.vendorsArr?this.vendorsArr[0].autoId:'';
+                        this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
                         
                     })
 
@@ -447,13 +432,12 @@
                         
                     // });
                     //重新加载内容数据
-                    loadCasesContent()
+                    this.loadCasesContent()
                     
-                    
+                    this.clearFileData();
                     
                 });
-                // this.caseArr.push(this.formData1)
-                // this.caseArr.push(this.formData1.name)
+                
             },
             
             addModalCase(title) { //添加文件
@@ -483,22 +467,7 @@
                 // this.fileItemIndex= index;
                 this.fileInfo.name = item.names;
                 this.fileInfo.id = item.id;
-                // this.fileInfo.author = item.operation;
-                // this.fileInfo.createtime = momentDate("YYYY-MM-DD hh:mm:ss");
-                // let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation}
-                // console.log(item);
-                // let i = _.findIndex(this.data,function(o){return o.title==title});
-                // for(let i in this.data){
-                    
-                //     if(_.findIndex(this.data[i].data,t)!=-1){
-                //         this.fileTypeIndex = i;
-                //         // console.log(_.findIndex(this.data[i].data,t));
-                //         break;
-                //     }
-                // }
-                // if(i!=-1){
-                //     this.fileTypeIndex = i;
-                // }
+                
                 this.fileTypeName = title;
                 // console.log(index);
                 
@@ -516,7 +485,7 @@
                         
                         this.$message("修改成功");
 
-                        loadCasesContent();
+                        this.loadCasesContent();
                     });
                 }
                 
@@ -550,12 +519,17 @@
                     link: '',
                     linkName: ''
                 }];
+                this.formData1 = {
+                        name: '',
+                        casesId: '',
+                        
+                    };
                 
             },
             addFileItem(){
                 this.formData.push({
                     name: "",
-                    files: [],
+                    files: null,
                     link: '',
                     linkName: ''
                 });
@@ -571,7 +545,7 @@
                     // })
                     deleteFile({'id':this.fileInfo.id}).then(res => {
                         this.$message('删除成功');
-                        loadCasesContent();
+                        this.loadCasesContent();
                     })
                 }
             },
