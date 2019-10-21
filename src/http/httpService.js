@@ -50,6 +50,7 @@ export const getHttp = (url, data) => {
 // post请求
 export const postHttp = (url, data) => {
   return new Promise((resolve, reject) => {
+    data = qs.stringify(data)
     Axios.post(url,data).then(res => {
       resolve(res.data)
       // if (res.data.code !== 200) vue.$message('获取数据失败，请刷新')
