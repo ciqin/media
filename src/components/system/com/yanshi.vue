@@ -16,7 +16,7 @@
                 <Row :gutter="32">
                     <Col span="24">
                         <FormItem label="产品名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入产品名称"  style="width:86%;"/>
+                            <Input v-model="formData.name" disabled placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                     <Col span="24">
@@ -56,7 +56,8 @@
 <script>
     import Title from "@/components/assembly/title";
 
-    import { getDepartment,removeDepartment,addDepartment,getSisurl} from '@/http/api';
+    // import { getDepartment,removeDepartment,addDepartment,getSisurl,getProductDemo,updateProductUrl} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,updateProductUrl} from '@/http/api';
 
     import {mapState} from 'vuex'
 
@@ -121,9 +122,15 @@
             ...mapState(['guanli'])
         },
         mounted () {
-            getSisurl().then(res => {
-                this.data1 = res
+            // getSisurl().then(res => {
+            //     this.data1 = res
+            // })
+            let id = this.$route.params.id;
+            let param = {'fid':id}
+            getProductDemo(param).then(res=>{
+                this.data1 = res;
             })
+            
         },
         // watch:{
         //    guanli(newVal){
@@ -177,6 +184,10 @@
                 // }
                 this.value3 = false;
                 this.data1.splice(this.num, 1, this.formData);
+                let param = {'url':formData.url,'auto_id':formData.autoId};
+                updateProductUrl(param).then(res => {
+                    this.$message("修改成功")
+                });
                 
             },
             modifyParent( row,index ) {
