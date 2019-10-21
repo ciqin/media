@@ -15,12 +15,12 @@
                 </Col>
                 <Col span="24" style="margin-top: 16px;">
                          <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                            <select class="MaterialList" style="width:100%;" v-model="formData1.casesIndex">
+                            <select class="MaterialList" style="width:100%;" v-model="formData1.casesId">
                                 <!-- <option value="1">媒体行业应用案例</option>
                                 <option value="2">政务领域应用案例</option>
                                 <option value="3">舆情领域应用案例</option>
                                 <option value="4">警务领域应用案例</option> -->
-                                <option :value="index" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
+                                <option :value="vendor.autoId" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
                             </select>
                         </FormItem>
                 </Col>
@@ -118,9 +118,9 @@
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
-                                <Upload
+                                <Upload :before-upload="handleUpload"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                    <Button icon="ios-cloud-upload-outline" v-model="item.files" style="width:100%;">选择文件</Button>
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">选择文件</Button>
                                 </Upload>
                             </FormItem>
                             
@@ -148,10 +148,10 @@
                         <option value="2">政务领域应用案例</option>
                         <option value="3">舆情领域应用案例</option>
                         <option value="4">警务领域应用案例</option> -->
-                        <option :value="index" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
+                        <option :value="vendor.autoId" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
                     </select>
                      <select class="MaterialList" style="margin-left: 30px;" v-model="selectedCases.c">
-                        <option :value="index" v-for="(cases,index) in caseArr" :key="index">{{cases.namechild}}</option>
+                        <option :value="cases.autoId" v-for="(cases,index) in caseArr" :key="index">{{cases.namechild}}</option>
                     </select>
                 </Col>
                 <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加应用案例</Button>
@@ -208,9 +208,9 @@
                     <template slot-scope="{ row }" slot="name">
                         <strong>{{ row.name }}</strong>
                     </template>
-                    <template  slot="action" slot-scope="{ row, index }" >
-                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row,item.title,index)"></Button>
-                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row,item.title,index)"></Button>
+                    <template  slot="action" slot-scope="{ row }" >
+                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row)"></Button>
+                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row)"></Button>
                     </template>
                 </Table>
             </div>
@@ -221,8 +221,8 @@
 <script>
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
-
-    import { getDepartment,removeDepartment,getapplicationList,getUserurl,uploadFile,updateFileInfo,removeFile} from '@/http/api';
+    import qs from 'qs'
+    import { getDepartment,removeDepartment,getapplicationList,getUserurl,updateFileInfo,removeFile,addApplicationCase,getContentList,updateCaseName,deleteFile,getCasesContent} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -243,6 +243,7 @@
                 fileInfo: {
                     name: '',
                     // author: '',
+                    id: '',
                     createtime: ''
 
                 },
@@ -265,18 +266,11 @@
                 dataName: "应用案例添加",
                 formData1: {
                     name: "",
-                    casesIndex: 0,
-                    cases:'',
-                    // ppts: [],
-                    // words: [],
-                    // brochures: [],
-                    // videos: [],
-                    // link: '',
-                    // linkName: ''
+                    casesId: '',
                 },
                 formData: [{
                     name: "",
-                    files: [],
+                    files: null,
                     link: '',
                     linkName: ''
                 }],
@@ -284,8 +278,8 @@
                     
                 },
                 selectedCases:{ //下拉框级联选择
-                    'v':0,
-                    'c':0
+                    'v': '',
+                    'c': ''
                 },
                 tableColumns1: [
                     {
@@ -323,12 +317,22 @@
         //    } 
         // },
          mounted () {
-            getapplicationList().then(res => {
-                this.data = res
-            });
-            getUserurl().then(res=>{
-                this.vendorsArr = res;
-                this.caseArr = this.vendorsArr[0].demonstrationArr;
+            // getapplicationList().then(res => {
+            //     this.data = res
+            // });
+            
+            let param = {'fid':this.$route.params.id};
+            // getUserurl().then(res=>{
+               getContentList(param).then(res => {
+                this.vendorsArr = res.obj;
+                // this.caseArr = this.vendorsArr[0].demonstrationArr;
+                this.caseArr = this.vendorsArr[0].children;
+                this.selectedCases.v = this.vendorsArr[0].autoId?this.vendorsArr[0].autoId:'';
+                
+                this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
+                // 加载内容信息
+                loadCasesContent();
+                
             });
         },
         methods: {
@@ -341,6 +345,14 @@
             changeTable() {
                 
             },
+            handleUpload(file){
+                if(file!=null){
+                    this.files.push(file);
+                }
+                // console.log(index);
+                console.log(file.name);
+                return false;
+            },
             addModalShow () {
                this.cleardata();
                this.value3 = true;
@@ -351,25 +363,32 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                this.clearFileData();
+                
                 let data = new FormData();
-                data.append('fileType',this.fileTypeName);
-                data.append('user',this.userName);
+                let pid = this.selectedCases.c;
+                data.append('pid',pid)
                 if(this.fileTypeName!="地址"){
-                   
-                    formData.forEach((v,i) => {
+                    this.formData.forEach((v,i) => {
                         // files.concat(v.files[0]);
-                        if(v.name!=''&&v.files.length!=0){
-                            data.append('productName'+i,v.name);
-                            data.append('file'+i,v.files[0]);
+                        // console.log(v);
+                        if(v.name!=''){
+                            // data.append('productName'+i,v.name);
+                            // data.append('file'+i,v.files[0]);
+                            data.append('disName',v.name);
+                            
                         }
                     });
+                    this.files.forEach((v,i) =>{
+                        data.append('files',v);
+                    })
                     
                     uploadFile(data).then(res => {
-                        getapplicationList().then(res => {
-                            this.data = res
-                        });
-                        vue.$message("添加成功");
+                        // getapplicationList().then(res => {
+                        //     this.data = res
+                        // });
+                        // 重新加载内容数据
+                        loadCasesContent();
+                        this.$message("添加成功");
                     });
                 }else{
                     // data.append('linkName',this.formData.linkName);
@@ -382,10 +401,10 @@
                         getapplicationList().then(res => {
                             this.data = res;
                         });
-                        vue.$message("添加成功");
+                        this.$message("添加成功");
                     });
                 }
-                
+                this.clearFileData();
                 //store data function
                 
             },
@@ -394,32 +413,49 @@
             },
             addCase() {
                 this.value3 = false;
-                this.formData1.cases = this.data[parseInt(this.casesIndex)].title;
-                let data = new FormData();
-                Object.keys(formData1).forEach((v,i)=>{
-                    data.append(v,this.formData1[v]);
-                })
-                uploadFile(data).then(res=>{
-                    vue.$message("添加成功");
+                // this.formData1.cases = this.data[parseInt(this.casesId)].title;
+                // let data = new FormData();
+                // Object.keys(formData1).forEach((v,i)=>{
+                //     data.append(v,this.formData1[v]);
+                // })
+                // let param = qs.stringify({'fid':this.formData1.casesId,'name':this.formData1.name});
+                let sort = this.caseArr?this.caseArr.length+1:1;
+                let param = {'fid':this.formData1.casesId,'name':this.formData1.name,'sort':sort};
+
+                addApplicationCase(param).then(res=>{
+                    this.$message("添加成功");
                     // 重载产品列表
-                    getapplicationList().then(res => {
-                        this.data = res
+                    
+                    // getUserurl().then(res=>{
+                    //     this.vendorsArr = res;
+                    //     //用户列表选择到最新加入的
+                    //     this.selectedCases.v = this.formData1.casesId;
+                    //     this.selectedCases.c = this.vendorsArr.length-1;
+                    //     this.caseArr = this.vendorsArr[this.selectedCases.c].demonstrationArr;
+                    // });
+                    // let param = {'fid':this.$route.params.id}
+                    getContentList({'fid':this.$route.params.id}).then(res => {
+                        this.vendorsArr = res.obj;
+                        this.caseArr = this.vendorsArr[0].children;
+                        this.selectedCases.v = this.vendorsArr[0].autoId;
+                        this.selectedCases.c = this.caseArr[0].autoId;
                         
-                    });
-                    getUserurl().then(res=>{
-                        this.vendorsArr = res;
-                        //用户列表选择到最新加入的
-                        this.selectedCases.v = this.formData1.casesIndex;
-                        this.selectedCases.c = this.vendorsArr.length-1;
-                        this.caseArr = this.vendorsArr[this.selectedCases.c].demonstrationArr;
-                    });
+                    })
+
+                    // getapplicationList().then(res => {
+                    //     this.data = res
+                        
+                    // });
+                    //重新加载内容数据
+                    loadCasesContent()
+                    
+                    
+                    
                 });
                 // this.caseArr.push(this.formData1)
                 // this.caseArr.push(this.formData1.name)
             },
-            // getCurrentCases() {
-
-            // },
+            
             addModalCase(title) { //添加文件
                 this.value4 = true;
 
@@ -442,15 +478,16 @@
                 //     })
                 // }  
             },
-            editItem(item,title,index){ //编辑
+            editItem(item){ //编辑
                 this.value5 = true;
-                this.fileItemIndex= index;
+                // this.fileItemIndex= index;
                 this.fileInfo.name = item.names;
+                this.fileInfo.id = item.id;
                 // this.fileInfo.author = item.operation;
-                this.fileInfo.createtime = momentDate("YYYY-MM-DD hh:mm:ss");
-                let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation}
+                // this.fileInfo.createtime = momentDate("YYYY-MM-DD hh:mm:ss");
+                // let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation}
                 // console.log(item);
-                let i = _.findIndex(this.data,function(o){return o.title==title});
+                // let i = _.findIndex(this.data,function(o){return o.title==title});
                 // for(let i in this.data){
                     
                 //     if(_.findIndex(this.data[i].data,t)!=-1){
@@ -459,45 +496,45 @@
                 //         break;
                 //     }
                 // }
-                if(i!=-1){
-                    this.fileTypeIndex = i;
-                }
+                // if(i!=-1){
+                //     this.fileTypeIndex = i;
+                // }
                 this.fileTypeName = title;
                 // console.log(index);
                 
             },
             submitItemInfo(){ //提交编辑修改后的信息
                 // do something
-                console.log(this.fileTypeIndex);
-                console.log(this.data[this.fileTypeIndex]);
-                if(this.fileTypeIndex!==''&&this.fileItemIndex!==''){
+                
+                // if(this.fileTypeIndex!==''&&this.fileItemIndex!==''){
+                    if(this.fileInfo.id&&this.fileInfo.name){
 
-                    this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
-                    this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.userName;
-                    this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
-                    updateFileInfo(this.fileInfo).then(res=>{
-                        // update current data
-                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
-                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.username;
-                        // this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
-                        vue.$message("修改成功");
+                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
+                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.userName;
+                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
+                    updateCaseName({'id':this.fileInfo.id,'newName':this.fileInfo.name}).then(res=>{
+                        
+                        this.$message("修改成功");
+
+                        loadCasesContent();
                     });
                 }
                 
                 this.clearFileData();
             },
-            deleteItem(item,title,index){ //删除
-                let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation};
-                let i = _.findIndex(this.data,function(o){return o.title==title});
-                if(i!==-1){
-                    this.fileTypeIndex = i;
-                }
+            deleteItem(item){ //删除
+                // let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation};
+                // let i = _.findIndex(this.data,function(o){return o.title==title});
+                // if(i!==-1){
+                //     this.fileTypeIndex = i;
+                // }
                 // for(let i in this.data){
                 //     if(_.findIndex(this.data[i].data,t)!=-1){
                 //         this.fileTypeIndex = i;
                 //     }
                 // }
-                this.fileItemIndex= index;
+                this.fileInfo.id = item.id;
+                // this.fileItemIndex= index;
                 this.modal1 = true;
             },
             clearFileData(){
@@ -509,7 +546,7 @@
                 
                 this.formData = [{
                     name: "",
-                    files: [],
+                    files: null,
                     link: '',
                     linkName: ''
                 }];
@@ -525,11 +562,23 @@
                 
             },
             ok(){
-                if(this.fileItemIndex!==''&&this.fileTypeIndex!==''){
-                    this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
-                    removeFile({'fileItemIndex':this.fileItemIndex,'fileTypeIndex':this.filetypeIndex}).then(res=>{
-                        // this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
-                        vue.$message('删除成功');
+                // if(this.fileItemIndex!==''&&this.fileTypeIndex!==''){
+                if(this.fileInfo.id){
+                    // this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
+                    // removeFile({'fileItemIndex':this.fileItemIndex,'fileTypeIndex':this.filetypeIndex}).then(res=>{
+                    //     // this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
+                    //     vue.$message('删除成功');
+                    // })
+                    deleteFile({'id':this.fileInfo.id}).then(res => {
+                        this.$message('删除成功');
+                        loadCasesContent();
+                    })
+                }
+            },
+            loadCasesContent(){
+                if(this.selectedCases.c){
+                    getCasesContent({'pid':this.selectedCases.c}).then(res => {
+                        this.data = res;
                     })
                 }
             }
@@ -538,18 +587,30 @@
         watch:{
             selectedCases:{
                 handler(newVal,oldVal){
-                    let param = {
-                        'firstId':newVal.v,
-                        'secondId':newVal.c
-                    };
-                    this.caseArr = this.vendorsArr[parseInt(newVal.v)].demonstrationArr;
-                    getapplicationList(param).then(res => {
-                        this.data = res
-                    });
-                    console.log("已请求数据");
+                    // let param = {
+                    //     'firstId':newVal.v,
+                    //     'secondId':newVal.c
+                    // };
+                    // this.caseArr = this.vendorsArr[parseInt(newVal.v)].demonstrationArr;
+                    let index = _.findIndex(this.vendorsArr,function(o){return o.autoId == newVal.v});
+                    if(index!=-1){
+
+                        this.caseArr = this.vendorsArr[index].children;
+                        // getapplicationList().then(res => {
+                        //     this.data = res
+                        // });
+                        // console.log("已请求数据");
+                        if(newVal.c){
+                            getCasesContent({'pid':newVal.c}).then(res => {
+                                this.data = res;
+                            })
+                        }
+                    }
+                   
                 },
                 deep:true
-            }
+            },
+            
         },
         components:{
             Title
