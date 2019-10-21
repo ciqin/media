@@ -184,7 +184,7 @@
                 // }
                 this.value3 = false;
                 this.data1.splice(this.num, 1, this.formData);
-                let param = {'url':formData.url,'auto_id':formData.autoId};
+                let param = {'url':this.formData.url,'pid':this.formData.autoId};
                 updateProductUrl(param).then(res => {
                     this.$message("修改成功")
                 });
