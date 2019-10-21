@@ -206,10 +206,10 @@
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
                     <template slot-scope="{ row }" slot="name">
-                        <strong>{{ row.name }}</strong>
+                        <strong>{{ row.displayName }}</strong>
                     </template>
                     <template  slot="action" slot-scope="{ row }" >
-                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row)"></Button>
+                        <Button shape="circle" icon="ios-create-outline" @click="editItem(row,item.titile)"></Button>
                         <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row)"></Button>
                     </template>
                 </Table>
@@ -283,15 +283,15 @@
                 tableColumns1: [
                     {
                         title: '产品名称',
-                        key: 'names'
+                        key: 'displayName'
                     },
                     {
                         title: '操作人',
-                        key: 'operation'
+                        key: 'userName'
                     },
                     {
                         title: '更改时间',
-                        key: 'createtime',
+                        key: 'updateTime',
                     },
                     {
                         title: '操作',
@@ -386,7 +386,7 @@
                         //     this.data = res
                         // });
                         // 重新加载内容数据
-                        loadCasesContent();
+                        this.loadCasesContent();
                         this.$message("添加成功");
                     });
                 }else{
@@ -462,11 +462,11 @@
                 //     })
                 // }  
             },
-            editItem(item){ //编辑
+            editItem(item,title){ //编辑
                 this.value5 = true;
                 // this.fileItemIndex= index;
-                this.fileInfo.name = item.names;
-                this.fileInfo.id = item.id;
+                this.fileInfo.name = item.displayName;
+                this.fileInfo.id = item.addressId;
                 
                 this.fileTypeName = title;
                 // console.log(index);
@@ -502,7 +502,7 @@
                 //         this.fileTypeIndex = i;
                 //     }
                 // }
-                this.fileInfo.id = item.id;
+                this.fileInfo.id = item.autoId;
                 // this.fileItemIndex= index;
                 this.modal1 = true;
             },
