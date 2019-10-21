@@ -2,12 +2,12 @@
     <div class="company_box">
         <div v-for="item in productArr"  :key="item.name" class="clearfix product">
             <div class="pro_msg">
-                <img :src="item.icon">
+                <img :src="item.relevantInfo">
                 <span>{{item.name}}</span>
             </div>
             <Row>
-                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.namechild"  class="itemBtn" style="float:left;">
-                    <Button type="primary"  @click="dataType(item,demonstration)" to="/ppt">{{demonstration.namechild}}</Button>
+                <Col span="6" v-for="demonstration in item.children" :key="demonstration.namechild"  class="itemBtn" style="float:left;">
+                    <Button type="primary"  @click="dataType(item,demonstration)" to="/ppt">{{demonstration.name}}</Button>
                 </Col>   
             </Row>
             </div>
@@ -20,7 +20,7 @@
 
 import {mapActions, mapState,mapGetters} from 'vuex';
 
-import { getUserurl } from '@/http/api'
+import { getContentList1 } from '@/http/api'
 
 export default {
   name: "seller",
@@ -54,12 +54,12 @@ export default {
 
   mounted () {
       //    univeral api to get second title data
-    // getContentList({'fid':this.id}).then(res => {
-    //     this.productArr  = res.obj;    
-    //});
-       getUserurl().then(res => {
-          this.productArr = res
-      })
+    getContentList1({'fid':this.id}).then(res => {
+        this.productArr  = res;    
+    });
+    //    getUserurl().then(res => {
+    //       this.productArr = res
+    //   })
   },
   created(){
     //  console.log(getProduct())
