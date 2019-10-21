@@ -466,7 +466,7 @@
                 this.value5 = true;
                 // this.fileItemIndex= index;
                 this.fileInfo.name = item.displayName;
-                this.fileInfo.id = item.addressId;
+                this.fileInfo.id = item.autoId;
                 
                 this.fileTypeName = title;
                 // console.log(index);
@@ -559,28 +559,41 @@
             
         },
         watch:{
-            selectedCases:{
+            "selectedCases.v":{
                 handler(newVal,oldVal){
                     // let param = {
                     //     'firstId':newVal.v,
                     //     'secondId':newVal.c
                     // };
                     // this.caseArr = this.vendorsArr[parseInt(newVal.v)].demonstrationArr;
-                    let index = _.findIndex(this.vendorsArr,function(o){return o.autoId == newVal.v});
+                    let index = _.findIndex(this.vendorsArr,function(o){return o.autoId == newVal});
                     if(index!=-1){
 
                         this.caseArr = this.vendorsArr[index].children;
-                        newVal.c = this.caseArr?this.caseArr[0].autoId:'';
-                        if(newVal.c){
-                            getCasesContent({'pid':newVal.c}).then(res => {
-                                this.data = res;
-                            })
-                        }
+                        this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
+                        // if(newVal.v!=oldVal.v){
+                        // }
+                        // if(newVal.c!=oldVal.c){
+                        //     getCasesContent({'pid':newVal.c}).then(res => {
+                        //         this.data = res;
+                        //     })
+                        // }
                     }
                    
                 },
-                deep:true
+                deep:true,
+                immediate: true
             },
+            "selectedCases.c":{
+                handler(newVal,oldVal){
+                    getCasesContent({'pid':newVal}).then(res => {
+                                this.data = res;
+                    });
+                },
+                deep: true,
+                immediate: true
+            }
+            
             
         },
         components:{
