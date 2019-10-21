@@ -18,8 +18,8 @@
                     <Icon type="ios-stats" />
                     资料管理
                 </template>
-                <div @click="linksis(item)" v-for="(item,index) in linkArr" :key="item.name">
-                      <MenuItem :name="'active'+index" :to="item.link">{{item.name}}</MenuItem>
+                <div @click="linksis(item)" v-for="(item,index) in datas" :key="item.name">
+                      <MenuItem :name="'active'+index" :to="item.link+'/'+item.autoId">{{item.name}}</MenuItem>
                 </div>
             </Submenu>
         </Menu>
@@ -29,12 +29,15 @@
     </div>
 </template>
 <script>
+    import {getSiderBar} from '@/http/api'
+    
    export default { 
        data() {
         return{
                 id:this.$route.params.id,
                 theme1: 'light',
-                linkArr:[
+                datas:null,
+                linkArr:[ //路由信息
                     {
                         "name":"产品物料",
                         "link":"/index/system/project",
@@ -58,6 +61,22 @@
             linksis(item){
                this.$store.commit("commonGuanli",item.name);
             }
+        },
+        mounted(){
+            getSiderBar().then(res => {
+                this.datas = res.obj;
+                _.remove(this.datas,function(o){
+                    return o.name =="权限管理"
+                })
+                let index;
+                for(let i in this.linkArr){ //合并获取的数据和设定的路由数据
+                    
+                    if(_.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name})!=-1){
+                        index = _.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name});
+                        Object.assign(this.datas[index],this.linkArr[i]);
+                    }
+                }
+            })
         }
    }
    
