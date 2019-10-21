@@ -115,7 +115,10 @@ export const deleteFile = (data) => postHttp(baseUrl('/test/upload/deleteFile'),
 
 // 权限管理-资料管理-用用案例管理-文件内容展示
 
-export const  getCasesContent = (data) => postHttp(baseUrl('/test/appl/getFileList'),data)
+export const  getCasesContent = (data) => getHttp(baseUrl('/test/appl/getFileList'),data)
+
+export const getContentList1 = (data) => postHttp(baseUrl('/test/appl/getProductUrl'),data)
+
 
 
 

@@ -151,7 +151,7 @@
                         <option :value="vendor.autoId" v-for="(vendor,index) in vendorsArr" :key="index">{{vendor.name}}</option>
                     </select>
                      <select class="MaterialList" style="margin-left: 30px;" v-model="selectedCases.c">
-                        <option :value="cases.autoId" v-for="(cases,index) in caseArr" :key="index">{{cases.namechild}}</option>
+                        <option :value="cases.autoId" v-for="(cases,index) in caseArr" :key="index">{{cases.name}}</option>
                     </select>
                 </Col>
                 <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-left: 70px;">添加应用案例</Button>
@@ -195,13 +195,13 @@
                 <Button class="setW" @click="closeFileAdd()">关闭</Button>
             </div>
         </Drawer>
-        <div v-for="(item,index) in data" :key="item.title">
+        <div v-for="(item,index) in data" :key="item.titile">
             <div class="clearfix">
                 <div class="titleChild">
-                    <img src="/static/images/icon/ppt_icon.png" >
-                    <span>{{item.title}}</span>
+                    <img :src="item.icon" >
+                    <span>{{item.titile}}</span>
                 </div>
-                <Button  class="btnMedalChild" @click="addModalCase(item.title)" type="primary" style="margin-right: 25px;">添加文件</Button>
+                <Button  class="btnMedalChild" @click="addModalCase(item.titile)" type="primary" style="margin-right: 25px;">添加文件</Button>
             </div>
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
@@ -222,7 +222,7 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
     import qs from 'qs'
-    import { getDepartment,removeDepartment,getapplicationList,getUserurl,updateFileInfo,removeFile,addApplicationCase,getContentList,updateCaseName,deleteFile,getCasesContent} from '@/http/api';
+    import { getDepartment,removeDepartment,getapplicationList,getUserurl,updateFileInfo,removeFile,addApplicationCase,getContentList1,updateCaseName,deleteFile,getCasesContent,uploadFile} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -322,8 +322,8 @@
             
             let param = {'fid':this.$route.params.id};
             // getUserurl().then(res=>{
-               getContentList(param).then(res => {
-                this.vendorsArr = res.obj;
+               getContentList1(param).then(res => {
+                this.vendorsArr = res;
                 // this.caseArr = this.vendorsArr[0].demonstrationArr;
                 this.caseArr = this.vendorsArr[0].children;
                 this.selectedCases.v = this.vendorsArr[0].autoId?this.vendorsArr[0].autoId:'';
@@ -419,8 +419,8 @@
                     this.$message("添加成功");
                     // 重载产品列表
                     
-                    getContentList({'fid':this.$route.params.id}).then(res => {
-                        this.vendorsArr = res.obj;
+                    getContentList1({'fid':this.$route.params.id}).then(res => {
+                        this.vendorsArr = res;
                         this.caseArr = this.vendorsArr?this.vendorsArr[0].children:'';
                         this.selectedCases.v = this.vendorsArr?this.vendorsArr[0].autoId:'';
                         this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
@@ -570,10 +570,7 @@
                     if(index!=-1){
 
                         this.caseArr = this.vendorsArr[index].children;
-                        // getapplicationList().then(res => {
-                        //     this.data = res
-                        // });
-                        // console.log("已请求数据");
+                        newVal.c = this.caseArr?this.caseArr[0].autoId:'';
                         if(newVal.c){
                             getCasesContent({'pid':newVal.c}).then(res => {
                                 this.data = res;
