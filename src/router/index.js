@@ -79,22 +79,22 @@ const routes = [
               component:resolve => require(['@/components/system/user/user'], resolve)
             },
             {
-              path: '/index/system/project',
+              path: '/index/system/project/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/com'], resolve)
             },
             {
-              path: '/index/system/yanshi',
+              path: '/index/system/yanshi/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/yanshi'], resolve)
             },
             {
-              path: '/index/system/wensi',
+              path: '/index/system/wensi/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/wensi'], resolve)
             },
             {
-              path: '/index/system/yinyong',
+              path: '/index/system/yinyong/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/yinyong'], resolve)
             },
