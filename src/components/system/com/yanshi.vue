@@ -45,6 +45,7 @@
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
                 <Button type="primary" shape="circle"  @click="modifyParent(row,index)">更改</Button>
             </template>
+            
         </Table>
         <div style="margin: 10px;overflow: hidden">
             <div style="float: right;">
@@ -128,7 +129,18 @@
             let id = this.$route.params.id;
             let param = {'fid':id}
             getProductDemo(param).then(res=>{
-                this.data1 = res;
+                // this.data1 = res;
+                let data = []
+                _.each(res,function(v){
+                    data.push(v);
+                    if(v.children){
+                        _.each(v.children,function(c){
+                            c.name = v.name+"-"+c.name
+                            data.push(c);
+                        })
+                    }
+                });
+                this.data1 = data;
             })
             
         },
