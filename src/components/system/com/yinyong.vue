@@ -222,7 +222,7 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
     import qs from 'qs'
-    import { getDepartment,removeDepartment,getapplicationList,getUserurl,updateFileInfo,removeFile,addApplicationCase,getContentList1,updateCaseName,deleteFile,getCasesContent,uploadFile} from '@/http/api';
+    import { addApplicationCase,getProductDemo,updateCaseName,deleteFile,getCasesContent,uploadFile} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -322,7 +322,7 @@
             
             let param = {'fid':this.$route.params.id};
             // getUserurl().then(res=>{
-               getContentList1(param).then(res => {
+               getProductDemo(param).then(res => {
                 this.vendorsArr = res;
                 // this.caseArr = this.vendorsArr[0].demonstrationArr;
                 this.caseArr = this.vendorsArr[0].children;
@@ -397,9 +397,10 @@
                         data.append('link'+i,this.formData[i].link);
                     }
                     addLink(data).then(res => {
-                        getapplicationList().then(res => {
-                            this.data = res;
-                        });
+                        // getapplicationList().then(res => {
+                        //     this.data = res;
+                        // });
+                        this.loadCasesContent();
                         this.$message("添加成功");
                     });
                 }
@@ -419,7 +420,7 @@
                     this.$message("添加成功");
                     // 重载产品列表
                     
-                    getContentList1({'fid':this.$route.params.id}).then(res => {
+                    getProductDemo({'fid':this.$route.params.id}).then(res => {
                         this.vendorsArr = res;
                         this.caseArr = this.vendorsArr?this.vendorsArr[0].children:'';
                         this.selectedCases.v = this.vendorsArr?this.vendorsArr[0].autoId:'';
@@ -524,6 +525,7 @@
                         casesId: '',
                         
                     };
+                this.files.length = 0;
                 
             },
             addFileItem(){
