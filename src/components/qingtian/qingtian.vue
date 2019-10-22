@@ -20,7 +20,7 @@
 
 import {mapActions, mapState,mapGetters} from 'vuex';
 
-import { getContentList1 } from '@/http/api'
+import { getProductDemo } from '@/http/api'
 
 export default {
   name: "seller",
@@ -54,7 +54,7 @@ export default {
 
   mounted () {
       //    univeral api to get second title data
-    getContentList1({'fid':this.id}).then(res => {
+    getProductDemo({'fid':this.id}).then(res => {
         this.productArr  = res;    
     });
     //    getUserurl().then(res => {

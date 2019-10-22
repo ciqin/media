@@ -117,7 +117,7 @@ export const deleteFile = (data) => getHttp(baseUrl('/test/upload/deleteFile'),d
 
 export const  getCasesContent = (data) => getHttp(baseUrl('/test/appl/getFileList'),data)
 
-export const getContentList1 = (data) => postHttp(baseUrl('/test/appl/getProductUrl'),data)
+// export const getContentList1 = (data) => getHttp(baseUrl('/test/appl/getProductUrl'),data)
 
 
 

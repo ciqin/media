@@ -29,7 +29,6 @@ export default {
     return {
       id:this.$route.params.id,
       msgNum: 5,
-      userName:"Marry",
       conHtml:'',
       productArr:[],
       demonstrationArr:[]
