@@ -83,38 +83,39 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="20" v-if="fileTypeName=='地址'">
-                        <div v-for="(item,index) in formData" :key="index">
+                        
                         <FormItem
-                        :label="'产品名称'+index+':'"
+                        label="产品名称"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
-                            <Input  v-model = "item.linkName"/>
+                            <Input  v-model = "formData.linkName"/>
                         </FormItem>
                         <FormItem
-                        :label="'链接'+index+':'"
+                        label="链接"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
-                            <Input  v-model = "item.link"/>
+                            <Input  v-model="formData.link"/>
                         </FormItem>
-                        </div>
+                        
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     
                     <Col span="20" v-else>
-                        <div v-for="(item,index) in formData" :key="index">
+                        
                             <FormItem
-                            :label="'产品名称'+index+':'"
+                            label="产品名称"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
-                                <Input v-model="item.name"/>
+                                <Input v-model="formData.name"/>
                             </FormItem>
                             <FormItem
-                            :label="fileTypeName+'文件'+index+':'"
+                            :label="fileTypeName+'文件'"
+                            :format="['pdf','doc','docx','ppt','pptx']"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
@@ -123,15 +124,24 @@
                                     <Button icon="ios-cloud-upload-outline" style="width:100%;">选择文件</Button>
                                 </Upload>
                             </FormItem>
+                             <FormItem v-if="fileTypeName=='PPT'||fileTypeName=='word'"
+                            label="PDF版本"
+                            label-position="left"
+                            calss="formitem"
+                            :format="['pdf']"
+                            style="width:100%;margin:0 auto;">
+                                <Upload :before-upload="handleUpload2"
+                                    action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">选择文件</Button>
+                                </Upload>
+                            </FormItem>
                             
-                       
-                        </div>
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     <!-- <Icon type="ios-add" size="24" @click=""/> -->
-                    <Button icon="ios-add" @click="addFileItem()" ></Button>
+                    <!-- <Button icon="ios-add" @click="addFileItem()" ></Button> -->
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -267,12 +277,13 @@
                     name: "",
                     casesId: '',
                 },
-                formData: [{
+                formData: {
                     name: "",
                     files: null,
+                    pdffile: '',
                     link: '',
                     linkName: ''
-                }],
+                },
                 itemData: {
                     
                 },
@@ -346,10 +357,20 @@
             },
             handleUpload(file){
                 if(file!=null){
-                    this.files.push(file);
+                    // this.files.push(file);
+                    this.formData.files = file;
                 }
                 // console.log(index);
-                console.log(file.name);
+                // console.log(file.name);
+                return false;
+            },
+            handleUpload2(file){
+                if(file!=null){
+                    // this.files.push(file);
+                    this.formData.pdffile = file;
+                }
+                // console.log(index);
+                // console.log(file.name);
                 return false;
             },
             addModalShow () {
@@ -367,20 +388,30 @@
                 let pid = this.selectedCases.c;
                 data.append('pid',pid)
                 if(this.fileTypeName!="地址"){
-                    this.formData.forEach((v,i) => {
-                        // files.concat(v.files[0]);
-                        // console.log(v);
-                        if(v.name!=''){
-                            // data.append('productName'+i,v.name);
-                            // data.append('file'+i,v.files[0]);
-                            data.append('disName',v.name);
+                    // this.formData.forEach((v,i) => {
+                    //     // files.concat(v.files[0]);
+                    //     // console.log(v);
+                    //     if(v.name!=''){
+                    //         // data.append('productName'+i,v.name);
+                    //         // data.append('file'+i,v.files[0]);
+                    //         data.append('disName',v.name);
                             
-                        }
-                    });
-                    this.files.forEach((v,i) =>{
-                        data.append('files',v);
-                    })
-                    
+                    //     }
+                    // });
+                    let name = this.formData.name;
+                    if(name==''){
+                        name = this.formData.files.name
+                    }
+                    data.append('disName',name)
+                    // this.files.forEach((v,i) =>{
+                    //     data.append('files',v);
+                    // })
+                    let files = this.formData.files;
+                    data.append('files',files);
+                    if(this.formData.pdffile){
+                        let pdffiles = this.formData.pdffile
+                        data.append('pdffiles',pdffiles);
+                    }
                     uploadFile(data).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
@@ -392,10 +423,12 @@
                 }else{
                     // data.append('linkName',this.formData.linkName);
                     // data.append('link',this.formData.link);
-                    for(i in formData){
-                        data.append('linkName'+i,this.formData[i].linkName);
-                        data.append('link'+i,this.formData[i].link);
-                    }
+                    // for(i in formData){
+                    //     data.append('linkName'+i,this.formData[i].linkName);
+                    //     data.append('link'+i,this.formData[i].link);
+                    // }
+                    data.append('linkName'+i,this.formData.linkName);
+                    data.append('link'+i,this.formData.link);
                     addLink(data).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res;
@@ -514,12 +547,13 @@
                 //     this.formData[key] = ''
                 // }
                 
-                this.formData = [{
+                this.formData = {
                     name: "",
                     files: null,
+                    pdffile: '',
                     link: '',
                     linkName: ''
-                }];
+                };
                 this.formData1 = {
                         name: '',
                         casesId: '',
@@ -528,13 +562,14 @@
                 this.files.length = 0;
                 
             },
-            addFileItem(){
-                this.formData.push({
-                    name: "",
-                    files: null,
-                    link: '',
-                    linkName: ''
-                });
+            // addFileItem(){
+            //     this.formData.push({
+            //         name: "",
+            //         files: null,
+            //         pdffile: '',
+            //         link: '',
+            //         linkName: ''
+            //     });
                 
             },
             ok(){
@@ -557,9 +592,7 @@
                         this.data = res;
                     })
                 }
-            }
-            
-        },
+            },
         watch:{
             "selectedCases.v":{
                 handler(newVal,oldVal){
