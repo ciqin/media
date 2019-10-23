@@ -115,13 +115,13 @@
                             </FormItem>
                             <FormItem
                             :label="fileTypeName+'文件'"
-                            :format="['pdf','doc','docx','ppt','pptx']"
+                            :format="['pdf','doc','docx','ppt','pptx','mp4']"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
                                 <Upload :before-upload="handleUpload"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">选择文件</Button>
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
                                 </Upload>
                             </FormItem>
                              <FormItem v-if="fileTypeName=='PPT'||fileTypeName=='word'"
@@ -132,13 +132,15 @@
                             style="width:100%;margin:0 auto;">
                                 <Upload :before-upload="handleUpload2"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">选择文件</Button>
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">{{pdfName}}</Button>
                                 </Upload>
                             </FormItem>
                             
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input :value="userName" disabled />
                         </FormItem>
+                        <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
+                        <div v-if="pdfExist" style="color:red">PDF文件不能为空</div>
                     </Col>
                     <!-- <Icon type="ios-add" size="24" @click=""/> -->
                     <!-- <Button icon="ios-add" @click="addFileItem()" ></Button> -->
@@ -239,17 +241,18 @@
         data () {
             return {
                 userName: localStorage.getItem("user"),
-                // fileTypeIndex: '',
-                // fileItemIndex: '',
+                fileName: '选择正确格式的文件',
+                pdfName: '选择PDF文件',
                 data1: [],
                 data:[],
                 value3: false,
                 value4: false,
                 value5: false,
                 modal1: false,
-                
+                fileExist:false,
+                pdfExist:false,
                 fileTypeName: '',
-                files: [],
+            
                 fileInfo: {
                     name: '',
                     // author: '',
@@ -280,7 +283,9 @@
                 formData: {
                     name: "",
                     files: null,
+                    fileName:'',
                     pdffile: '',
+                    // pdfName: '',
                     link: '',
                     linkName: ''
                 },
@@ -358,20 +363,72 @@
             handleUpload(file){
                 if(file!=null){
                     // this.files.push(file);
-                    this.formData.files = file;
+                    
+                    
+                    // let nameArr = file.name.split('.');
+                    let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
+                    // if(nameArr.length>2){
+                    //     let ext = nameArr[1].toLowerCase();
+                    //     let index = _.findIndex(fileExt,(o)=>{return o = ext});
+                    //     if(index==-1){
+                    //         this.$Notice.warning({title:"请输入正确格式的文件"});
+                    //     }
+                        
+                    // }
+                    
+                    let flag = this.extFilter(file.name,fileExt);
+                    if(flag){
+                        this.fileName = file.name;
+                        this.formData.files = file;
+                        this.formData.fileName = file.name;
+                    }else{
+                        this.fileExt = "格式不正确"
+                    }
                 }
-                // console.log(index);
-                // console.log(file.name);
+                
                 return false;
             },
             handleUpload2(file){
                 if(file!=null){
                     // this.files.push(file);
                     this.formData.pdffile = file;
+                    // this.FormData.pdfName = file.name;
+                    this.pdfName = file.name;
+                    let fileExt = ['pdf'];
+                    let flag = this.extFilter(file.name,fileExt);
+                     if(flag){
+                        this.pdfName = file.name;
+                        this.formData.pdffile = file;
+                        // this.formData.fileName = file.name;
+                    }else{
+                        this.fileExt = "格式不正确"
+                    }
                 }
                 // console.log(index);
                 // console.log(file.name);
                 return false;
+            },
+
+            extFilter: function(extName,condition) {
+                let nameArr = extName.split('.');
+                
+                if(nameArr.length>1){
+                        let ext = nameArr[1].toLowerCase();
+                        
+                        let index = _.findIndex(condition,(o)=>{return o == ext});
+                        
+                        if(index==-1){
+                            this.$message("请输入正确格式的文件");
+                            return false;
+                        }else{
+                            return true;
+                        }
+                        
+                    }else{
+                         this.$message("请输入正确格式的文件");
+                         return false;
+                         
+                    }
             },
             addModalShow () {
                this.cleardata();
@@ -387,6 +444,7 @@
                 let data = new FormData();
                 let pid = this.selectedCases.c;
                 data.append('pid',pid)
+                
                 if(this.fileTypeName!="地址"){
                     // this.formData.forEach((v,i) => {
                     //     // files.concat(v.files[0]);
@@ -398,9 +456,18 @@
                             
                     //     }
                     // });
+                    if(!(this.formData.files)){
+                        this.fileExist = true;
+                        return;
+                    }
+                    if((this.fileTypeName=="word"||this.fileTypeName=="PPT")&&!(this.formData.pdffile)){
+                        this.pdfExist = true;
+                        return;
+                    }
                     let name = this.formData.name;
                     if(name==''){
-                        name = this.formData.files.name
+                        name = this.formData.fileName
+                        name = name.split('.')[0];
                     }
                     data.append('disName',name)
                     // this.files.forEach((v,i) =>{
@@ -410,8 +477,9 @@
                     data.append('files',files);
                     if(this.formData.pdffile){
                         let pdffiles = this.formData.pdffile
-                        data.append('pdffiles',pdffiles);
+                        data.append('files',pdffiles);
                     }
+                    
                     uploadFile(data).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
@@ -546,11 +614,16 @@
                 // for(let key in this.formData1) {
                 //     this.formData[key] = ''
                 // }
-                
+                this.fileName =  '选择正确格式的文件';
+                this.pdfName =  '选择PDF文件';
+                this.fileExist= false;
+                this.pdfExist = false;
                 this.formData = {
                     name: "",
                     files: null,
+                    // fileName: '',
                     pdffile: '',
+                    // pdfName:'',
                     link: '',
                     linkName: ''
                 };
@@ -559,7 +632,7 @@
                         casesId: '',
                         
                     };
-                this.files.length = 0;
+              
                 
             },
             // addFileItem(){
@@ -571,7 +644,7 @@
             //         linkName: ''
             //     });
                 
-            },
+            // },
             ok(){
                 // if(this.fileItemIndex!==''&&this.fileTypeIndex!==''){
                 if(this.fileInfo.id){
@@ -593,6 +666,7 @@
                     })
                 }
             },
+        },
         watch:{
             "selectedCases.v":{
                 handler(newVal,oldVal){
@@ -634,5 +708,6 @@
         components:{
             Title
         }
-    }
+}
+
 </script>
