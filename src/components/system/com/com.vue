@@ -4,17 +4,17 @@
              <Row>
                 <Col span="3"><Title :title="guanli+'管理'"></Title></Col>
                 <Col span="19"> 
-                    <select class="MaterialList" @change="changeTable">
-                        <option value="">产品册</option>
-                        <option value="">PPT</option>
-                        <option value="">视频资料</option>
-                        <option value="">技术白皮书</option>
+                    <select class="MaterialList" v-model = "fileTypeId">
+                        <option v-for="(fileType,index) in fileTypeArr" :key="index" :value="fileType.autoId">{{fileType.name}}</option>
+                        <!-- <option value="1">PPT</option>
+                        <option value="2">视频资料</option>
+                        <option value="3">技术白皮书</option> -->
                     </select>
                 </Col>
             </Row>
         </div>
         <Drawer
-            title="部门管理添加"
+            title="文件添加管理"
             v-model="value3"
             width="720"
             :mask-closable="false"
@@ -22,9 +22,19 @@
         >
             <Form :model="formData">
                 <Row :gutter="32">
+                     <Col span="24">
+                        <FormItem :label="fileTypeName+'文件'" label-position="left">
+                            <Upload 
+                                :before-upload="handleUpload"
+                                action=""
+                             style="width:86%;">
+                                <Button icon="ios-cloud-upload-outline">{{formData.fileName}}</Button>
+                            </Upload>
+                        </FormItem>
+                    </Col>
                     <Col span="24">
                         <FormItem label="产品名称" label-position="left">
-                            <Input v-model="formData.name" placeholder="请输入产品名称"  style="width:86%;"/>
+                            <Input v-model="formData.name" disabled placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -82,6 +92,22 @@
                     },
                     
                 ],
+
+                fileTypeArr:[{
+                    'autoId':'0',
+                    'name':'产品册'
+                },{
+                    'autoId':'1',
+                    'name':'PPT'
+                },{
+                    'autoId':'2',
+                    'name':'视频资料'
+                },{
+                    'autoId':'3',
+                    'name':'技术白皮书'
+                }],
+                fileTypeId: '',
+                fileTypeName: '',
                 value3: false,
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -92,6 +118,8 @@
                 num:1,
                 formData: {
                     name: "",
+                    file: null,
+                    fileName: ''
                 },
                 tableColumns1: [
                     {
@@ -156,6 +184,7 @@
                 // this.formData = row;
                 this.num = index;
                 this.formData.name = row.name;
+                this.formData.fileName = row.fileName ? row.fileName:"请上传文件";
                 //this.data1[index].name =  this.formData.name
                 //this.formData.
                 //  let that = this;
@@ -170,6 +199,15 @@
                 //     })
                 // }  
             },
+            handleUpload:function(file){
+                if(file){
+                    this.formData.file = file;
+                    this.formData.fileName = file.name;
+                }
+                if(!this.formData.fileName){
+                    this.formData.fileName = "请上传文件"
+                }
+            }
             
         },
         components:{
@@ -180,6 +218,23 @@
             // getProductList().then(res => {
             //     this.data1 = res;
             // })
+            this.fileTypeId = this.fileTypeArr[0].autoId;
+            this.fileTypeName = this.fileTypeArr[0].name;
+        },
+        watch:{
+            fileTypeId(newVal){
+                //load production list
+                
+                //change file type in drawer layer
+
+                let index = _.findIndex(this.fileTypeArr,(o)=>{return o.autoId==newVal});
+                console.log(index);
+                if(index!=-1){
+                    this.fileTypeName = this.fileTypeArr[index].name;
+                }
+
+
+            }
         }
     }
 </script>
