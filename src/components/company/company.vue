@@ -2,12 +2,12 @@
     <div class="company_box">
         <div v-for="item in productArr"  :key="item.name" class="clearfix product">
             <div class="pro_msg">
-                <img :src="item.icon">
+                <img :src="item.relevantInfo">
                 <span>{{item.name}}</span>
             </div>
             <Row>
-                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.namechild"  style="float:left;">
-                    <Button type="primary"  @click="dataType(item,demonstration)" to="/index/demonstration">{{demonstration.namechild}}</Button>
+                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;">
+                    <Button type="primary"  @click="dataType(item,demonstration)" :to="route">{{demonstration.titile}}</Button>
                 </Col>   
             </Row>
             </div>
@@ -21,7 +21,7 @@
 //import {mapActions, mapState,mapGetters} from 'vuex';
 import {mapState} from 'vuex'
 
-import { getProduct } from '@/http/api'
+import { getProduct,getProductDemo } from '@/http/api'
 
 export default {
   name: "seller",
@@ -31,9 +31,11 @@ export default {
       msgNum: 5,
       conHtml:'',
       productArr:[],
-      demonstrationArr:[]
+      demonstrationArr:[],
+      route: ''
     };
   },
+  
   methods:{
       linksis(){
           window.open("http://www.wengegroup.com/")
@@ -49,9 +51,21 @@ export default {
       dataType(item,demonstration){
           let obj = new Object();
           obj.namePar = item.name;
-          obj.name = demonstration.namechild;
-          obj.type = demonstration.type;
-          obj.url = demonstration.url;
+          obj.name = demonstration.titile;
+          if(demonstration.titile=='视频资料'){
+              obj.type = '2';
+          }else{
+              obj.type = '1';
+          }
+          
+          obj.url = '';
+          if(demonstration.data){
+            //   obj.url = demonstration.data[0].url;
+            // obj.url = '';
+          }
+          if(obj.url){
+              this.route = '/index/demonstration/'
+          }
           let strObj = JSON.stringify(obj)
           localStorage.setItem('demostration',strObj)
           this.$store.commit("commonDataType",obj);
@@ -63,9 +77,15 @@ export default {
     // getContentList({'fid':this.id}).then(res => {
     //     this.productArr  = res.obj;    
     //});
-       getProduct().then(res => {
-          this.productArr = res
-      })
+    //    getProduct().then(res => {
+    //       this.productArr = res
+    //   })
+    let fid = this.$route.params.id;
+    this.route = this.$route.path;
+    
+        getProductDemo({'fid':fid}).then(res =>{
+            this.productArr = res;
+        })
   },
   created(){
     
@@ -85,6 +105,7 @@ export default {
     //   })
   },
   computed:{
+
   },
 };
 </script>

@@ -64,32 +64,32 @@
 <script>
     import Title from "@/components/assembly/title";
 
-    import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo} from '@/http/api';
     import {mapState} from 'vuex'
 
     export default {
         data () {
             return {
                 data1: [
-                    {
-                        "name":"闻海大数据平台",
-                        "leader":"张三",
-                        "createTime":"2019-06-30 03:06:55"
-                    },
-                    {
-                        "name":"天湖超级智算平台",
-                         "leader":"张三",
-                         "createTime":"2019-06-30 03:06:55"
-                    },
-                    {
-                        "name":"“红旗”县级融媒体中心",
-                         "leader":"张三",
-                         "createTime":"2019-06-30 03:06:55"
-                    },{
-                        "name":"“晴天”多语言舆情监测分析系统",
-                         "leader":"张三",
-                         "createTime":"2019-06-30 03:06:55"
-                    },
+                    // {
+                    //     "name":"闻海大数据平台",
+                    //     "leader":"张三",
+                    //     "createTime":"2019-06-30 03:06:55"
+                    // },
+                    // {
+                    //     "name":"天湖超级智算平台",
+                    //      "leader":"张三",
+                    //      "createTime":"2019-06-30 03:06:55"
+                    // },
+                    // {
+                    //     "name":"“红旗”县级融媒体中心",
+                    //      "leader":"张三",
+                    //      "createTime":"2019-06-30 03:06:55"
+                    // },{
+                    //     "name":"“晴天”多语言舆情监测分析系统",
+                    //      "leader":"张三",
+                    //      "createTime":"2019-06-30 03:06:55"
+                    // },
                     
                 ],
 
@@ -220,6 +220,13 @@
             // })
             this.fileTypeId = this.fileTypeArr[0].autoId;
             this.fileTypeName = this.fileTypeArr[0].name;
+            let fid = this.$route.params.id;
+            getProductDemo({'fid':fid}).then(res => {
+                this.data1 = res;
+
+
+                
+            })
         },
         watch:{
             fileTypeId(newVal){
