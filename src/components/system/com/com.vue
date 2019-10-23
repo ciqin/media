@@ -23,28 +23,45 @@
             <Form :model="formData">
                 <Row :gutter="32">
                      <Col span="24">
-                        <FormItem :label="fileTypeName+'文件'" label-position="left">
+                        <FormItem :label="fileTypeName+'文件'" label-position="left"
+                            style="width:100%;margin:0 auto;">
                             <Upload 
                                 :before-upload="handleUpload"
-                                action=""
-                             style="width:86%;">
-                                <Button icon="ios-cloud-upload-outline">{{formData.fileName}}</Button>
+                                :format="fileTypeArr"
+                                action=""  style="width:100%;">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
                             </Upload>
+
+                        </FormItem>
+                    </Col>
+                    <Col span="24">
+                        <FormItem label="PDF版本" label-position="left"
+                        v-if="fileTypeName=='PPT'||fileTypeName=='技术白皮书'"
+                            style="width:100%;margin:0 auto;">
+                            <Upload 
+                                :before-upload="handleUpload2"
+                                :format="['pdf']"
+                                action=""  style="width:100%;">
+                                <Button icon="ios-cloud-upload-outline" style="width:100%;">{{pdfName}}</Button>
+                            </Upload>
+
                         </FormItem>
                     </Col>
                     <Col span="24">
                         <FormItem label="产品名称" label-position="left">
                             <Input v-model="formData.name" disabled placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
+                        <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
+                        <div v-if="pdfExist" style="color:red">PDF文件不能为空</div>
                     </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
+                <Button style="margin-right: 8px" @click="close()">关闭</Button>
             </div>
         </Drawer>    
-        <Table :data="data1" :columns="tableColumns1" stripe>
+        <Table :data="data" :columns="tableColumns1" stripe>
             <template slot-scope="{ row }" slot="name">
                 <strong>{{ row.name }}</strong>
             </template>
@@ -64,7 +81,7 @@
 <script>
     import Title from "@/components/assembly/title";
 
-    import { getDepartment,removeDepartment,addDepartment,getProductDemo} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile} from '@/http/api';
     import {mapState} from 'vuex'
 
     export default {
@@ -92,7 +109,7 @@
                     // },
                     
                 ],
-
+                data:[],
                 fileTypeArr:[{
                     'autoId':'0',
                     'name':'产品册'
@@ -106,8 +123,12 @@
                     'autoId':'3',
                     'name':'技术白皮书'
                 }],
+                fileExist:false,
+                pdfExist:false,
                 fileTypeId: '',
                 fileTypeName: '',
+                fileName: '',
+                pdfName: '选择文件',
                 value3: false,
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -119,6 +140,7 @@
                 formData: {
                     name: "",
                     file: null,
+                    pdffile:null,
                     fileName: ''
                 },
                 tableColumns1: [
@@ -128,11 +150,11 @@
                     },
                     {
                         title: '操作人',
-                        key: 'leader'
+                        key: 'userName'
                     },
                     {
                         title: '更改时间',
-                        key: 'createTime',
+                        key: 'updateTime',
                     },
                     {
                         title: '操作',
@@ -149,7 +171,23 @@
             // guanli(){
             //     return  this.$store.state.guanli
             // },
-            ...mapState(['guanli'])
+            ...mapState(['guanli']),
+            filterArr: function(){
+                if(this.fileTypeName){
+                    switch(this.fileTypeName){
+                        case "PPT":
+                            return ['ppt','pptx'];
+                        case "技术白皮书":
+                            return ['doc','docx'];
+                        case "产品册":
+                            return ['pdf'];
+                        case "视频资料":
+                            return ['mp4'];
+                    }
+                }else{
+                    return ['ppt','pptx','doc','docx','mp4','pdf']
+                }
+            }
         },
         // watch:{
         //    guanli(newVal){
@@ -157,16 +195,27 @@
         //    } 
         // },
         methods: {
-            cleardata() {
-                for(let key in this.formData) {
-                    this.formData[key] = ''
+            clearFileData() {
+                // for(let key in this.formData) {
+                //     this.formData[key] = ''
+                // }
+                this.formData = {
+                    name: "",
+                    file: null,
+                    pdffile:null,
+                    fileName: ''
                 }
+
+                this.pdfExist = false;
+                this.fileExist = false;
+                this.fileName = '';
+                this.pdfName = '选择文件';
             },
             changeTable() {
                 
             },
             addModalShow () {
-               this.cleardata();
+               this.clearFileData();
                this.value3 = true;
                this.num = 1;
             },
@@ -175,8 +224,86 @@
                 this.tableData1 = this.mockTableData1();
             },
             addRole(){
-                this.data1[this.num].name = this.formData.name;
+                // this.data1[this.num].name = this.formData.name;
+                
+                let data = new FormData();
+                if(!(this.formData.file)){
+                        this.fileExist = true;
+                        return;
+                }
+                if((this.fileTypeName=="技术白皮书"||this.fileTypeName=="PPT")&&!(this.formData.pdffile)){
+                        this.pdfExist = true;
+                        return;
+                }
+                data.append('disName',this.formData.name);
+                data.append('files',this.formData.file);
+                data.append('fileName',this.formData.fileName);
+                if(this.formData.pdffile){
+                        let pdffiles = this.formData.pdffile
+                        data.append('files',pdffiles);
+                }
+                uploadFile(data).then(res => {
+                        // getapplicationList().then(res => {
+                        //     this.data = res
+                        // });
+                        // 重新加载内容数据
+                        
+                        this.$message("修改成功");
+                        let fid = this.$route.params.id
+                        let id = this.fileTypeId;
+                        getProductDemo({'fid':id}).then(res => {
+                            this.loadData(res,id);
+                        })
+                });
                 this.value3 = false;
+                this.clearFileData();
+            },
+            close(){
+                this.value3 = false;
+                this.clearFileData();
+            },
+            loadData(sourceData,id){
+                let meltData = [];
+                let data1 = [];
+                let data = [];
+                
+                sourceData[0].demonstrationArr.forEach(function(v,i){
+                    
+                    let o = new Object();
+                    o.fileName = v.titile;
+                    o.data = [];
+                    meltData.push(o)
+                });
+                meltData.forEach(function(v,i){
+                    let name = v.fileName;
+                    sourceData.forEach(function(v2,i2){
+                        let index = _.findIndex(v2.demonstrationArr,function(o){return o.titile == name});
+                        if(index!=-1){
+                            if(v2.demonstrationArr[index].data.length){
+                                let d = v2.demonstrationArr[index].data[0]
+                                let obj = {}
+                                Object.assign(obj,{'name':v2.name},d);
+                                v.data.push(obj);
+                            }
+                        }
+                    })
+                })
+                
+                let tempArr = this.fileTypeArr;
+                meltData.forEach(function(v,i){
+                    let index = _.findIndex(tempArr,(o)=>{return o.name==v.fileName})
+                    
+                    if(index!=-1){
+                        let f = tempArr[index];
+                        Object.assign(v,f);
+                    }
+                })
+                data1 = meltData;
+                data = data1[id].data;
+                return {
+                    'data1': data1,
+                    'data': data
+                }
             },
             modifyParent( row,index ) {
                 
@@ -184,7 +311,9 @@
                 // this.formData = row;
                 this.num = index;
                 this.formData.name = row.name;
-                this.formData.fileName = row.fileName ? row.fileName:"请上传文件";
+
+                this.fileName = row.fileName ? row.fileName:"请上传文件";
+                this.formData.fileName = row.fileName ? row.fileName:'';
                 //this.data1[index].name =  this.formData.name
                 //this.formData.
                 //  let that = this;
@@ -199,15 +328,77 @@
                 //     })
                 // }  
             },
-            handleUpload:function(file){
-                if(file){
-                    this.formData.file = file;
-                    this.formData.fileName = file.name;
+            // handleUpload:function(file){
+            //     if(file){
+            //         this.formData.file = file;
+            //         this.formData.fileName = file.name;
+            //     }
+            //     if(!this.formData.fileName){
+            //         this.formData.fileName = "请上传文件"
+            //     }
+            // },
+            handleUpload(file){
+                if(file!=null){
+                   
+                    // let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
+                    let fileExt = this.filterArr;
+                   
+                    
+                    let flag = this.extFilter(file.name,fileExt);
+                    if(flag){
+                        this.fileName = file.name;
+                        this.formData.file = file;
+                        // this.formData.fileName = file.name;
+                    }else{
+                        this.fileName = "格式不正确"
+                    }
                 }
-                if(!this.formData.fileName){
-                    this.formData.fileName = "请上传文件"
+                
+                return false;
+            },
+            handleUpload2(file){
+                if(file!=null){
+                    // this.files.push(file);
+                    this.formData.pdffile = file;
+                    // this.FormData.pdfName = file.name;
+                    this.pdfName = file.name;
+                    let fileExt = ['pdf'];
+                    let flag = this.extFilter(file.name,fileExt);
+                     if(flag){
+                         
+                        this.pdfName = file.name;
+                        this.formData.pdffile = file;
+                        // this.formData.fileName = file.name;
+                    }else{
+                        this.pdfName = "格式不正确"
+                    }
                 }
-            }
+                // console.log(index);
+                // console.log(file.name);
+                return false;
+            },
+
+            extFilter: function(extName,condition) {
+                let nameArr = extName.split('.');
+                
+                if(nameArr.length>1){
+                        let ext = nameArr[1].toLowerCase();
+                        
+                        let index = _.findIndex(condition,(o)=>{return o == ext});
+                        
+                        if(index==-1){
+                            this.$message("请输入正确格式的文件");
+                            return false;
+                        }else{
+                            return true;
+                        }
+                        
+                    }else{
+                         this.$message("请输入正确格式的文件");
+                         return false;
+                         
+                    }
+            },
             
         },
         components:{
@@ -222,9 +413,46 @@
             this.fileTypeName = this.fileTypeArr[0].name;
             let fid = this.$route.params.id;
             getProductDemo({'fid':fid}).then(res => {
-                this.data1 = res;
+                // this.data1 = res;
+                // let meltData = [];
 
-
+                // res[0].demonstrationArr.forEach(function(v,i){
+                //     console.log(1);
+                //     let o = new Object();
+                //     o.fileName = v.titile;
+                //     o.data = [];
+                //     meltData.push(o)
+                // });
+                // meltData.forEach(function(v,i){
+                //     let name = v.fileName;
+                //     res.forEach(function(v2,i2){
+                //         let index = _.findIndex(v2.demonstrationArr,function(o){return o.titile == name});
+                //         if(index!=-1){
+                //             if(v2.demonstrationArr[index].data.length){
+                //                 let d = v2.demonstrationArr[index].data[0]
+                //                 let obj = {}
+                //                 Object.assign(obj,{'name':v2.name},d);
+                //                 v.data.push(obj);
+                //             }
+                //         }
+                //     })
+                // })
+                
+                // let tempArr = this.fileTypeArr;
+                // meltData.forEach(function(v,i){
+                //     let index = _.findIndex(tempArr,(o)=>{return o.name==v.fileName})
+                //     console.log(index);
+                //     if(index!=-1){
+                //         let f = tempArr[index];
+                //         Object.assign(v,f);
+                //     }
+                // })
+                // this.data1 = meltData;
+                // this.data = this.data1[0].data;
+                // debugger;
+                let result = this.loadData(res,0);
+                this.data1 = result.data1;
+                this.data = result.data;
                 
             })
         },
@@ -234,12 +462,13 @@
                 
                 //change file type in drawer layer
 
-                let index = _.findIndex(this.fileTypeArr,(o)=>{return o.autoId==newVal});
-                console.log(index);
+                let index = _.findIndex(this.data1,(o)=>{return o.autoId==newVal});
+                // console.log(index);
                 if(index!=-1){
-                    this.fileTypeName = this.fileTypeArr[index].name;
+                    this.fileTypeName = this.data1[index].name;
+                    this.data = this.data1[index].data;
                 }
-
+                
 
             }
         }
