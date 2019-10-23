@@ -362,6 +362,7 @@
                 
                 this.selectedCases.c = this.caseArr?this.caseArr[0].autoId:'';
                 // 加载内容信息
+                
                 this.loadCasesContent();
                 
             });
@@ -703,9 +704,12 @@
             },
             "selectedCases.c":{
                 handler(newVal,oldVal){
-                    getCasesContent({'pid':newVal}).then(res => {
+                    if(newVal){
+                        getCasesContent({'pid':newVal}).then(res => {
                                 this.data = res;
-                    });
+                        });
+                    }
+                    
                 },
                 deep: true,
                 immediate: true
