@@ -39,7 +39,7 @@
             </FormItem>
             <FormItem
                             label="报告文件"
-                            
+                            v-if="eidtFlag"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
@@ -70,7 +70,9 @@ import {
   removeDepartment,
   getapplicationList,
   getProductDemo,
-  uploadFile
+  uploadFile,
+  updateCaseName,
+  deleteFile
 } from "@/http/api";
 import { mapState } from "vuex";
 import "../../../assets/css/system.css";
@@ -125,12 +127,16 @@ export default {
         //   createTime: "2019-06-30 03:06:55"
         // }
       ],
+
       data: [],
       value3: false,
+      value4: false,
       modal1:false,
       removeid:null,
       addchangeType:1,
       dataName: "",
+    
+      eidtFlag:false,
       styles: {
         height: "calc(100% - 55px)",
         overflow: "auto",
@@ -224,6 +230,7 @@ export default {
         this.value3 = true;
         this.addchangeType = 1;
       }
+      this.eidtFlag = true;
       // this.dataName = this.wensiProduct[id].name;
       
 
@@ -285,23 +292,33 @@ export default {
       //     this.data1[this.num].name = this.formData.name;
       //     this.value3 = false;
       // }
-      let data = new FormData();
-      if(!(this.formData.file)){
-        this.fileExist = true;
-        return;
+      if(this.eidtFlag){
+        
+        let data = new FormData();
+        if(!(this.formData.file)){
+          this.fileExist = true;
+          return;
+        }
+        let name = this.formData.name;
+        if(!name&&this.formData.file){
+          name = this.formData.file.name.split(".")[0];
+        }
+        data.append('disName',name);
+        let files = this.formData.file;
+        data.append('files',files);
+        uploadFile(data).then(res => {
+                          // 重新加载内容数据
+          this.loadCasesContent();
+          this.$message("添加成功");
+        });
+
+      }else{
+        updateCaseName({'id':this.formData.pid,'newName':this.formData.name}).then(res =>{
+          this.$message("修改成功");
+          this.loadCasesContent();
+        })
       }
-      let name = this.formData.name;
-      if(!name&&this.formData.file){
-        name = this.formData.file.name.split(".")[0];
-      }
-      data.append('disName',name);
-      let files = this.formData.file;
-      data.append('files',files);
-      uploadFile(data).then(res => {
-                        // 重新加载内容数据
-        this.loadCasesContent();
-        this.$message("添加成功");
-      });
+      
       this.clearFileData();
       this.value3=false;
     },
@@ -319,17 +336,26 @@ export default {
     modifyParent(row, index) {
       this.value3 = true;
       // this.dataName = "闻思报告修改"
+      this.eidtFlag = false;
       this.addchangeType = 2;
       //this.value3 = true;
+      // this.formData = row;
       this.formData = row;
+      this.formData.name = row.displayName;
       this.num = index;
+
     },
     ok(){
-        this.data1.splice(this.removeid, 1);
+        // this.data1.splice(this.removeid, 1);
+        deleteFile({'id':this.removeid}).then(res=>{
+          this.loadCasesContent();
+          this.$message("删除成功");
+        });
+        this.clearFileData();
     },
     removeParent(row, index) {
        this.modal1 = true;
-      this.removeid = this.index;
+      this.removeid = row.pid;
     }
   },
   components: {
@@ -342,6 +368,7 @@ export default {
           if(index!=-1){
             this.dataName = this.data1[index].name;
                     // this.data = this.wensiProduct[index].data;
+            this.data = this.data1[index].demonstrationArr[0]
           }
     }
   }
