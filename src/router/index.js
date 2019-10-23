@@ -79,6 +79,11 @@ const routes = [
               component:resolve => require(['@/components/system/user/user'], resolve)
             },
             {
+              path: '/index/system/mytest',
+              name: 'test1',
+              component:resolve => require(['@/components/test/test'], resolve)
+            },
+            {
               path: '/index/system/project/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/com'], resolve)
@@ -116,10 +121,6 @@ const routes = [
     path: '/',
     name: 'login',
     component:resolve => require(['@/components/login/login'], resolve)
-  },{
-    path: '/mytest',
-    name: 'test1',
-    component:resolve => require(['@/components/test/test'], resolve)
   },
   
 ]
