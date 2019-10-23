@@ -119,6 +119,8 @@ export const  getCasesContent = (data) => getHttp(baseUrl('/test/appl/getFileLis
 
 // export const getContentList1 = (data) => getHttp(baseUrl('/test/appl/getProductUrl'),data)
 
+export const uploadFile1 = (data) => upload(baseUrl('/test/upload/updateUrl'),data)
+
 
 
 

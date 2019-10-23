@@ -81,7 +81,7 @@
 <script>
     import Title from "@/components/assembly/title";
 
-    import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile1} from '@/http/api';
     import {mapState} from 'vuex'
 
     export default {
@@ -242,7 +242,7 @@
                         let pdffiles = this.formData.pdffile
                         data.append('files',pdffiles);
                 }
-                uploadFile(data).then(res => {
+                uploadFile1(data).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
                         // });
