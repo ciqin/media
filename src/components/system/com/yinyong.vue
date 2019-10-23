@@ -115,7 +115,7 @@
                             </FormItem>
                             <FormItem
                             :label="fileTypeName+'文件'"
-                            :format="['pdf','doc','docx','ppt','pptx','mp4']"
+                            :format="filterArr"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
@@ -324,7 +324,23 @@
             // guanli(){
             //     return  this.$store.state.guanli
             // },
-            ...mapState(['guanli'])
+            ...mapState(['guanli']),
+            filterArr: function(){
+                if(this.fileTypeName){
+                    switch(this.fileTypeName){
+                        case "PPT":
+                            return ['ppt','pptx'];
+                        case "word":
+                            return ['doc','docx'];
+                        case "产品册":
+                            return ['pdf'];
+                        case "视频":
+                            return ['mp4'];
+                    }
+                }else{
+                    return ['ppt','pptx','doc','docx','mp4','pdf']
+                }
+            }
         },
         // watch:{
         //    guanli(newVal){
@@ -362,19 +378,10 @@
             },
             handleUpload(file){
                 if(file!=null){
-                    // this.files.push(file);
-                    
-                    
-                    // let nameArr = file.name.split('.');
-                    let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
-                    // if(nameArr.length>2){
-                    //     let ext = nameArr[1].toLowerCase();
-                    //     let index = _.findIndex(fileExt,(o)=>{return o = ext});
-                    //     if(index==-1){
-                    //         this.$Notice.warning({title:"请输入正确格式的文件"});
-                    //     }
-                        
-                    // }
+                   
+                    // let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
+                    let fileExt = this.filterArr;
+                   
                     
                     let flag = this.extFilter(file.name,fileExt);
                     if(flag){
@@ -382,7 +389,7 @@
                         this.formData.files = file;
                         this.formData.fileName = file.name;
                     }else{
-                        this.fileExt = "格式不正确"
+                        this.fileName = "格式不正确"
                     }
                 }
                 
@@ -401,7 +408,7 @@
                         this.formData.pdffile = file;
                         // this.formData.fileName = file.name;
                     }else{
-                        this.fileExt = "格式不正确"
+                        this.pdfName = "格式不正确"
                     }
                 }
                 // console.log(index);
