@@ -382,7 +382,8 @@
                 let nameArr = extName.split('.');
                 
                 if(nameArr.length>1){
-                        let ext = nameArr[1].toLowerCase();
+                        let len = nameArr.length;
+                        let ext = nameArr[(len-1)].toLowerCase();
                         
                         let index = _.findIndex(condition,(o)=>{return o == ext});
                         
