@@ -4,6 +4,7 @@
     <h1>闻思报告上传</h1>
     <form >
         文件：<input type="file"  @change="handleChange" ref='inputer'/><br/><br/>
+        pdf文件：<input type="file"  @change="handleChange2" ref='inputer2'/><br/><br/>
         名称：<input type = "text" v-model="name"><br>
         pid：<input type = "text" v-model="pid"><br>
         <button type = "button" @click="mySubmit()">提交</button>
@@ -22,6 +23,7 @@ export default {
       return{
           name:'',
           file:null,
+          pdf:null,
           pid:'',
           msg:''
     }
@@ -34,12 +36,23 @@ export default {
         // console.log(this.name);
         //   console.log(this.pid);
       },
+      handleChange2(e){
+          let inputDOM = this.$refs.inputer2;
+          // 通过DOM取文件数据
+        this.pdf    = inputDOM.files[0];
+        // console.log(this.name);
+        //   console.log(this.pid);
+      },
       mySubmit(){
           let data = new FormData();
         //   console.log(this.name);
         //   console.log(this.pid);
           data.append('disName',this.name)
+          
           data.append('files',this.file)
+          if(this.pdf){
+              data.append('files',this.pdf)
+          }
           data.append('pid',this.pid)
           uploadFile(data).then(res=>{
               
