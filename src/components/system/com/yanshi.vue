@@ -85,13 +85,13 @@
                         title: '产品名称',
                         key: 'name'
                     },
-                    {
-                        title: '操作人',
-                        key: 'leader'
-                    },
+                    // {
+                    //     title: '操作人',
+                    //     key: 'leader'
+                    // },
                     {
                         title: '创建时间',
-                        key: 'createTime',
+                        key: 'updateTime',
                     },
                      {
                         title: '链接地址',
