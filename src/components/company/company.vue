@@ -7,7 +7,7 @@
             </div>
             <Row>
                 <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;">
-                    <Button type="primary"  @click="dataType(item,demonstration)" :to="route">{{demonstration.titile}}</Button>
+                    <Button type="primary"  @click="dataType(item,demonstration)" :to="(demonstration.data.length&&demonstration.data[0].url)?'/index/demonstration':route">{{demonstration.titile}}</Button>
                 </Col>   
             </Row>
             </div>
@@ -59,13 +59,14 @@ export default {
           }
           
           obj.url = '';
+          
           if(demonstration.data){
-            //   obj.url = demonstration.data[0].url;
+              obj.url = demonstration.data[0].url;
             // obj.url = '';
           }
-          if(obj.url){
-              this.route = '/index/demonstration/'
-          }
+        //   if(obj.url){
+        //       this.route = '/index/demonstration/'
+        //   }
           let strObj = JSON.stringify(obj)
           localStorage.setItem('demostration',strObj)
           this.$store.commit("commonDataType",obj);
