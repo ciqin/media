@@ -111,7 +111,7 @@ export const updateCaseName = (data) => postHttp(baseUrl('/test/upload/updateDis
 
 // 权限管理-资料管理-用用案例管理-删除案例文件
 
-export const deleteFile = (data) => getHttp(baseUrl('/test/upload/deleteFile'),data)
+export const deleteFile = (data) => postHttp(baseUrl('/test/upload/deleteFile'),data)
 
 // 权限管理-资料管理-用用案例管理-文件内容展示
 
