@@ -124,7 +124,7 @@
                                     <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
                                 </Upload>
                             </FormItem>
-                             <FormItem v-if="fileTypeName=='PPT'||fileTypeName=='word'"
+                             <FormItem v-if="fileTypeName=='PPT'||fileTypeName=='技术白皮书'"
                             label="PDF版本"
                             label-position="left"
                             calss="formitem"
@@ -330,15 +330,15 @@
                     switch(this.fileTypeName){
                         case "PPT":
                             return ['ppt','pptx'];
-                        case "word":
+                        case "技术白皮书":
                             return ['doc','docx'];
                         case "产品册":
                             return ['pdf'];
-                        case "视频":
-                            return ['mp4'];
+                        case "视频资料":
+                            return ['mp4','avi'  ,'mkv' , 'flv' , 'wmv'];
                     }
                 }else{
-                    return ['ppt','pptx','doc','docx','mp4','pdf']
+                    return ['ppt','pptx','doc','docx','mp4','pdf','avi'  ,'mkv' , 'flv' , 'wmv']
                 }
             }
         },
