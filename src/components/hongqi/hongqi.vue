@@ -14,7 +14,7 @@
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.name}}
                                 </template>
-                                <MenuItem v-for="(datachild,index) in data.demonstrationArr[0]" :key="datachild.displayName" :name="'child-'+index" class="childItem">
+                                <MenuItem v-for="(datachild,index) in data.demonstrationArr[0]" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
                                     <img :src="datachild.icon" style="float:left;margin-top:2px;margin-right:16px;">
                                      {{datachild.displayName}}
                                 </MenuItem>
@@ -32,6 +32,7 @@ export default {
     return {
         id:this.$route.params.id,
         value:"",
+        route:this.$route.path,
         datas: [
         //   {
         //   "autoId": 1,
@@ -146,7 +147,33 @@ export default {
                 }):""; 
             showItem ===1 ?val.show = 0:val.show = 1;
         })
-      }
+      },
+      dataType(item,demonstration){
+          
+          let obj = new Object();
+          obj.namePar = item.name;
+          obj.name = demonstration.displayName;
+          obj.type = '1'
+          
+          obj.url = demonstration.url;
+         
+        //   if(demonstration.url){
+        //       obj.url = demonstration.url;
+        //     // obj.url = '';
+        //   }
+        //   if(obj.url){
+        //       this.route = '/index/demonstration/'
+        //   }
+          let strObj = JSON.stringify(obj)
+          localStorage.setItem('demostration',strObj)
+          this.$store.commit("commonDataType",obj);
+           if(obj.url){
+              window.open('/index/demonstration/','_self');
+
+          }else{
+              window.open(route,'_self');
+          }
+      },
   },
   mounted(){
       //    univeral api to get second title data
