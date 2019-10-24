@@ -6,7 +6,7 @@
                     <div v-for="(data,index) in datas" :key="data.text">
                             <MenuItem :name="index+'-1'" v-if="!data.demonstrationArr[0].length && !data.show" class="itempar">
                                 <div class="no_bk" @click="changeImg(data,index)"></div>
-                                <!-- <img :src="data.img"> -->
+                                <!-- <img src="/static/images/icon/pdf_icon.png"> -->
                                 {{data.name}}
                             </MenuItem>
                             <Submenu :name="'child-'+index" v-if="data.demonstrationArr[0].length && !data.show" :key="data.text" class="itempar">
@@ -15,7 +15,7 @@
                                     {{data.name}}
                                 </template>
                                 <MenuItem v-for="(datachild,index) in data.demonstrationArr[0]" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
-                                    <img :src="datachild.icon" style="float:left;margin-top:2px;margin-right:16px;">
+                                    <img src="/static/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
                                      {{datachild.displayName}}
                                 </MenuItem>
                             </Submenu>
@@ -32,6 +32,7 @@ export default {
     return {
         id:this.$route.params.id,
         value:"",
+        tempData:null,
         route:this.$route.path,
         datas: [
         //   {
@@ -133,20 +134,34 @@ export default {
   methods :{
       searchWord( ) {
         let that = this;
-        this.datas.forEach(function ( val , ind) {
-           let  showItem  = null;
-        //    val.secondPerm?val.secondPerm.find((value, index, arr) =>{
-        //         if(value.name ===that.value){
-        //            return  showItem = 1
-        //         }
-        //     }):""; 
-            val.demonstrationArr[0].length?val.demonstrationArr[0].find((value, index, arr) =>{
-                    if(value.name ===that.value){
-                    return  showItem = 1
-                    }
-                }):""; 
-            showItem ===1 ?val.show = 0:val.show = 1;
+        // debugger;
+        this.datas = this.datas.filter(function(o){
+            if(o.demonstrationArr[0].length){
+                let index = _.findIndex(o.demonstrationArr[0],(o2)=>{
+                    return o2.displayName ==that.value
+                })
+                if(index!=-1){
+                    return true
+                }else{
+                    return false
+                }
+            }else{ return false}
         })
+        
+        // this.datas.forEach(function ( val , ind) {
+        //    let  showItem  = null;
+        // //    val.secondPerm?val.secondPerm.find((value, index, arr) =>{
+        // //         if(value.name ===that.value){
+        // //            return  showItem = 1
+        // //         }
+        // //     }):""; 
+        //     val.demonstrationArr[0].length?val.demonstrationArr[0].find((value, index, arr) =>{
+        //             if(value.displayName ===that.value){
+        //             return  showItem = 1
+        //             }
+        //         }):""; 
+        //     showItem ===1 ?val.show = 0:val.show = 1;
+        // })
       },
       dataType(item,demonstration){
           
@@ -178,8 +193,16 @@ export default {
   mounted(){
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
-        this.datas  = res;    
+        this.datas  = res;
+        this.tempData = this.datas;    
     });
+  },
+  watch:{
+      value(newVal){
+          if(!newVal){
+              this.datas = this.tempData;
+          }
+      }
   }
 
 };
