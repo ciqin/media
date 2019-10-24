@@ -134,12 +134,14 @@ export default {
   methods :{
       searchWord( ) {
         let that = this;
-        // debugger;
         this.datas = this.datas.filter(function(o){
             if(o.demonstrationArr[0].length){
                 let index = _.findIndex(o.demonstrationArr[0],(o2)=>{
-                    return o2.displayName ==that.value
+                    let value = that.value;
+                    var p = new RegExp('\\w*'+value+'\\w*')
+                    return (p.test(o2.displayName))
                 })
+            
                 if(index!=-1){
                     return true
                 }else{
