@@ -49,6 +49,7 @@ export default {
         //   })
       },
       dataType(item,demonstration){
+          
           let obj = new Object();
           obj.namePar = item.name;
           obj.name = demonstration.titile;

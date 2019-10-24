@@ -182,10 +182,10 @@
                         case "产品册":
                             return ['pdf'];
                         case "视频资料":
-                            return ['mp4'];
+                            return ['mp4','avi'  ,'mkv' , 'flv' , 'wmv'];
                     }
                 }else{
-                    return ['ppt','pptx','doc','docx','mp4','pdf']
+                    return ['ppt','pptx','doc','docx','mp4','pdf','avi'  ,'mkv' , 'flv' , 'wmv']
                 }
             }
         },
