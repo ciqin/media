@@ -690,7 +690,7 @@
                     // })
                     if(this.fileTypeName=="地址"){
                         
-                        updateProductUrl({'autoId':this.fileInfo.id,'status':'-1'}).then(res=>{
+                        updateProductUrl({'autoId':this.fileInfo.id}).then(res=>{
                             this.$message('删除成功');
                             this.loadCasesContent();
                         });
