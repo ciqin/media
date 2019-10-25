@@ -6,7 +6,7 @@
                 <span>{{item.name}}</span>
             </div>
             <Row>
-                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;">
+                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;margin-top:18px;">
                     <Button type="primary"  @click="dataType(item,demonstration)" :to="(demonstration.data.length&&demonstration.data[0].url)?'/index/demonstration':route">{{demonstration.titile}}</Button>
                 </Col>   
             </Row>
