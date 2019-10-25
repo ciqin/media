@@ -83,9 +83,7 @@ export const updateFileInfo = (data) => postHttp(baseUrl('/test/system/update'),
 
 export const removeFile = (data) => postHttp(baseUrl('/test/system/deleteById'),data)
 
-// 添加应用案例地址
 
-export const addLink = (data) => postHttp(baseUrl('/test/system/addLink'),data)
 
 
 // 获取侧边栏项目
@@ -101,25 +99,45 @@ export const getProductDemo = (data) => postHttp(baseUrl('/test/appl/getProductU
 //修改产品演示地址
 export const updateProductUrl = (data) => postHttp(baseUrl('/test/appl/updateProductUrl'),data)
 
-// 权限管理-资料管理-用用案例管理-添加应用案例
+// 权限管理-资料管理-应用案例管理-添加应用案例
 
 export const addApplicationCase = (data) => postHttp(baseUrl('/test/appl/addFirstSecond'),data)
 
-// 权限管理-资料管理-用用案例管理-修改应用案例名称
+// 权限管理-资料管理-应用案例管理-修改应用案例名称
 
 export const updateCaseName = (data) => postHttp(baseUrl('/test/upload/updateDisName'),data)
 
-// 权限管理-资料管理-用用案例管理-删除案例文件
+// 权限管理-资料管理-应用案例管理-删除案例文件
 
 export const deleteFile = (data) => postHttp(baseUrl('/test/upload/deleteFile'),data)
 
-// 权限管理-资料管理-用用案例管理-文件内容展示
+// 权限管理-资料管理-应用案例管理-文件内容展示
 
 export const  getCasesContent = (data) => getHttp(baseUrl('/test/appl/getFileList'),data)
 
 // export const getContentList1 = (data) => getHttp(baseUrl('/test/appl/getProductUrl'),data)
 
+// 上传文件接口
 export const uploadFile1 = (data) => upload(baseUrl('/test/upload/updateUrl'),data)
+
+// 权限管理-资料管理-应用案例管理-添加地址接口
+/*
+*@method addLink
+*@param {String} url - 接口url
+*@param {Object} data - 传入参数
+*@param {String} data.name -地址名称
+*@param {String} data.url - 地址的url地址
+*@param {String} data.auto_id - 对应产品的pid
+*@return {Object} promise类，resovle数据为String类型的数据
+*/
+export const addLink = (data)=> postHttp(baseUrl('/test/appl/addUrl'),data)
+
+// 权限管理-资料管理-应用案例管理-修改地址接口
+
+export const editLink = (data)=> postHttp(baseUrl('/test/appl/updateProUrlForDZ'),data)
+
+
+
 
 
 

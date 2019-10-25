@@ -92,7 +92,7 @@
                             <Input  v-model = "formData.linkName"/>
                         </FormItem>
                         <FormItem
-                        label="链接"
+                        label="链接地址"
                         label-position="left"
                         calss="formitem"
                         style="width:100%;margin:0 auto;">
@@ -195,6 +195,9 @@
                         <FormItem label="产品名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input v-model="fileInfo.name" />
                         </FormItem>
+                        <FormItem label="链接地址：" v-if="fileTypeName=='地址'" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input v-model="fileInfo.url" />
+                        </FormItem>
                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input :value="userName" disabled />
                         </FormItem>
@@ -213,7 +216,8 @@
                     <img :src="item.icon" >
                     <span>{{item.titile}}</span>
                 </div>
-                <Button  class="btnMedalChild" @click="addModalCase(item.titile)" type="primary" style="margin-right: 25px;">添加文件</Button>
+                <Button  class="btnMedalChild" v-if="item.titile=='地址'" @click="addModalCase(item.titile)" type="primary" style="margin-right: 25px;">添加地址</Button>
+                <Button  class="btnMedalChild" v-else @click="addModalCase(item.titile)" type="primary" style="margin-right: 25px;">添加文件</Button>
             </div>
             <div>
                 <Table :data="item.data" :columns="tableColumns1" stripe>
@@ -222,7 +226,7 @@
                     </template>
                     <template  slot="action" slot-scope="{ row }" >
                         <Button shape="circle" icon="ios-create-outline" @click="editItem(row,item.titile)"></Button>
-                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row)"></Button>
+                        <Button shape="circle" icon="ios-trash-outline" @click="deleteItem(row,item.titile)"></Button>
                     </template>
                 </Table>
             </div>
@@ -234,7 +238,7 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
     import qs from 'qs'
-    import { addApplicationCase,getProductDemo,updateCaseName,deleteFile,getCasesContent,uploadFile} from '@/http/api';
+    import { addApplicationCase,getProductDemo,updateCaseName,deleteFile,getCasesContent,uploadFile,addLink,editLink,updateProductUrl} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -257,6 +261,7 @@
                     name: '',
                     // author: '',
                     id: '',
+                    url: ''
 
                 },
                 styles: {
@@ -416,7 +421,13 @@
                 // console.log(file.name);
                 return false;
             },
-
+            // 过滤文件类型
+            /*
+            *@method extFilter
+            *@param {String} extName - 上传的文件名称
+            *@param {String[]} condition - 允许的文件扩展名称
+            *@return {Boolean} true/false - 满足要求的格式返回true，否则返回false
+            */
             extFilter: function(extName,condition) {
                 let nameArr = extName.split('.');
                 
@@ -504,9 +515,13 @@
                     //     data.append('linkName'+i,this.formData[i].linkName);
                     //     data.append('link'+i,this.formData[i].link);
                     // }
-                    data.append('linkName'+i,this.formData.linkName);
-                    data.append('link'+i,this.formData.link);
-                    addLink(data).then(res => {
+                    // data.append('name',this.formData.linkName);
+                    // data.append('url',this.formData.link);
+                    let obj = {};
+                    obj.pid = this.selectedCases.c;
+                    obj.name = this.formData.linkName;
+                    obj.url = this.formData.link;
+                    addLink(obj).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res;
                         // });
@@ -578,7 +593,7 @@
                 // this.fileItemIndex= index;
                 this.fileInfo.name = item.displayName;
                 this.fileInfo.id = item.autoId;
-                
+                this.fileInfo.url = item.url;
                 this.fileTypeName = title;
                 // console.log(index);
                 
@@ -589,20 +604,30 @@
                 // if(this.fileTypeIndex!==''&&this.fileItemIndex!==''){
                     if(this.fileInfo.id&&this.fileInfo.name){
 
-                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].names = this.fileInfo.name;
-                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].operation = this.userName;
-                    // this.data[this.fileTypeIndex].data[this.fileItemIndex].createtime = this.fileInfo.createtime;
-                    updateCaseName({'id':this.fileInfo.id,'newName':this.fileInfo.name}).then(res=>{
-                        
-                        this.$message("修改成功");
+                    if(this.fileTypeName=="地址"){
+                        let obj = {};
+                        obj.autoId = this.fileInfo.id;
+                        obj.name = this.fileInfo.name;
+                        obj.url = this.fileInfo.url;
+                        editLink(obj).then(res=>{
+                            this.$message("修改成功");
 
-                        this.loadCasesContent();
-                    });
+                            this.loadCasesContent();
+                        })
+                    }else{
+                        updateCaseName({'id':this.fileInfo.id,'newName':this.fileInfo.name}).then(res=>{
+                        
+                            this.$message("修改成功");
+
+                            this.loadCasesContent();
+                        });
+                    }
+                    
                 }
                 
                 this.clearFileData();
             },
-            deleteItem(item){ //删除
+            deleteItem(item,title){ //删除
                 // let t = {'createtime':item.createtime,'names':item.names,'operation':item.operation};
                 // let i = _.findIndex(this.data,function(o){return o.title==title});
                 // if(i!==-1){
@@ -613,6 +638,7 @@
                 //         this.fileTypeIndex = i;
                 //     }
                 // }
+                this.fileTypeName = title
                 this.fileInfo.id = item.autoId;
                 // this.fileItemIndex= index;
                 this.modal1 = true;
@@ -662,19 +688,45 @@
                     //     // this.data[this.fileTypeIndex].data.splice(this.fileItemIndex,1);
                     //     vue.$message('删除成功');
                     // })
-                    deleteFile({'id':this.fileInfo.id}).then(res => {
-                        this.$message('删除成功');
-                        this.loadCasesContent();
-                    })
+                    if(this.fileTypeName=="地址"){
+                        
+                        updateProductUrl({'autoId':this.fileInfo.id,'status':'-1'}).then(res=>{
+                            this.$message('删除成功');
+                            this.loadCasesContent();
+                        });
+                    }else{
+                        deleteFile({'id':this.fileInfo.id}).then(res => {
+                            this.$message('删除成功');
+                            this.loadCasesContent();
+                         });
+                    }
+                    
                 }
             },
             loadCasesContent(){
                 if(this.selectedCases.c){
                     getCasesContent({'pid':this.selectedCases.c}).then(res => {
-                        this.data = res;
+                        // this.data = res;
+                        this.data = this.handleData(res);
                     })
                 }
             },
+            //给地址数据添加displayName
+            handleData(data){
+                data = data.map(function(v,i,a){
+                    if(v.titile=="地址"){
+                        if(v.data.length){
+                            v.data.map(function(v2,i2,a2){
+                                v2.displayName = v2.name;
+                                
+                                return v2;
+                            })
+                        }
+                    }
+                    return v;
+                });
+                return data
+            }
         },
         watch:{
             "selectedCases.v":{
@@ -706,7 +758,7 @@
                 handler(newVal,oldVal){
                     if(newVal){
                         getCasesContent({'pid':newVal}).then(res => {
-                                this.data = res;
+                                this.data = this.handleData(res);
                         });
                     }
                     
