@@ -86,7 +86,14 @@ export default {
     this.route = this.$route.path;
     
         getProductDemo({'fid':fid}).then(res =>{
-            this.productArr = res;
+            // this.productArr = res;
+            var data = res;
+            data.forEach(function(v,i){
+                v.demonstrationArr = v.demonstrationArr.filter(function(o){
+                    return (o.titile!='地址');
+                })
+            });
+            this.productArr = data;
         })
   },
   created(){
