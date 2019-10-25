@@ -136,7 +136,9 @@ export const addLink = (data)=> postHttp(baseUrl('/test/appl/addUrl'),data)
 
 export const editLink = (data)=> postHttp(baseUrl('/test/appl/updateProUrlForDZ'),data)
 
+// 权限管理-资料管理-应用案例管理-删除地址接口
 
+export const delteLink = (data)=> postHttp(baseUrl('/test/appl/deleteProductUrl'),data)
 
 
 

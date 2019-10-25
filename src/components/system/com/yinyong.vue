@@ -238,7 +238,7 @@
     import Title from "@/components/assembly/title";
     import {momentDate} from "@/common/utils/utilDateFormat"
     import qs from 'qs'
-    import { addApplicationCase,getProductDemo,updateCaseName,deleteFile,getCasesContent,uploadFile,addLink,editLink,updateProductUrl} from '@/http/api';
+    import { addApplicationCase,getProductDemo,updateCaseName,deleteFile,getCasesContent,uploadFile,addLink,editLink,delteLink} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
     export default {
@@ -690,7 +690,7 @@
                     // })
                     if(this.fileTypeName=="地址"){
                         
-                        updateProductUrl({'autoId':this.fileInfo.id}).then(res=>{
+                        delteLink({'autoId':this.fileInfo.id}).then(res=>{
                             this.$message('删除成功');
                             this.loadCasesContent();
                         });
