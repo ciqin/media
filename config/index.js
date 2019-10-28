@@ -13,7 +13,8 @@ module.exports = {
         pathRewrite: {"^/api" : ""}
       },
       '/test':{
-        target: 'http://localhost:8096/',
+        //target: 'http://localhost:8096/',
+	target: 'http://111.20.145.20:8006/wgproduct/',
         changeOrigin: true,
         pathRewrite: {"^/test" : ""}
       }
