@@ -45,9 +45,13 @@ export default {
       dataType(item,demonstration){
           let obj = new Object();
           obj.namePar = item.name;
-          obj.name = demonstration.namechild;
+          obj.name = demonstration.name;
           obj.type = demonstration.type;
           obj.url = demonstration.url;
+          let objStr = JSON.stringify(obj)
+          localStorage.setItem("demonstration",objStr);
+          let showData = JSON.stringify(demonstration);
+          localStorage.setItem("showData",showData);
           this.$store.commit("commonDataType",obj);
       },
   },

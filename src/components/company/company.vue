@@ -69,7 +69,7 @@ export default {
         //       this.route = '/index/demonstration/'
         //   }
           let strObj = JSON.stringify(obj)
-          localStorage.setItem('demostration',strObj)
+          localStorage.setItem('demonstration',strObj)
           this.$store.commit("commonDataType",obj);
       },
   },
