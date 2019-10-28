@@ -1,10 +1,10 @@
 <template>
     <div style="height:100%;margin-top:-16px;">
-        <Menu mode="horizontal" active-name="active0" >
-            <div v-for="(application,index) in applicationList" :key="application.text">
-                <MenuItem :name="'active'+index" :to="application.url">
-                    <img :src="application.icon" :alt="application.text">
-                    {{application.text}}
+        <Menu mode="horizontal" :active-name="activeName" >
+            <div v-for="(application,index) in applicationList" :key="application.titile">
+                <MenuItem :name="application.titile" @click.native="storeData(application.titile)" :to="application.url">
+                    <img :src="application.icon" :alt="application.titile">
+                    {{application.titile}}
                 </MenuItem>
             </div>
         </Menu>
@@ -19,41 +19,56 @@ export default {
     data() {
         return {
             msgNum: 5,
-            dataType:'',
+            // dataType:'',
+            activeName:'',
             applicationList:[
                 {
-                    text:"PPT",
+                    titile:"PPT",
                     icon:"/static/images/icon/ppt_icon.png",
                     url:'/ppt'
                 },
                  {
-                    text:"word",
-                    icon:"/static/images/icon/ppt_icon.png",
+                    titile:"技术白皮书",
+                    icon:"/static/images/icon/word_icon.png",
                      url:'/word'
                 },
                  {
-                    text:"产品册",
-                    icon:"/static/images/icon/ppt_icon.png",
+                    titile:"产品册",
+                    icon:"/static/images/icon/user_icon.png",
                      url:'/prodect'
                 },
                  {
-                    text:"视频",
-                    icon:"/static/images/icon/ppt_icon.png",
+                    titile:"视频资料",
+                    icon:"/static/images/icon/video_icon.png",
                      url:'/video'
                 },
                  {
-                    text:"地址",
-                    icon:"/static/images/icon/ppt_icon.png",
+                    titile:"地址",
+                    icon:"/static/images/icon/url_icon.png",
                      url:'/useurl'
                 }
             ]
         };
     },
     methods:{
-        
+        storeData(title){
+            debugger;
+            sessionStorage.setItem('activeName',title);
+        }
     },
     mounted() {
-     
+        // let dataStr = localStorage.getItem('showData');
+        // if(dataStr){
+            
+        //     let data = JSON.parse(dataStr);
+        //     this.data
+        // }
+        let activeName = sessionStorage.getItem('activeName');
+        if(activeName){
+            this.activeName = activeName;
+        }else{
+            this.activeName = this.applicationList[0].titile;
+        }
     },
 };
 </script>

@@ -1,9 +1,8 @@
 <template>
     <div class="container">
-        <div class="product_ys">
-            <p>标题</p>
-            <iframe src="" frameborder="0"></iframe>
-        </div>
+        <ul>
+            <li class="item" v-for="item in applicationList" :key="item.displayName" @click="dataType(item)"> {{ item.displayName}}</li>
+        </ul>
     </div>  
 </template>
 
@@ -12,36 +11,75 @@ export default {
     data() {
         return {
             applicationList:[
-                {
-                    text:"produt1",
-                },
-                 {
-                    text:"product2",
-                },
-                 {
-                    text:"product3",
-                },
-                 {
-                    text:"product4",
-                },
-                 {
-                    text:"product5",
-                }
+                // {
+                //     text:"PPT1",
+                // },
+                //  {
+                //     text:"PPT2",
+                // },
+                //  {
+                //     text:"PPT3",
+                // },
+                //  {
+                //     text:"PPT4",
+                // },
+                //  {
+                //     text:"PPT5",
+                // }
             ]
         };
     },
     methods:{
+        dataType(item){
+            
+            let dataType = this.$store.state.dataType;
+            let dataStr = localStorage.getItem("demonstration");
+            if(dataStr){
+                let data = JSON.parse(dataStr);
+                data.type = '1';
+                data.url = item.url;
+                dataStr = JSON.stringify(data);
+                localStorage.setItem("demonstration",dataStr)
+            }
+
+            if(dataType){
+                dataType.url = item.url;
+                dataType.type = '1';
+                this.$store.commit("commonDataType",dataType);
+            }
+            window.open("/index/demonstration/","_self")
+            
+        }
         
     },
     mounted() {
-     // let param = {
+        //  console.log(this.$store.state.dataType.name); 
+        //  console.log(this.$store.state.dataType.namePar);
+        // load ppt list api and just de-comment those codes below then api can be run well
+        // let param = {
         //     'productType': this.$store.state.dataType.name,
         //     'productItem': this.$store.state.dataType.namePar,
-        //     'fileType': 'product'
+        //     'fileType': 'ppt'
         // }
         // getPPTList(param).then(res => {
         //     this.applicationList =  res;
         // })
+        let dataStr = localStorage.getItem('showData');
+        
+        if(dataStr){
+            let data = JSON.parse(dataStr);
+            let fileList = data.demonstrationArr;
+            if(fileList&&fileList.length){
+                fileList = fileList.filter(function(v){
+                    if(v.titile=="产品册"){
+                        return v;
+                    }
+                });
+                if(fileList.length&&fileList[0].data&&fileList[0].data.length){
+                    this.applicationList = fileList[0].data;
+                }
+            }
+        }
     },
 };
 </script>
@@ -49,21 +87,23 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
    .container {
-       .product_ys {
-            height: 100%;
-            padding: 0 16px 16px 16px;
-            margin-top: 3px;
-            p{
-                font-size: 24px;
-                font-weight:700;
-                height: 60px;
-                color:#5c5c5c;
-                line-height: 60px;
-            }
-            iframe,video{
-                width: 100%;
-                height: calc(100% - 94px);
-            }
-        }
+       ul {
+           margin-top:24px;
+           .item {
+               height: 50px;
+               line-height: 50px;
+               border-top:1px solid #d1d1d1;
+               border-bottom:1px solid #d1d1d1;
+               margin-top: -1px;
+               font-size: 14px;
+               color:#5b5b5b;
+               background: #fff;
+               padding-left: 28px;
+           }
+           .item:hover{
+               background: #f1f6ff;
+               color:#2fa9e8;
+           }
+       }
    }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul>
-            <li class="item" v-for="item in applicationList" :key="item.text"> {{ item.text}}</li>
+            <li class="item" v-for="item in applicationList" :key="item.displayName" @click="dataType(item)"> {{ item.displayName}}</li>
         </ul>
     </div>  
 </template>
@@ -11,25 +11,45 @@ export default {
     data() {
         return {
             applicationList:[
-                {
-                    text:"PPT1",
-                },
-                 {
-                    text:"PPT2",
-                },
-                 {
-                    text:"PPT3",
-                },
-                 {
-                    text:"PPT4",
-                },
-                 {
-                    text:"PPT5",
-                }
+                // {
+                //     text:"PPT1",
+                // },
+                //  {
+                //     text:"PPT2",
+                // },
+                //  {
+                //     text:"PPT3",
+                // },
+                //  {
+                //     text:"PPT4",
+                // },
+                //  {
+                //     text:"PPT5",
+                // }
             ]
         };
     },
     methods:{
+        dataType(item){
+            
+            let dataType = this.$store.state.dataType;
+            let dataStr = localStorage.getItem("demonstration");
+            if(dataStr){
+                let data = JSON.parse(dataStr);
+                data.type = '1';
+                data.url = item.url;
+                dataStr = JSON.stringify(data);
+                localStorage.setItem("demonstration",dataStr)
+            }
+
+            if(dataType){
+                dataType.url = item.url;
+                dataType.type = '1';
+                this.$store.commit("commonDataType",dataType);
+            }
+            window.open("/index/demonstration/","_self")
+            
+        }
         
     },
     mounted() {
@@ -44,6 +64,22 @@ export default {
         // getPPTList(param).then(res => {
         //     this.applicationList =  res;
         // })
+        let dataStr = localStorage.getItem('showData');
+        
+        if(dataStr){
+            let data = JSON.parse(dataStr);
+            let fileList = data.demonstrationArr;
+            if(fileList&&fileList.length){
+                fileList = fileList.filter(function(v){
+                    if(v.titile=="PPT"){
+                        return v;
+                    }
+                });
+                if(fileList.length&&fileList[0].data&&fileList[0].data.length){
+                    this.applicationList = fileList[0].data;
+                }
+            }
+        }
     },
 };
 </script>

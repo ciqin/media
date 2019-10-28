@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul>
-            <li class="item" v-for="item in applicationList" :key="item.text"> {{ item.text}}</li>
+            <li class="item" v-for="item in applicationList" :key="item.displayName" @click="dataType(item)"> {{ item.displayName}}</li>
         </ul>
     </div>  
 </template>
@@ -11,26 +11,31 @@ export default {
     data() {
         return {
             applicationList:[
-                {
-                    text:"url1",
-                },
-                 {
-                    text:"url2",
-                },
-                 {
-                    text:"url3",
-                },
-                 {
-                    text:"url4",
-                },
-                 {
-                    text:"url5",
-                }
+                // {
+                //     text:"url1",
+                // },
+                //  {
+                //     text:"url2",
+                // },
+                //  {
+                //     text:"url3",
+                // },
+                //  {
+                //     text:"url4",
+                // },
+                //  {
+                //     text:"url5",
+                // }
             ]
         };
     },
     methods:{
-        
+        dataType(item){
+            
+            let url = item.url
+            window.open(url,"_blank")
+            
+        }
     },
     mounted() {
      // let param = {
@@ -41,6 +46,22 @@ export default {
         // getPPTList(param).then(res => {
         //     this.applicationList =  res;
         // })
+        let dataStr = localStorage.getItem('showData');
+        
+        if(dataStr){
+            let data = JSON.parse(dataStr);
+            let fileList = data.demonstrationArr;
+            if(fileList&&fileList.length){
+                fileList = fileList.filter(function(v){
+                    if(v.titile=="PPT"){
+                        return v;
+                    }
+                });
+                if(fileList.length&&fileList[0].data&&fileList[0].data.length){
+                    this.applicationList = fileList[0].data;
+                }
+            }
+        }
     },
 };
 </script>
