@@ -128,6 +128,7 @@ const routes = [
 const router = new Router({
   mode : 'history',
   linkActiveClass: 'active_change',
+  base:'/wgproduct/',
   routes
 })
 router.beforeEach((to, from, next) => {
