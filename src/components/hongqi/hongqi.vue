@@ -185,7 +185,7 @@ export default {
           localStorage.setItem('demostration',strObj)
           this.$store.commit("commonDataType",obj);
            if(obj.url){
-              window.open('/index/demonstration/','_self');
+              window.open('/wgproduct/#/index/demonstration/','_self');
 
           }else{
               window.open(route,'_self');
