@@ -13,7 +13,8 @@ module.exports = {
         pathRewrite: {"^/api" : ""}
       },
       '/test':{
-	      target: 'http://111.20.145.20:8006/wgproduct/',
+        // target: 'http://111.20.145.20:8006/wgproduct/',
+        target: 'localhost:8096',
         changeOrigin: true,
         pathRewrite: {"^/test" : ""}
       }
@@ -32,7 +33,7 @@ module.exports = {
   build: {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: '',
     assetsPublicPath: './',
     productionSourceMap: false,
     devtool: '#source-map',
