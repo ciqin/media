@@ -126,9 +126,10 @@ const routes = [
 ]
 
 const router = new Router({
-  mode : 'history',
+  // mode : 'history',
+  mode: 'hash',
   linkActiveClass: 'active_change',
-  base:'/wgproduct/',
+  // base:'/wgproduct/',
   routes
 })
 router.beforeEach((to, from, next) => {
