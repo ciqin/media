@@ -14,7 +14,7 @@ module.exports = {
       },
       '/test':{
         // target: 'http://111.20.145.20:8006/wgproduct/',
-        target: 'localhost:8096',
+        target: 'http://localhost:8096',
         changeOrigin: true,
         pathRewrite: {"^/test" : ""}
       }
