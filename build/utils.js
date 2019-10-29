@@ -48,7 +48,8 @@ exports.cssLoaders = function (options) {
       return ExtractTextPlugin.extract({
         use: loaders,
         fallback: 'vue-style-loader',
-	publicPath: '../../'
+	//publicPath: '../../'
+	publicPath: '/wgproduct/'
       })
     } else {
       return ['vue-style-loader'].concat(loaders)
