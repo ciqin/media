@@ -24,27 +24,32 @@ export default {
             applicationList:[
                 {
                     titile:"PPT",
-                    icon:"/static/images/icon/ppt_icon.png",
+                    // icon:"/static/images/icon/ppt_icon.png",
+                    icon:"/wgproduct/images/icon/ppt_icon.png",
                     url:'/ppt'
                 },
                  {
                     titile:"技术白皮书",
-                    icon:"/static/images/icon/word_icon.png",
+                    // icon:"/static/images/icon/word_icon.png",
+                    icon:"/wgproduct/images/icon/word_icon.png",
                      url:'/word'
                 },
                  {
                     titile:"产品册",
-                    icon:"/static/images/icon/user_icon.png",
+                    // icon:"/static/images/icon/user_icon.png",
+                    icon:"/wgproduct/images/icon/user_icon.png",
                      url:'/prodect'
                 },
                  {
                     titile:"视频资料",
-                    icon:"/static/images/icon/video_icon.png",
+                    icon:"/wgproduct/images/icon/video_icon.png",
+                    // icon:"/static/images/icon/video_icon.png",
                      url:'/video'
                 },
                  {
                     titile:"地址",
-                    icon:"/static/images/icon/url_icon.png",
+                    // icon:"/static/images/icon/url_icon.png",
+                    icon:"/wgproduct/images/icon/url_icon.png",
                      url:'/useurl'
                 }
             ]
@@ -75,6 +80,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+    .ivu-table th {
+        text-align: center;
+    }
    .product {
        height: 50px;
        background: #fff;

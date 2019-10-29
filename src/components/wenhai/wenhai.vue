@@ -10,7 +10,16 @@
                         <a v-for="cItem in item.children" :href="cItem.url" :key="cItem.name" target="_blank">
                            {{cItem.name}}
                         </a>
-                    </div>  
+                    </div>
+                    <!-- <div class="login-info">
+                        <span><strong>用户名：</strong></span><span>1234</span><br>
+                        <span><strong>密码：</strong></span><span>1234</span>
+                    </div>   -->
+                    <div class="login-info">
+                        <div class="login-item"><div class="label-name">用户名：</div><input disabled value="1234" /></div>
+                        <div class="login-item"><div class="label-name">密码：</div><input disabled value="1234" /></div>
+                    </div>
+
                 </div>
             </Col>
         </Row>
@@ -77,7 +86,37 @@ export default {
                 cursor: pointer;
             }
         }
+        .form{
+            width:80%;
+            margin-top:0;
+            float:right;
+            height: 100px;
+        }
+        .login-info{
+                float:right;
+                font-size:12px;
+                text-align: left;
+                
+                margin-right: 2px;
+                .login-item{
+                    height: 40px;
+                    
+                    .label-name{
+                        width:80px;
+                        display: inline-block;
+                        text-align: right;
+                    }
+                    input{
+                        border-color:#ccc;
+                        border-radius: 2px;
+                        border:none;
+                        display: inline-block;
+                        background-color: #eee;
+                    }
+                }
        
+            }
+            
     }
     .ivu-row-flex>div:nth-child(2n){
         .address_box {
@@ -97,6 +136,7 @@ export default {
                     border-right: 0;
                 }
             }
+            
         }
     }
 </style>
