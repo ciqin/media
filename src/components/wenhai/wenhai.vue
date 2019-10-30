@@ -18,8 +18,8 @@
                         <span><strong>密码：</strong></span><span>1234</span>
                     </div>   -->
                     <div class="login-info">
-                        <div class="login-item"><div class="label-name">用户名：</div><input disabled value="1234" /></div>
-                        <div class="login-item"><div class="label-name">密码：</div><input disabled value="1234" /></div>
+                        <div class="login-item"><div class="label-name">用户名：</div><input disabled :value="item.logName" /></div>
+                        <div class="login-item"><div class="label-name">密码：</div><input disabled :value="item.logPassword" /></div>
                     </div>
 
                 </div>
