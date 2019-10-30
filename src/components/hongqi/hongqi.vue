@@ -171,7 +171,8 @@ export default {
           obj.namePar = item.name;
           obj.name = demonstration.displayName;
           obj.type = '1'
-          
+          obj.fileType = demonstration.type;
+          obj.fileName = demonstration.fileName;
           obj.url = demonstration.url;
          
         //   if(demonstration.url){
