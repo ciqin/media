@@ -19,7 +19,7 @@
                     </div>   -->
                     <div class="login-info">
                         <div class="login-item"><div class="label-name">用户名：</div><input disabled :value="item.logName" /></div>
-                        <div class="login-item"><div class="label-name">密码：</div><input disabled :value="item.logPassword" /></div>
+                        <div class="login-item"><div class="label-name">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div><input disabled :value="item.logPassword" /></div>
                     </div>
 
                 </div>

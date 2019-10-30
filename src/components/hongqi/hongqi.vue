@@ -166,7 +166,6 @@ export default {
         // })
       },
       dataType(item,demonstration){
-          
           let obj = new Object();
           obj.namePar = item.name;
           obj.name = demonstration.displayName;
@@ -183,7 +182,7 @@ export default {
         //       this.route = '/index/demonstration/'
         //   }
           let strObj = JSON.stringify(obj)
-          localStorage.setItem('demostration',strObj)
+          localStorage.setItem('demonstration',strObj)
           this.$store.commit("commonDataType",obj);
            if(obj.url){
               window.open('/wgproduct/#/index/demonstration/','_self');

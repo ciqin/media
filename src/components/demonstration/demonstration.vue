@@ -50,7 +50,7 @@ export default {
                 let param = {};
                 param.name = this.dataType.fileName;
                 param.type = this.dataType.fileType;
-                console.log(param)
+                // console.log(param)
                 getDownloadLink(param).then(res=>{
                     if(res){
                         this.downloadUrl = res;
