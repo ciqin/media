@@ -38,6 +38,8 @@ export default {
                 let data = JSON.parse(dataStr);
                 data.type = '1';
                 data.url = item.url;
+                data.fileName = item.fileName;
+                data.fileType = item.type;
                 dataStr = JSON.stringify(data);
                 localStorage.setItem("demonstration",dataStr)
             }
