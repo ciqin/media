@@ -113,7 +113,7 @@ export const deleteFile = (data) => postHttp(baseUrl('/test/upload/deleteFile'),
 
 // 权限管理-资料管理-应用案例管理-文件内容展示
 
-export const  getCasesContent = (data) => postHttp(baseUrl('/test/appl/getFileList'),data)
+export const  getCasesContent = (data) => getHttp(baseUrl('/test/appl/getFileList'),data)
 
 // export const getContentList1 = (data) => getHttp(baseUrl('/test/appl/getProductUrl'),data)
 
@@ -141,6 +141,8 @@ export const editLink = (data)=> postHttp(baseUrl('/test/appl/updateProUrlForDZ'
 export const delteLink = (data)=> postHttp(baseUrl('/test/appl/deleteProductUrl'),data)
 
 
+// 获取文件下载链接接口
 
+export const getDownloadLink = (data) => postHttp(baseUrl('/test/appl/getRealFileUrl'),data)
 
 
