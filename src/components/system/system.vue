@@ -2,20 +2,20 @@
     <div class="clearfix">
         <Menu mode="horizontal" :theme="theme1" active-name="1">
             <MenuItem name="1" :to="'/index/system/department/'+id">
-                <Icon type="ios-people" />
+                <Icon type="ios-people" class="icon-system"/>
                 部门管理
             </MenuItem>
             <MenuItem name="2" to="/index/system/role">
-                <Icon type="ios-person-add" />
+                <Icon type="ios-person-add" class="icon-system" />
                 管理员
             </MenuItem>
             <MenuItem name="4" to="/index/system/user">
-                <Icon type="ios-person-add" />
+                <Icon type="ios-person-add" class="icon-system" />
                 用户管理
             </MenuItem>
-             <Submenu name="3">
+             <Submenu name="3" style="font-size:17px;">
                 <template slot="title">
-                    <Icon type="ios-stats" />
+                    <Icon type="ios-stats" class="icon-system" />
                     资料管理
                 </template>
                 <div @click="linksis(item)" v-for="(item,index) in datas" :key="item.name">
@@ -85,7 +85,15 @@
     .ivu-menu-light {
         margin-top: -16px;
     }
-
+    .icon-system{
+        font-size:20px;
+    }
+    .ivu-menu-item{
+        font-size: 17px;
+    }
+    .ivu-menu-submenu-title{
+        font-size:17px;
+    }
     .company_box {
         position: relative;
     }
