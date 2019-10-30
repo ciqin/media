@@ -60,9 +60,12 @@ export default {
           }
           
           obj.url = '';
-          
+          obj.filename = '';
+          obj.filetype = ''
           if(demonstration.data){
               obj.url = demonstration.data[0].url;
+              obj.fileName = demonstration.data[0].fileName;
+              obj.fileType = demonstration.data[0].type;
             // obj.url = '';
           }
         //   if(obj.url){
