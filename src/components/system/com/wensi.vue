@@ -303,6 +303,8 @@ export default {
         if(!name&&this.formData.file){
           name = this.formData.file.name.split(".")[0];
         }
+        let id = this.dataId;
+        data.append('pid',id);
         data.append('disName',name);
         let files = this.formData.file;
         data.append('files',files);
@@ -329,6 +331,7 @@ export default {
       getProductDemo({'fid':this.id}).then(res => {
         this.data1 = res
         this.dataId = this.data1[index].autoId;
+        this.data = this.data1[index].demonstrationArr[0];
       });
       
     },
