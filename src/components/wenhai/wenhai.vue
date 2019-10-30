@@ -6,10 +6,12 @@
                     <img :src="item.relevantInfo">
                     <!-- <a :href="item.url" target="_blank"><span>{{item.name}}</span></a> -->
                     <a :href="item.url" target="_blank"><span>{{item.name}}</span></a>
-                    <div class="langchange" v-if="item.children">
-                        <a v-for="cItem in item.children" :href="cItem.url" :key="cItem.name" target="_blank">
-                           {{cItem.name}}
-                        </a>
+                    <div class="langchange">
+                        <div v-if="item.children">
+                            <a  v-for="cItem in item.children" :href="cItem.url" :key="cItem.name" target="_blank">
+                            {{cItem.name}}
+                            </a>
+                        </div>
                     </div>
                     <!-- <div class="login-info">
                         <span><strong>用户名：</strong></span><span>1234</span><br>
@@ -66,7 +68,7 @@ export default {
     }
     .address_box {
         width: calc(100% - 12px);
-        height: 100px;
+        height: auto;
         background: #fff;
         margin-bottom: 12px;
         border-radius: 2px;
@@ -93,14 +95,14 @@ export default {
             height: 100px;
         }
         .login-info{
-                float:right;
+                // float:right;
                 font-size:12px;
                 text-align: left;
                 
-                margin-right: 2px;
+                margin: 2px 0 2px 5px;
                 .login-item{
                     height: 40px;
-                    
+                    display: inline-block;
                     .label-name{
                         width:80px;
                         display: inline-block;
@@ -108,10 +110,12 @@ export default {
                     }
                     input{
                         border-color:#ccc;
-                        border-radius: 2px;
+                        border-radius: 4px;
+                        padding: 2px;
                         border:none;
                         display: inline-block;
-                        background-color: #eee;
+                        // background-color: #f3f3f3;
+                        background-color: #fff;
                     }
                 }
        
@@ -119,15 +123,18 @@ export default {
             
     }
     .ivu-row-flex>div:nth-child(2n){
+    // .ivu-row-flex>div{
         .address_box {
             width: 100%;
             position: relative;
             .langchange {
-                position:absolute;
+                // position:absolute;
                 left: 94px;
                 top:66px;
+                
                 a {
                     font-size: 16px;
+                    // font-size:14px;
                     color:#747474;
                     border-right: 1px solid #c5c5c5;
                     padding:0 12px;
@@ -139,4 +146,9 @@ export default {
             
         }
     }
+    .langchange{
+        height: 24px;
+        width:100%;
+    }
+    
 </style>
