@@ -32,7 +32,11 @@ export default {
         },
         download(){
             let url = this.downloadUrl;
-            window.open(url);
+            if(url){
+                window.open(url);
+            }else{
+                this.$message("请稍后下载")
+            }
         }
     },
     mounted() {
