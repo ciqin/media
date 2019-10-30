@@ -6,7 +6,7 @@
             <span>{{dataType.namePar}}</span>
             <Icon type="ios-arrow-forward" :size="18" :color="'#b8b8b8'" style="margin-top: .4px;"/>
             <span>{{dataType.name}}</span>
-            <Button :size="buttonSize" icon="ios-download-outline" type="primary" class="download-btn" @click="download(dataType.url)">下载原文件</Button>
+            <Button :size="buttonSize" icon="ios-download-outline" type="primary" class="download-btn" @click="download()">下载原文件</Button>
         </div>
         <div class="product_ys">
             <p>{{dataType.namePar}}{{dataType.name}}</p>
@@ -17,31 +17,44 @@
 </template>
 
 <script>
+import {getDownloadLink} from '@/http/api'
 export default {
     data() {
         return {
             msgNum: 5,
-            dataType:''
+            dataType:'',
+            downloadUrl:''
         };
     },
     methods:{
         goBack(){
             this.$router.back(-1)
         },
-        download(url){
+        download(){
+            let url = this.downloadUrl;
             window.open(url);
         }
     },
     mounted() {
         
         this.dataType = this.$store.state.dataType;
-        if(!this.dataType){
+        // if(!this.dataType){
             let strObj = localStorage.getItem("demonstration");
             if(strObj){
                 this.dataType = JSON.parse(strObj);
+                // let dataType = this.dataType;
+                let param = {};
+                param.name = this.dataType.fileName;
+                param.type = this.dataType.fileType;
+                console.log(param)
+                getDownloadLink(param).then(res=>{
+                    if(res){
+                        this.downloadUrl = res;
+                    }
+                })
             }
 
-        }
+        // }
     },
 };
 </script>
