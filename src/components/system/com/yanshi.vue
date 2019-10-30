@@ -20,6 +20,16 @@
                         </FormItem>
                     </Col>
                     <Col span="24">
+                        <FormItem label="用户名" label-position="left">
+                            <Input v-model="formData.userName" placeholder="请输入用户名"  style="width:86%;"/>
+                        </FormItem>
+                    </Col>
+                    <Col span="24">
+                        <FormItem label="密码" label-position="left">
+                            <Input v-model="formData.password" placeholder="请输入密码"  style="width:86%;"/>
+                        </FormItem>
+                    </Col>
+                    <Col span="24">
                         <FormItem label="产品链接地址" label-position="left">
                             <Input v-model="formData.url" placeholder="请输入产品链接地址"  style="width:86%;"/>
                         </FormItem>
@@ -79,6 +89,8 @@
                     icon: "",
                     name: "",
                     url: null,
+                    userName:'',
+                    password:'',
                 },
                 tableColumns1: [
                     {
@@ -92,6 +104,14 @@
                     {
                         title: '创建时间',
                         key: 'updateTime',
+                    },
+                    {
+                        title: '用户名',
+                        key: 'userName',
+                    },
+                    {
+                        title: '密码',
+                        key: 'password',
                     },
                      {
                         title: '链接地址',
@@ -111,6 +131,7 @@
                         width: 150,
                         align: 'center'
                     }
+                    
                 ]
             }
         },
@@ -196,7 +217,7 @@
                 // }
                 this.value3 = false;
                 this.data1.splice(this.num, 1, this.formData);
-                let param = {'url':this.formData.url,'pid':this.formData.autoId};
+                let param = {'url':this.formData.url,'pid':this.formData.autoId,'logName':this.formData.userName,'logPassword':this.formData.password};
                 updateProductUrl(param).then(res => {
                     this.$message("修改成功")
                 });
