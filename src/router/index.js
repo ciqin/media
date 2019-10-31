@@ -79,6 +79,26 @@ const routes = [
               component:resolve => require(['@/components/system/user/user'], resolve)
             },
             {
+              path: '/index/system/department/:id',
+              name: 'department',
+              component:resolve => require(['@/components/system/department/department'], resolve)
+            },
+            {
+              path: '/index/system/vendor',
+              name: 'vendor',
+              component:resolve => require(['@/components/system/proj/vendor'], resolve)
+            },
+            {
+              path: '/index/system/proj',
+              name: 'proj',
+              component:resolve => require(['@/components/system/proj/proj'], resolve)
+            },
+            {
+              path: '/index/system/wensiManage',
+              name: 'proj',
+              component:resolve => require(['@/components/system/proj/wensiManage'], resolve)
+            },
+            {
               path: '/index/system/mytest',
               name: 'test1',
               component:resolve => require(['@/components/test/test'], resolve)
@@ -103,16 +123,13 @@ const routes = [
               name: 'project',
               component:resolve => require(['@/components/system/com/yinyong'], resolve)
             },
+            
             {
               path: '/index/system/role',
               name: 'role',
               component:resolve => require(['@/components/system/role/role'], resolve)
             },
-            {
-              path: '/index/system/department/:id',
-              name: 'department',
-              component:resolve => require(['@/components/system/department/department'], resolve)
-            }
+          
         ]
       }
     ]
