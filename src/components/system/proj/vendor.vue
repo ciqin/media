@@ -85,13 +85,13 @@
                         title: '行业名称',
                         key: 'name'
                     },
-                    {
-                        title: '操作人',
-                        key: 'userName'
-                    },
+                    // {
+                    //     title: '操作人',
+                    //     key: 'userName'
+                    // },
                     {
                         title: '创建时间',
-                        key: 'updateTime',
+                        key: 'insertTime',
                     },
                     {
                         title: '操作',
