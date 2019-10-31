@@ -15,6 +15,16 @@
             </MenuItem>
              <Submenu name="3" style="font-size:17px;">
                 <template slot="title">
+                    <Icon type="ios-stats" class="icon-system" ></Icon>
+                    <!-- <Icon type="ios-levels" class="icon-system" /> -->
+                    项目管理
+                </template>
+                <div @click="linksis(item)" v-for="(item,index) in projectData" :key="item.name">
+                      <MenuItem :name="'active2'+index" :to="item.link">{{item.name}}</MenuItem>
+                </div>
+            </Submenu>
+             <Submenu name="5" style="font-size:17px;">
+                <template slot="title">
                     <Icon type="ios-stats" class="icon-system" />
                     资料管理
                 </template>
@@ -37,6 +47,20 @@
                 id:this.$route.params.id,
                 theme1: 'light',
                 datas:null,
+                projectData:[
+                    {
+                        "name":"应用案例行业",
+                        "link":"/index/system/vendor",
+                    },
+                    {
+                        "name":"应用案例项目",
+                        "link":"/index/system/proj",
+                    },
+                    {
+                        "name":"闻思报告行业",
+                        "link":"/index/system/wensiManage",
+                    },
+                ],
                 linkArr:[ //路由信息
                     {
                         "name":"产品物料",
