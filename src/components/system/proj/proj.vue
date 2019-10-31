@@ -15,8 +15,20 @@
                 <Row :gutter="32">
                     <Col span="24">
                         <FormItem label="行业名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入行业名称" v-model="formData.projName" />
+                             <Input  placeholder="请输入项目名称" v-model="formData.name" />
                         </FormItem>
+                    </Col>
+                    <Col span="24" v-if="showFlag">
+                        <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                            <select class="MaterialList" style="width:100%;" v-model="formData.id">
+                                <!-- <option value="1">媒体行业应用案例</option>
+                                <option value="2">政务领域应用案例</option>
+                                <option value="3">舆情领域应用案例</option>
+                                <option value="4">警务领域应用案例</option> -->
+                                <option :value="vendor.autoId" v-for="(vendor,index) in vendorArr" :key="index">{{vendor.name}}</option>
+                            </select>
+                        </FormItem>
+                        
                     </Col>
                     
                 </Row>
@@ -58,14 +70,17 @@
     
     import '../../../assets/css/system.css';
 
-    import { getDepartment,removeDepartment,addDepartment,getProductDemo} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,addApplicationCase,updateVendor,deleteVendor} from '@/http/api';
 
     export default {
         data () {
             return {
                 data1: [],
+                fid:3,
                 value3: false,
+                showFlag:0,
                 addInput:[],
+                vendorArr:[],
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -76,21 +91,24 @@
                 modal1: false,
                 removeId:0,
                 formData: {
-                    name:''
+                    name:'',
+                    // caseId:'',
+                    // autoId:''
+                    id:''
                 },
                 tableColumns1: [
                     
                     {
                         title: '项目名称',
-                        key: 'projName'
-                    },
-                    {
-                        title: '行业名称',
                         key: 'name'
                     },
                     {
+                        title: '行业名称',
+                        key: 'vendorName'
+                    },
+                    {
                         title: '创建时间',
-                        key: 'updateTime',
+                        key: 'insertTime',
                     },
                     {
                         title: '操作',
@@ -103,12 +121,7 @@
         },
         mounted () {
             
-            let fid = 3;
-            let param = {'fid':fid}
-            getProductDemo(param).then(res =>{
-                let data = this.tidyData(res)
-                this.data1 = data;
-            })
+            this.loadContent();
 
         },
         methods: {
@@ -124,9 +137,9 @@
                     if(v.children&&v.children.length){
                         v.children.forEach(function(v2){
                             let el = {};
-                            el.name = v.name;
+                            el.vendorName = v.name;
                             el.autoId = v2.autoId;
-                            el.projName = v2.name;
+                            el.name = v2.name;
                             el.updateTime = v2.updateTime;
                             result.push(el);
                         });
@@ -138,6 +151,7 @@
                this.cleardata();
                this.value3 = true;
                this.num = 1;
+               this.showFlag = 1;
             },
             changePage () {
                 // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
@@ -149,16 +163,65 @@
 
                 // api for modifying the row data
                 // and refresh the new data
-
+                let name = this.formData.name;
+                let fid = this.formData.id;
+                if(this.showFlag){
+                    
+                    let sort;
+                    if(!name||!fid){
+                        this.$message('请输入名称并选择行业');
+                        return
+                    }
+                    let vendorArr = this.vendorArr;
+                    let index = _.findIndex(vendorArr,function(o){return o.autoId==fid});
+                    if(index!=-1){
+                        sort = vendorArr[index].len;
+                        addApplicationCase({'name':name,'fid':fid,'sort':sort}).then(res=>{
+                            this.$message('添加成功');
+                            this.loadContent()
+                        })
+                    }
+                    
+                }else{
+                    updateVendor({'newName':name,'id':fid}).then(res=>{
+                        this.$message('修改成功');
+                        this.loadContent()
+                    })
+                }
+                this.value3 = false;
                 
             },
             ok() {
-                    // remove the row data and refresh the data 
+                    // remove the row data and refresh the data
+                    let id = this.removeId
+                    deleteVendor({'id':id}).then(res=>{
+                        this.$message('删除成功');
+                        this.loadContent();
+                    })
+
+            },
+            loadContent(){
+                let fid = this.fid;
+                let param = {'fid':fid}
+                getProductDemo(param).then(res =>{
+                    let data = this.tidyData(res)
+                    this.data1 = data;
+                    let vendorArr = [];
+                    res.forEach(function(v){
+                        let el = {};
+                        el.name = v.name;
+                        el.autoId = v.autoId;
+                        el.len = v.children.length;
+                        vendorArr.push(el);
+                    });
+                    this.vendorArr = vendorArr;
+                })
             },
             modifyItem(row,index){
                 this.value3 = true;
-                this.formData = row;
-                
+                this.formData.name = row.name;
+                this.formData.id = row.autoId;
+                this.showFlag = 0;
             },
             removeParent( row,index ) {
                 this.modal1 = true;
