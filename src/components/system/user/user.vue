@@ -6,7 +6,7 @@
         </div>
         <!-- 模态框 -->
         <Drawer
-            title="管理员添加"
+            title="用户添加"
             v-model="value3"
             width="660"
             :mask-closable="false"
@@ -15,8 +15,8 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                         <FormItem label="管理员名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入管理员名称" v-model="formData.username" />
+                         <FormItem label="用户名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入用户名称" v-model="formData.username" />
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
@@ -27,8 +27,8 @@
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="管理员邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入管理员邮箱" v-model="formData.email" />
+                         <FormItem label="用户邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入用户邮箱" v-model="formData.email" />
                         </FormItem>
                     </Col>
                 </Row>
