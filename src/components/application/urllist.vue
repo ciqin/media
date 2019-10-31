@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul>
-            <li class="item" v-for="item in applicationList" :key="item.displayName" @click="dataType(item)"> {{ item.displayName}}</li>
+            <li class="item" v-for="item in applicationList" :key="item.name" @click="dataType(item)"> {{ item.name}}</li>
         </ul>
     </div>  
 </template>
@@ -53,7 +53,7 @@ export default {
             let fileList = data.demonstrationArr;
             if(fileList&&fileList.length){
                 fileList = fileList.filter(function(v){
-                    if(v.titile=="PPT"){
+                    if(v.titile=="地址"){
                         return v;
                     }
                 });
