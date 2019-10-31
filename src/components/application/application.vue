@@ -66,7 +66,8 @@ export default {
             sessionStorage.setItem('activeName',title);
         },
         goBack(){
-            this.$router.back(-1)
+            // this.$router.back(-1)
+            this.$router.replace('/index/qingtian/3');
         },
     },
     computed:{
