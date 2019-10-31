@@ -358,7 +358,7 @@ export default {
     },
     removeParent(row, index) {
        this.modal1 = true;
-      this.removeid = row.pid;
+      this.removeid = row.autoId;
     }
   },
   components: {
