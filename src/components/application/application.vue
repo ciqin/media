@@ -1,7 +1,10 @@
 <template>
     <div style="height:100%;margin-top:-16px;">
+        
         <Menu mode="horizontal" :active-name="activeName" >
-            <div v-for="(application,index) in applicationList" :key="application.titile">
+            <Icon :size="25" :color="'#959595'"  style="margin-left: 14px;font-weight: 700;display:inline-block;margin-bottom:50px;" type="ios-arrow-back" @click="goBack"/>
+            <div class="line"></div>
+            <div v-for="(application,index) in applicationList" :key="application.titile" style="display:inline-block;overflow:hidden;">
                 <MenuItem :name="application.titile" @click.native="storeData(application.titile)" :to="application.url">
                     <img :src="application.icon" :alt="application.titile">
                     {{application.titile}}
@@ -59,7 +62,10 @@ export default {
         storeData(title){
             debugger;
             sessionStorage.setItem('activeName',title);
-        }
+        },
+        goBack(){
+            this.$router.back(-1)
+        },
     },
     mounted() {
         // let dataStr = localStorage.getItem('showData');
@@ -83,21 +89,22 @@ export default {
     .ivu-table th {
         text-align: center;
     }
+    .line {
+            display: inline-block;
+            width: 1px;
+            background: #dddddd;
+            height: 25px;
+            position: relative;
+            top: 0px;
+            margin-bottom: 15px;
+    }
    .product {
        height: 50px;
        background: #fff;
        line-height: 50px;
        border-bottom: 1px solid #dddddd;
        margin-top: -16px;
-       .line {
-            display: inline-block;
-            width: 1px;
-            background: #dddddd;
-            height: 25px;
-            position: relative;
-            top: 10px;
-            margin: 0 10px;
-       }
+       
        span:nth-child(3){
            font-size: 18px;
            color:#5c5c5c;
