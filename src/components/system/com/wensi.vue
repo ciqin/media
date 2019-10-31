@@ -315,7 +315,7 @@ export default {
         });
 
       }else{
-        updateCaseName({'id':this.formData.pid,'newName':this.formData.name}).then(res =>{
+        updateCaseName({'id':this.formData.autoId,'newName':this.formData.name}).then(res =>{
           this.$message("修改成功");
           this.loadCasesContent();
         })
