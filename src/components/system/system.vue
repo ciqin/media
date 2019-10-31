@@ -90,7 +90,7 @@
             getSiderBar().then(res => {
                 this.datas = res.obj;
                 _.remove(this.datas,function(o){
-                    return o.name =="权限管理"
+                    return o.name =="系统管理"
                 })
                 let index;
                 for(let i in this.linkArr){ //合并获取的数据和设定的路由数据
