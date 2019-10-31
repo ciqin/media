@@ -145,4 +145,11 @@ export const delteLink = (data)=> postHttp(baseUrl('/test/appl/deleteProductUrl'
 
 export const getDownloadLink = (data) => postHttp(baseUrl('/test/appl/getRealFileUrl'),data)
 
+// 项目管理应用案例行业修改接口 appl/updateProductName
+
+export const updateVendor = (data) => postHttp(baseUrl('/test/appl/updateProductName'),data)
+
+//项目管理应用案例行业删除接口 appl/delFirstSecond
+
+export const deleteVendor = (data) => postHttp(baseUrl('/test/appl/delFirstSecond'),data)
 
