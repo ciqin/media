@@ -193,14 +193,18 @@
                 this.value3 = true;
                 this.titleName = "用户管理修改";
                 this.num = 2;
-                selectByIdRole({ContentType:true,id:row.id}).then(( res ) => {               
-                    if(res) {
-                        this.formData.name = res.obj.name;
-                        this.couponSelected = row.depId;
-                        this.formData.email = res.obj.email;
-                        this.formData.id = res.obj.id;
-                    }
-                })
+                // selectByIdRole({ContentType:true,id:row.id}).then(( res ) => {               
+                //     if(res) {
+                //         this.formData.name = res.obj.name;
+                //         this.couponSelected = row.depId;
+                //         this.formData.email = res.obj.email;
+                //         this.formData.id = res.obj.id;
+                //     }
+                // })
+                this.formData.name = row.username;
+                this.couponSelected = row.depId;
+                this.formData.email = row.email;
+                this.formData.id = row.id;
             },
         },
         components:{

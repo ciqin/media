@@ -196,14 +196,18 @@
                 this.titleName = "用户管理修改";
                 this.num = 2;
                 this.removeid = index,
-                selectByIdtUser({id:row.id}).then(( res ) => {             
-                    if(res) {
-                        this.formData.username = res.username;
-                        this.couponSelected = row.depId;
-                        this.formData.email = res.email;
-                        this.formData.id = res.id;
-                    }
-                })
+                // selectByIdtUser({id:row.id}).then(( res ) => {             
+                //     if(res) {
+                //         this.formData.username = res.username;
+                //         this.couponSelected = row.depId;
+                //         this.formData.email = res.email;
+                //         this.formData.id = res.id;
+                //     }
+                // })
+                this.formData.username = row.username;
+                this.couponSelected = row.depId;
+                this.formData.email = row.email;
+                this.formData.id = row.id;
             },
             cleardata(){
                 this.formData = {
