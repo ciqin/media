@@ -21,7 +21,8 @@ import {
   DropdownItem,
   DropdownMenu,
   Modal,
-  Upload
+  Upload,
+  Progress
 } from 'iview'
 
 
@@ -46,6 +47,7 @@ const view = (Vue) => {
   Vue.component('DropdownItem', DropdownItem)
   Vue.component('Modal', Modal)
   Vue.component('Upload', Upload)
+  Vue.component('Progress', Progress)
 }
 
 

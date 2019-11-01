@@ -14,7 +14,7 @@ const Axios = http.create({
    baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
   //baseURL: path.API_URL
 })
-Axios.defaults.timeout = 15000;           //超时时间
+Axios.defaults.timeout = 1000*60*10;           //超时时间
 // 请求拦截
 Axios.interceptors.request.use(config => {
   if (config.data && config.data.ContentType) {
@@ -63,18 +63,32 @@ export const postHttp = (url, data) => {
 }
 
 // 上传文件
-export const upload = (url,data) => {
+export const upload = (url,data,eventPro) => {
   return new Promise((resolve, reject) => {
     let config = {
       headers:{'Content-Type':'multipart/form-data'}
     };
+    
+    
+    // if(arguments.length>2){
+    //   console.log(arguments)
+    //   if(typeof arguments[2]=="object"){
+
+    //     Object.assign(config,eventPro);
+    //   }
+    // }
+    if(eventPro){
+      Object.assign(config,eventPro);
+    }
+    
+    console.log(eventPro)
     Axios.post(url,data,config).then(res => {
       resolve(res.data)
       // if (res.data.code !== 200) vue.$message('获取数据失败，请刷新')
       // else resolve(res.data.output)
     }).catch(error => {
       reject(error)
-      vue.$message('上传失败')
+      vue.$message('上传失败');
     })
   })
 }

@@ -74,7 +74,7 @@ export const updateRole = data => postHttp(baseUrl('/test/role/update'), data)
 
 // 应用案例上传文件
 
-export const uploadFile = (data) => upload(baseUrl('/test/upload/upfiles'),data)
+export const uploadFile = (data,config) => upload(baseUrl('/test/upload/upfiles'),data,config)
 
 // 应用案例文件信息编辑修改
 export const updateFileInfo = (data) => postHttp(baseUrl('/test/system/update'),data)

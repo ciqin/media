@@ -139,6 +139,7 @@
                          <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input :value="userName" disabled />
                         </FormItem>
+                        <Progress v-if="progress" :percent="progress"></Progress>
                         <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
                         <div v-if="pdfExist" style="color:red">PDF文件不能为空</div>
                     </Col>
@@ -256,7 +257,7 @@
                 fileExist:false,
                 pdfExist:false,
                 fileTypeName: '',
-            
+                progress:0,
                 fileInfo: {
                     name: '',
                     // author: '',
@@ -499,14 +500,23 @@
                         let pdffiles = this.formData.pdffile
                         data.append('files',pdffiles);
                     }
-                    
-                    uploadFile(data).then(res => {
+                    let config = {
+                        onUploadProgress: progressEvent => {
+                            debugger;
+                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+                                this.progress = complete
+                            }
+                    }
+                    console.log("上传前"+this.progress)
+                    uploadFile(data,config).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
                         // });
                         // 重新加载内容数据
+                        // console.log("上传后"+this.progress)
                         this.loadCasesContent();
                         this.$message("添加成功");
+                        this.progress = 0;
                     });
                 }else{
                     // data.append('linkName',this.formData.linkName);
@@ -729,6 +739,11 @@
             }
         },
         watch:{
+            progress(newVal){
+                if(typeof newVal=="string"){
+                    this.progress = newVal.split("%")[0];
+                }
+            },
             "selectedCases.v":{
                 handler(newVal,oldVal){
                     // let param = {
