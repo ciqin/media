@@ -65,7 +65,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getUserList,removeRole,addRole,getdepartmentlist,selectByIdRole,updateRole} from '@/http/api';
+    import { getUserList,removeRole,addUser,getdepartmentlist,selectByIdRole,updateUser} from '@/http/api';
 
     export default {
         data () {
@@ -165,25 +165,32 @@
                 let datas = this.formData;
                 datas.ContentType = true;
                 if(this.num==1) { 
-                    addRole(datas).then(res => {
+                    addUser(datas).then(res => {
                         if(res.success) {
-                            this.value3 = false;
+                            // this.value3 = false;
+                            this.$message('添加成功')
                             getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
+                        }else{
+                            this.$message('添加失败')
                         }
                     })
                 }else {
                     datas.username = this.formData.name;
-                    updateRole(datas).then(res => {
+                    updateUser(datas).then(res => {
                         if(res.success) {
-                            this.value3 = false;
+                            // this.value3 = false;
+                            this.$message('修改成功')
                             getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
+                        }else{
+                            this.$message('修改失败');
                         }
                     })
                 }
+                this.value3 = false;
             },
             removeParent( row,index ) {
                 this.modal1 = true;
