@@ -517,6 +517,7 @@
                         this.loadCasesContent();
                         this.$message("添加成功");
                         this.progress = 0;
+                        this.clearFileData();
                     });
                 }else{
                     // data.append('linkName',this.formData.linkName);
@@ -537,9 +538,10 @@
                         // });
                         this.loadCasesContent();
                         this.$message("添加成功");
+                        this.clearFileData();
                     });
                 }
-                this.clearFileData();
+                
                 //store data function
                 
             },
@@ -790,3 +792,14 @@
 }
 
 </script>
+
+<style lang="less" scoped>
+    .ivu-drawer-header p, .ivu-drawer-header-inner {
+        font-size:18px;
+    }
+    .ivu-form{
+        .ivu-form-item-label{
+            font-size:16px;
+         }
+    }
+</style>
