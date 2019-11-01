@@ -21,7 +21,7 @@
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="couponSelected" @change="changeData($event)">
+                             <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="formData.depId" @change="changeData($event)">
                                 <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option>
                             </select>
                         </FormItem>
@@ -29,6 +29,11 @@
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="用户邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入用户邮箱" v-model="formData.email" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="用户密码:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入密码" v-model="formData.password" />
                         </FormItem>
                     </Col>
                 </Row>
@@ -75,7 +80,7 @@
                 value3: false,
                 modal1: false,
                 removeid:null,
-                couponSelected: null, 
+                // couponSelected: null, 
                 styles: {
                     height: 'calc(100% - 55px)',
                     overflow: 'auto',
@@ -86,10 +91,12 @@
                 num:1,
                 formData: {
                     username: null,
+                    depId:null,
                     departmentName: null,
                     create_time: null,
                     email: null,
-                    id:null
+                    id:null,
+                    password:null
                 },
                 bmData:[],
                 tableColumns1: [
@@ -169,7 +176,10 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
-                if(this.num==1) { 
+
+                datas.roleId = 1;
+                if(this.num==1) {
+                    delete datas.id; 
                     addUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
@@ -205,9 +215,10 @@
                 //     }
                 // })
                 this.formData.username = row.username;
-                this.couponSelected = row.depId;
+                this.formData.depId = row.depId;
                 this.formData.email = row.email;
                 this.formData.id = row.id;
+                this.formData.password = row.password;
             },
             cleardata(){
                 this.formData = {
