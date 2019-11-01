@@ -115,7 +115,7 @@
             }
         },
          mounted () {
-            getUserList().then(res => {
+            getUserList({'roleId':1}).then(res => {
                 this.data1 = res.obj;
                 // this.couponSelected = this.data1[0].depId;
             })
@@ -136,7 +136,7 @@
                  removeUser({ContentType:true,"id":this.removeid}).then(res => {
                      if(res.success) {
                          this.$message('删除成功');
-                         getUserList().then(res => {
+                         getUserList({'roleId':1}).then(res => {
                             this.data1 = res.obj
                         })
                      }else {
@@ -173,7 +173,7 @@
                     addUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
-                             getUserList().then(res => {
+                             getUserList({'roleId':1}).then(res => {
                                 this.data1 = res.obj
                             })
                         }
@@ -182,7 +182,7 @@
                     updateUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
-                             getUserList().then(res => {
+                             getUserList({'roleId':1}).then(res => {
                                 this.data1 = res.obj
                             })
                         }
