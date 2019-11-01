@@ -79,6 +79,7 @@
                 value3: false,
                 modal1: false,
                 removeid:null,
+                bmData:null,
                 addInput:[],
                 couponSelected: 0, 
                 styles: {
@@ -124,7 +125,7 @@
         mounted () {
             getUserList({'roleId':2}).then(res => {
                 this.data1 = res.obj;
-                console.log(res.obj)
+                // console.log(res.obj)
             })
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
@@ -170,7 +171,8 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
-                datas.roleId = 1;
+                datas.username = this.formData.name;
+                datas.roleId = 2;
                 if(this.num==1) { 
                     addUser(datas).then(res => {
                         if(res.success) {
@@ -184,7 +186,6 @@
                         }
                     })
                 }else {
-                    datas.username = this.formData.name;
                     updateUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
@@ -220,6 +221,7 @@
                 this.formData.email = row.email;
                 this.formData.id = row.id;
                 this.formData.password = row.password;
+                
             },
         },
         components:{
