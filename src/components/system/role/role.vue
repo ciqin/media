@@ -65,7 +65,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getRole,removeRole,addRole,getdepartmentlist,selectByIdRole,updateRole} from '@/http/api';
+    import { getUserList,removeRole,addRole,getdepartmentlist,selectByIdRole,updateRole} from '@/http/api';
 
     export default {
         data () {
@@ -96,11 +96,11 @@
                 tableColumns1: [
                     {
                         title: '管理员名称',
-                        key: 'name'
+                        key: 'username'
                     },
                     {
                         title: '部门名称',
-                        key: 'departMentName'
+                        key: 'departmentName'
                     },
                     {
                         title: '创建时间',
@@ -116,7 +116,7 @@
             }
         },
         mounted () {
-            getRole({'roleId':2}).then(res => {
+            getUserList({'roleId':2}).then(res => {
                 this.data1 = res.obj;
                 console.log(res.obj)
             })
@@ -137,7 +137,7 @@
             ok () {
                  removeRole({ContentType:true,"id":this.removeid}).then( res => {
                      if(res.success) {
-                           getRole({'roleId':2}).then(res => {
+                           getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                      }else {
@@ -168,7 +168,7 @@
                     addRole(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole({'roleId':2}).then(res => {
+                            getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                         }
@@ -178,7 +178,7 @@
                     updateRole(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole({'roleId':2}).then(res => {
+                            getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                         }
