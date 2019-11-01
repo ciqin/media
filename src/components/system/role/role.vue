@@ -26,6 +26,11 @@
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="管理员密码:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入管理员密码" v-model="formData.password" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
                          <FormItem label="管理员邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入管理员邮箱" v-model="formData.email" />
                         </FormItem>
@@ -65,7 +70,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getUserList,removeRole,addUser,getdepartmentlist,selectByIdRole,updateUser} from '@/http/api';
+    import { getUserList,removeUser,addUser,getdepartmentlist,selectByIdRole,updateUser} from '@/http/api';
 
     export default {
         data () {
@@ -91,7 +96,8 @@
                     leader: "",
                     institutionId:"",
                     depId:'',
-                    id:""
+                    id:"",
+                    password:""
                 },
                 tableColumns1: [
                     {
@@ -135,7 +141,7 @@
                 }
             },
             ok () {
-                 removeRole({ContentType:true,"id":this.removeid}).then( res => {
+                 removeUser({ContentType:true,"id":this.removeid}).then( res => {
                      if(res.success) {
                            getUserList({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
@@ -164,6 +170,7 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
+                datas.roleId = 1;
                 if(this.num==1) { 
                     addUser(datas).then(res => {
                         if(res.success) {
@@ -212,6 +219,7 @@
                 this.couponSelected = row.depId;
                 this.formData.email = row.email;
                 this.formData.id = row.id;
+                this.formData.password = row.password;
             },
         },
         components:{
