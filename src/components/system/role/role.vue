@@ -116,7 +116,7 @@
             }
         },
         mounted () {
-            getRole().then(res => {
+            getRole({'roleId':2}).then(res => {
                 this.data1 = res.obj;
                 console.log(res.obj)
             })
@@ -137,7 +137,7 @@
             ok () {
                  removeRole({ContentType:true,"id":this.removeid}).then( res => {
                      if(res.success) {
-                           getRole().then(res => {
+                           getRole({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                      }else {
@@ -168,7 +168,7 @@
                     addRole(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole().then(res => {
+                            getRole({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                         }
@@ -178,7 +178,7 @@
                     updateRole(datas).then(res => {
                         if(res.success) {
                             this.value3 = false;
-                            getRole().then(res => {
+                            getRole({'roleId':2}).then(res => {
                                 this.data1 = res.obj;
                             })
                         }
