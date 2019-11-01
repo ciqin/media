@@ -68,7 +68,7 @@ import {getSiderBar} from '@/http/api'
               newArr.push(0)
           }
         })
-        window.localStorage.setItem("path",index)
+        window.localStorage.setItem("path",index);
         this.$store.dispatch('modifySName',newArr);
         this.$store.dispatch('modifyId',item.autoId);
         this.$router.push({ path:item.url})
@@ -88,9 +88,12 @@ import {getSiderBar} from '@/http/api'
       ...mapGetters(['resturantSidebar','resturantName']),
     },
     mounted() {
-      getSiderBar().then(res => {
-          this.datas = res.obj;
-      })
+      let userId = localStorage.getItem('userId');
+      if(userId){
+        getSiderBar({'id':userId}).then(res => {
+            this.datas = res.obj;
+        });
+      }
     }
   }
 </script>

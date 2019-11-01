@@ -60,12 +60,15 @@ export default {
                 // if(res ==="login") {
                 // console.log(res.success);
                 if(res.success) {
+                    debugger;
                     let nickName = res.obj.personname;
+                    let userId = res.obj.id;
                     this.$store.commit("commonLogin",res.msg);
                     this.$store.commit("commonUser",nickName);
-                    localStorage.setItem("islogin","login")
+                    localStorage.setItem("islogin","login");
+                    localStorage.setItem('userId',userId);
                     localStorage.setItem('user',nickName); // 改成昵称
-                    this.$router.push({path: '/index/company/1'})
+                    this.$router.push({path: '/index/company/1'});
                 }else {
                     this.userName='';
                     this.password='';
