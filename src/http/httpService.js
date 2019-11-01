@@ -14,7 +14,7 @@ const Axios = http.create({
    baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
   //baseURL: path.API_URL
 })
-
+Axios.defaults.timeout = 15000;           //超时时间
 // 请求拦截
 Axios.interceptors.request.use(config => {
   if (config.data && config.data.ContentType) {
