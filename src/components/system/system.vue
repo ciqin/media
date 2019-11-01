@@ -15,8 +15,9 @@
             </MenuItem>
              <Submenu name="3" style="font-size:17px;">
                 <template slot="title">
-                    <Icon type="ios-stats" class="icon-system" ></Icon>
+                    <!-- <Icon type="ios-stats" class="icon-system" ></Icon> -->
                     <!-- <Icon type="ios-levels" class="icon-system" /> -->
+                    <Icon type="ios-briefcase-outline" class="icon-system" ></Icon>
                     项目管理
                 </template>
                 <div @click="linksis(item)" v-for="(item,index) in projectData" :key="item.name">
