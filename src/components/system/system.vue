@@ -88,20 +88,23 @@
             }
         },
         mounted(){
-            getSiderBar().then(res => {
-                this.datas = res.obj;
-                _.remove(this.datas,function(o){
-                    return o.name =="系统管理"
-                })
-                let index;
-                for(let i in this.linkArr){ //合并获取的数据和设定的路由数据
-                    
-                    if(_.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name})!=-1){
-                        index = _.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name});
-                        Object.assign(this.datas[index],this.linkArr[i]);
+            let userId = localStorage.getItem('userId');
+            if(userId){
+                getSiderBar({'id':userId}).then(res => {
+                    this.datas = res.obj;
+                    _.remove(this.datas,function(o){
+                        return o.name =="系统管理"
+                    })
+                    let index;
+                    for(let i in this.linkArr){ //合并获取的数据和设定的路由数据
+                        
+                        if(_.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name})!=-1){
+                            index = _.findIndex(this.datas,(o)=>{return o.name==this.linkArr[i].name});
+                            Object.assign(this.datas[index],this.linkArr[i]);
+                        }
                     }
-                }
-            })
+                })
+            }
         }
    }
    
