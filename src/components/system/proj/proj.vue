@@ -140,7 +140,7 @@
                             el.vendorName = v.name;
                             el.autoId = v2.autoId;
                             el.name = v2.name;
-                            el.updateTime = v2.updateTime;
+                            el.insertTime = v2.insertTime;
                             result.push(el);
                         });
                     }
