@@ -30,31 +30,31 @@ export default {
                 {
                     titile:"PPT",
                     // icon:"/static/images/icon/ppt_icon.png",
-                    icon:"/wgproduct/images/icon/ppt_icon.png",
+                    icon:"/wgproductbate/images/icon/ppt_icon.png",
                     url:'/ppt'
                 },
                  {
                     titile:"技术白皮书",
                     // icon:"/static/images/icon/word_icon.png",
-                    icon:"/wgproduct/images/icon/word_icon.png",
+                    icon:"/wgproductbate/images/icon/word_icon.png",
                      url:'/word'
                 },
                  {
                     titile:"产品册",
                     // icon:"/static/images/icon/user_icon.png",
-                    icon:"/wgproduct/images/icon/user_icon.png",
+                    icon:"/wgproductbate/images/icon/user_icon.png",
                      url:'/prodect'
                 },
                  {
                     titile:"视频资料",
-                    icon:"/wgproduct/images/icon/video_icon.png",
+                    icon:"/wgproductbate/images/icon/video_icon.png",
                     // icon:"/static/images/icon/video_icon.png",
                      url:'/video'
                 },
                  {
                     titile:"地址",
                     // icon:"/static/images/icon/url_icon.png",
-                    icon:"/wgproduct/images/icon/url_icon.png",
+                    icon:"/wgproductbate/images/icon/url_icon.png",
                      url:'/useurl'
                 }
             ]

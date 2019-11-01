@@ -78,9 +78,9 @@ import {getSiderBar} from '@/http/api'
         let navData =JSON.stringify(data)
         window.localStorage.setItem("nav",navData)
         oldData.forEach(function ( v , i ) {
-          v.icon = "/wgproduct/images/yinyong/s_icon"+(i+1)+".png"
+          v.icon = "/wgproductbate/images/yinyong/s_icon"+(i+1)+".png"
         })
-        oldData[index].icon = '/wgproduct/images/yinyong/s_icon'+(index+1)+'_active.png';
+        oldData[index].icon = '/wgproductbate/images/yinyong/s_icon'+(index+1)+'_active.png';
         this.datas = oldData
       }
     },
