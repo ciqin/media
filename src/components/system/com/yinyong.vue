@@ -502,12 +502,10 @@
                     }
                     let config = {
                         onUploadProgress: progressEvent => {
-                            debugger;
                                 var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
                                 this.progress = complete
                             }
                     }
-                    console.log("上传前"+this.progress)
                     uploadFile(data,config).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
@@ -518,6 +516,8 @@
                         this.$message("添加成功");
                         this.progress = 0;
                         this.clearFileData();
+                    }).catch(()=>{
+                        this.progress = 0;
                     });
                 }else{
                     // data.append('linkName',this.formData.linkName);

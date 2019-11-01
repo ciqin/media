@@ -54,6 +54,7 @@
                         <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
                         <div v-if="pdfExist" style="color:red">PDF文件不能为空</div>
                     </Col>
+                    <Progress v-if="progress" :percent="progress"></Progress>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -87,6 +88,7 @@
     export default {
         data () {
             return {
+                progress:0,
                 data1: [
                     // {
                     //     "name":"闻海大数据平台",
@@ -242,7 +244,13 @@
                         let pdffiles = this.formData.pdffile
                         data.append('files',pdffiles);
                 }
-                uploadFile1(data).then(res => {
+                let config = {
+                        onUploadProgress: progressEvent => {
+                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+                                this.progress = complete
+                            }
+                };
+                uploadFile1(data,config).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res
                         // });
@@ -253,10 +261,15 @@
                         let id = this.fileTypeId;
                         getProductDemo({'fid':id}).then(res => {
                             this.loadData(res,id);
+                            this.value3 = false;
+                            this.clearFileData();
                         })
+                        this.progress = 0;
+                }).catch(()=>{
+                        this.progress = 0;
+                        
                 });
-                this.value3 = false;
-                this.clearFileData();
+                
             },
             close(){
                 this.value3 = false;
@@ -458,6 +471,11 @@
             })
         },
         watch:{
+            progress(newVal){
+                if(typeof newVal=="string"){
+                    this.progress = newVal.split("%")[0];
+                }
+            },
             fileTypeId(newVal){
                 //load production list
                 

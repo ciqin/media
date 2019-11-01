@@ -118,7 +118,7 @@ export const  getCasesContent = (data) => postHttp(baseUrl('/test/appl/getFileLi
 // export const getContentList1 = (data) => getHttp(baseUrl('/test/appl/getProductUrl'),data)
 
 // 上传文件接口
-export const uploadFile1 = (data) => upload(baseUrl('/test/upload/updateUrl'),data)
+export const uploadFile1 = (data,config) => upload(baseUrl('/test/upload/updateUrl'),data,config)
 
 // 权限管理-资料管理-应用案例管理-添加地址接口
 /*

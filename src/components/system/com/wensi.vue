@@ -49,6 +49,7 @@
                                     <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
                                 </Upload>
                             </FormItem>
+                            <Progress v-if="progress" :percent="progress"></Progress>
                             <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
           </Col>
 
@@ -81,6 +82,7 @@ export default {
     return {
       id:this.$route.params.id,
       dataId:'',
+      progress:0,
       fileExist:false,
       fileName:'选择文件',
       // wensiProduct:[
@@ -308,21 +310,31 @@ export default {
         data.append('disName',name);
         let files = this.formData.file;
         data.append('files',files);
-        uploadFile(data).then(res => {
-                          // 重新加载内容数据
+        let config = {
+          onUploadProgress: progressEvent => {
+                  var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+                  this.progress = complete
+              }
+        };
+        uploadFile(data,config).then(res => {
+          // 重新加载内容数据
           this.loadCasesContent();
           this.$message("添加成功");
+          this.progress = 0;
+          this.clearFileData();
+          this.value3=false;
         });
 
       }else{
         updateCaseName({'id':this.formData.autoId,'newName':this.formData.name}).then(res =>{
           this.$message("修改成功");
           this.loadCasesContent();
+          this.clearFileData();
+          this.value3=false;
         })
       }
       
-      this.clearFileData();
-      this.value3=false;
+      
     },
     loadCasesContent(){
       let id = this.dataId;
@@ -365,6 +377,11 @@ export default {
     Title
   },
   watch:{
+    progress(newVal){
+      if(typeof newVal=="string"){
+          this.progress = newVal.split("%")[0];
+      }
+    },
     dataId(newVal){
       let index = _.findIndex(this.data1,(o)=>{return o.autoId==newVal});
                 // console.log(index);
