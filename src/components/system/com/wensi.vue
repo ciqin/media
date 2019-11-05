@@ -300,7 +300,7 @@ export default {
         let config = {
           onUploadProgress: progressEvent => {
                   var complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
-                  this.progress = Math.min(complete,99)
+                  this.progress = Math.min(complete,95)
               }
         };
         uploadFile(data,config).then(res => {
