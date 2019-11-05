@@ -69,7 +69,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getDepartment,removeDepartment,addDepartment,getProductDemo,updateVendor,deleteVendor,uploadFile2} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile3,deleteVendor,uploadFile2} from '@/http/api';
 
     export default {
         data () {
@@ -178,7 +178,16 @@
                     })
                 }else{
                     let id = this.formData.autoId;
-                    updateVendor({'newName':name,'id':id}).then(res=>{
+                    let data = new FormData();
+                    let file = this.formData.file;
+                    if(!file){
+                        this.show = true;
+                        return
+                    }
+                    data.append('newName',name);
+                    data.append('id',id);
+                    data.append('file',file);
+                    uploadFile3(data).then(res=>{
                         this.$message('修改成功');
                         this.loadContent();
                         this.value3 = false;
