@@ -98,11 +98,11 @@ const routes = [
               name: 'proj',
               component:resolve => require(['@/components/system/proj/wensiManage'], resolve)
             },
-            {
-              path: '/index/system/mytest',
-              name: 'test1',
-              component:resolve => require(['@/components/test/test'], resolve)
-            },
+            // {
+            //   path: '/index/system/mytest',
+            //   name: 'test1',
+            //   component:resolve => require(['@/components/test/test'], resolve)
+            // },
             {
               path: '/index/system/project/:id',
               name: 'project',
