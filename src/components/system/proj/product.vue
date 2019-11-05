@@ -82,7 +82,7 @@
                 },
                 tableColumns1: [
                     {
-                        title: '行业名称',
+                        title: '产品名称',
                         key: 'name'
                     },
                     // {
