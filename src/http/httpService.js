@@ -17,7 +17,7 @@ const Axios = http.create({
 Axios.defaults.timeout = 1000*60*10;           //超时时间
 
 //在main.js设置全局的请求次数，请求的间隙
-Axios.defaults.retry = 4;
+Axios.defaults.retry = 2;
 Axios.defaults.retryDelay = 1000;
  
 //在API文件中
