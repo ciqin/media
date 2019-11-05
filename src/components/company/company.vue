@@ -1,5 +1,6 @@
 <template>
     <div class="company_box">
+        <Spin fix v-if="notLoaded">加载中...</Spin>
         <div v-for="item in productArr"  :key="item.name" class="clearfix product">
             <div class="pro_msg">
                 <img :src="item.relevantInfo">
@@ -25,9 +26,11 @@ import { getProduct,getProductDemo } from '@/http/api'
 
 export default {
   name: "seller",
+  
   data() {
     return {
       id:this.$route.params.id,
+      notLoaded:true,
       msgNum: 5,
       conHtml:'',
       productArr:[],
@@ -96,8 +99,9 @@ export default {
                     return (o.titile!='地址');
                 })
             });
+            this.notLoaded = false;
             this.productArr = data;
-        })
+        });
   },
   created(){
     
@@ -124,11 +128,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-
+.spin-col{
+    height: 100px;
+    position: relative;
+    margin-top: 100px;
+    // background-color: #fff;
+}
 .company_box {
     width:1679px;
     margin: 12px;
     margin-top: 0px;
+    position: relative;
 }
 
 .comMsg {

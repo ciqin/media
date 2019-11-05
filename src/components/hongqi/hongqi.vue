@@ -1,7 +1,13 @@
 <template>
     <div class="company_box">
+        
         <Input v-model="value" placeholder="请输入检索报告..." style="width: 180px;margin-left:18px;" search/>
         <Button type="primary" style="margin-left:16px;" @click="searchWord">搜索</Button>
+        <Row v-if="notLoaded">
+            <Col span="24" class="spin-fix">
+                <Spin fix>加载中...</Spin>
+            </Col>
+        </Row>
         <Menu :open-names="['1']" width="auto" accordion active-name="0-1" style="margin-top:22px;"> 
                     <div v-for="(data,index) in datas" :key="data.text">
                             <MenuItem :name="index+'-1'" v-if="!data.demonstrationArr[0].length && !data.show" class="itempar">
@@ -32,6 +38,7 @@ export default {
     return {
         id:this.$route.params.id,
         value:"",
+        notLoaded:true,
         tempData:null,
         route:this.$route.path,
         datas: [
@@ -196,7 +203,8 @@ export default {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
         this.datas  = res;
-        this.tempData = this.datas;    
+        this.tempData = this.datas; 
+        this.notLoaded = false;   
     });
   },
   watch:{
@@ -215,6 +223,11 @@ export default {
 
 .company_box{
     margin-top: 12px;
+}
+.spin-fix{
+    position: relative;
+    height: 100px;
+
 }
 .itempar {
     font-size: 18px;

@@ -1,5 +1,6 @@
 <template>
     <div class="company_box">
+        <Spin fix v-if="notLoaded">加载中...</Spin>
         <div v-for="item in productArr"  :key="item.name" class="clearfix product">
             <div class="pro_msg">
                 <img :src="item.relevantInfo">
@@ -27,6 +28,7 @@ export default {
   data() {
     return {
       id:this.$route.params.id,
+      notLoaded:true,
       msgNum: 5,
       conHtml:'',
       productArr:[],
@@ -59,7 +61,8 @@ export default {
   mounted () {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
-        this.productArr  = res;    
+        this.productArr  = res;
+        this.notLoaded = false;    
     });
     //    getUserurl().then(res => {
     //       this.productArr = res
@@ -93,6 +96,7 @@ export default {
 .company_box {
     margin: 12px;
     margin-top: 0px;
+    position: relative;
 }
 .comMsg {
     background: #fff;

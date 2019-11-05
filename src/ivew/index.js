@@ -22,7 +22,8 @@ import {
   DropdownMenu,
   Modal,
   Upload,
-  Progress
+  Progress,
+  Spin
 } from 'iview'
 
 
@@ -48,6 +49,7 @@ const view = (Vue) => {
   Vue.component('Modal', Modal)
   Vue.component('Upload', Upload)
   Vue.component('Progress', Progress)
+  Vue.component('Spin', Spin)
 }
 
 

@@ -1,5 +1,6 @@
 <template>
     <div class="company_box">
+        <Spin fix v-if="notLoaded">加载中...</Spin>
          <Row type="flex">
             <Col span="12" order="4" v-for="item in sisurlArr" :key="item.name">
                 <div class="address_box">
@@ -36,6 +37,7 @@ export default {
   name: "seller",
   data() {
     return {
+        notLoaded:true,
         id:this.$route.params.id,
         sisurlArr:''
     };
@@ -51,7 +53,8 @@ export default {
     // let param = qs.stringify({'fid':fid});
     let param = {'fid':fid};
     getProductDemo(param).then(res => {
-        this.sisurlArr  = res;    
+        this.sisurlArr  = res;
+        this.notLoaded = false;    
     });
     //    getSisurl().then(res => {
     //       this.sisurlArr = res
@@ -65,6 +68,7 @@ export default {
     .company_box {
         margin: 12px;
         margin-top: 0px;
+        position: relative;
     }
     .address_box {
         width: calc(100% - 12px);
