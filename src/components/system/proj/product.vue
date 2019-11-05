@@ -17,8 +17,19 @@
                         <FormItem label="产品名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入产品名称" v-model="formData.name" />
                         </FormItem>
+                        <FormItem v-if="showFlag"
+                            label="图片文件:"
+                            :format="['png']"
+                            label-position="left"
+                            calss="formitem"
+                            style="width:100%;margin:0 auto;margin-top: 16px;">
+                                <Upload :before-upload="handleUpload"
+                                    action="//jsonplaceholder.typicode.com/posts/" class="updata">
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
+                                </Upload>
+                        </FormItem>
                     </Col>
-                    
+                    <div v-if="show" style="color:red;">上传图片不能为空</div>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -58,14 +69,16 @@
     
     import '../../../assets/css/system.css';
 
-    import { getDepartment,removeDepartment,addDepartment,getProductDemo,addApplicationCase,updateVendor,deleteVendor} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,getProductDemo,updateVendor,deleteVendor,uploadFile2} from '@/http/api';
 
     export default {
         data () {
             return {
                 data1: [],
                 fid:1,
+                show:false,
                 showFlag:0,
+                fileName:'上传30*30的png图片',
                 value3: false,
                 addInput:[],
                 styles: {
@@ -78,7 +91,8 @@
                 modal1: false,
                 removeId:0,
                 formData: {
-                    name:''
+                    name:'',
+                    file:''
                 },
                 tableColumns1: [
                     {
@@ -116,6 +130,7 @@
                 for(let key in this.formData) {
                     this.formData[key] = ''
                 }
+                this.fileName = '上传30*30的png图片';
             },
             addModalShow () {
                this.cleardata();
@@ -138,7 +153,7 @@
                 let datas = this.formData;
                 datas.ContentType = true;
                 let name = this.formData.name;
-                this.value3 = false;
+                
                 if(this.showFlag){
                     
                     // api for modifying the row data
@@ -146,16 +161,27 @@
                     let fid = this.fid;
                     let len = this.data1.length+1;
                     let sort = len;
-                    
-                    addApplicationCase({'name':name,'fid':fid,'sort':sort}).then(res =>{
+                    let file = this.formData.file;
+                    let data  = new FormData();
+                    data.append('name',name);
+                    data.append('fid',fid);
+                    data.append('sort',sort);
+                    if(!file){
+                        this.show = true;
+                        return;
+                    }
+                    data.append('file',file);
+                    uploadFile2(data).then(res =>{
                         this.$message('添加成功');
                         this.loadContent();
+                        this.value3 = false;
                     })
                 }else{
                     let id = this.formData.autoId;
                     updateVendor({'newName':name,'id':id}).then(res=>{
                         this.$message('修改成功');
                         this.loadContent();
+                        this.value3 = false;
                     })
                 }
                 
@@ -179,7 +205,79 @@
                 this.modal1 = true;
                 this.removeId = row.autoId;
             },
-        },
+            handleUpload(file){
+                
+                if(file!=null){
+                   
+                    // let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
+                    let fileExt = ['png'];
+                    // checkup the image uploaded width and height
+                    var isAllowed = true;
+                    let reader = new FileReader();
+                    let height = 30,width = 30;
+                    let that = this
+                    reader.onload = function(e){
+                        let data = e.target.result;
+                        let image = new Image();
+                        image.onload = function(e){
+                            let $width = image.width;
+                            let $height = image.height;
+                            debugger;
+                            if($width!=width||$height!=height){
+                                isAllowed = false;
+                                that.fileName = "请确定图片的宽高为30*30";
+                                
+                            }else{
+                                let flag = that.extFilter(file.name,fileExt);
+                                if(flag){
+                                    that.fileName = file.name;
+                                    that.formData.file = file;
+                                    that.formData.fileName = file.name;
+                                }else{
+                                    that.fileName = "格式不正确"
+                                }
+                            }
+                        }
+                        image.src = data;
+
+                    };
+                    reader.readAsDataURL(file);
+                    
+                    // if(!isAllowed){
+                    //     this.fileName = "请确定图片的宽高为30*30";
+                    //     return false;
+                    // }
+                    // console.log(isAllowed)
+                    
+                }
+                
+                return false;
+            },
+            extFilter: function(extName,condition) {
+                let nameArr = extName.split('.');
+                
+                if(nameArr.length>1){
+                        let len = nameArr.length;
+                        let ext = nameArr[(len-1)].toLowerCase();
+                        
+                        let index = _.findIndex(condition,(o)=>{return o == ext});
+                        
+                        if(index==-1){
+                            this.$message("请输入正确格式的文件");
+                            return false;
+                        }else{
+                            return true;
+                        }
+                        
+                    }else{
+                         this.$message("请输入正确格式的文件");
+                         return false;
+                         
+                    }
+            },
+
+        },//method 结束
+        
         components:{
             Title
         }
