@@ -50,6 +50,10 @@
                 datas:null,
                 projectData:[
                     {
+                        "name":"产品物料案例",
+                        "link":"/index/system/product",
+                    },
+                    {
                         "name":"应用案例行业",
                         "link":"/index/system/vendor",
                     },
