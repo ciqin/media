@@ -168,3 +168,9 @@
   height:48px !important;
   width:391px !important;
 }
+.ivu-spin-main .ivu-spin-text{
+  font-size: 18px;
+}
+.company_box .ivu-spin {
+  padding-top: 300px !important;
+}
