@@ -153,4 +153,4 @@ export const updateVendor = (data) => postHttp(baseUrl('/test/appl/updateProduct
 
 export const deleteVendor = (data) => postHttp(baseUrl('/test/appl/delFirstSecond'),data)
 
-export const uploadFile2 = (data,config) => upload(baseUrl('/test/appl/addFirstSecond'),data,config)
+export const uploadFile2 = (data,config) => upload(baseUrl('/test/appl/addProduct'),data,config)
