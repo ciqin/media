@@ -185,14 +185,14 @@ export default {
 }
 .pro_msg img {
     float: left;
-    // margin-top: 16px;
-    margin-top: 20px;
+    margin-top: 16px;
+    // margin-top: 20px;
     margin-right: 12px;
 }
 // .pro_msg img:first-child {
 //     margin-top: 10px;
 // }
-.product:first-child .pro_msg img{
-    margin-top: 10px;
-}
+// .product:first-child .pro_msg img{
+//     margin-top: 10px;
+// }
 </style>
