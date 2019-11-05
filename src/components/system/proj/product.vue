@@ -17,7 +17,7 @@
                         <FormItem label="产品名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入产品名称" v-model="formData.name" />
                         </FormItem>
-                        <FormItem v-if="showFlag"
+                        <FormItem
                             label="图片文件:"
                             :format="['png']"
                             label-position="left"
@@ -180,10 +180,10 @@
                     let id = this.formData.autoId;
                     let data = new FormData();
                     let file = this.formData.file;
-                    if(!file){
-                        this.show = true;
-                        return
-                    }
+                    // if(!file){
+                    //     this.show = true;
+                    //     return
+                    // }
                     data.append('newName',name);
                     data.append('id',id);
                     data.append('file',file);
@@ -241,7 +241,7 @@
                                 if(flag){
                                     that.fileName = file.name;
                                     that.formData.file = file;
-                                    that.formData.fileName = file.name;
+                                    // that.formData.fileName = file.name;
                                 }else{
                                     that.fileName = "格式不正确"
                                 }
