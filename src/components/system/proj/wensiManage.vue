@@ -14,7 +14,7 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="项目名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="行业名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入行业名称" v-model="formData.name" />
                         </FormItem>
                     </Col>

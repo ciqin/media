@@ -23,7 +23,7 @@
             <Form :model="formData">
                 <Row :gutter="32">
                      <Col span="24">
-                        <FormItem :label="fileTypeName+'文件'" label-position="left"
+                        <FormItem :label="fileTypeName+'文件:'" label-position="left"
                             style="width:100%;margin:0 auto;">
                             <Upload 
                                 :before-upload="handleUpload"
@@ -35,9 +35,9 @@
                         </FormItem>
                     </Col>
                     <Col span="24">
-                        <FormItem label="PDF版本" label-position="left"
+                        <FormItem label="PDF版本:" label-position="left"
                         v-if="fileTypeName=='PPT'||fileTypeName=='技术白皮书'"
-                            style="width:100%;margin:0 auto;">
+                            style="width:100%;margin:0 auto;margin-top: 16px;">
                             <Upload 
                                 :before-upload="handleUpload2"
                                 :format="['pdf']"
@@ -48,7 +48,7 @@
                         </FormItem>
                     </Col>
                     <Col span="24">
-                        <FormItem label="产品名称" label-position="left">
+                        <FormItem label="产品名称:" label-position="left" style="margin-top:16px;">
                             <Input v-model="formData.name" disabled placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                         <div v-if="fileExist" style="color:red;">上传文件不能为空</div>
@@ -58,8 +58,8 @@
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="close()">关闭</Button>
+                <Button type="primary" class="setW" @click="addRole()">确定</Button>
+                <Button style="margin-right: 8px"  class="setW" @click="close()">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data" :columns="tableColumns1" stripe>
@@ -84,10 +84,17 @@
 
     import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile1} from '@/http/api';
     import {mapState} from 'vuex'
+    import "../../../assets/css/system.css";
 
     export default {
         data () {
             return {
+                styles: {
+                    height: "calc(100% - 55px)",
+                    overflow: "auto",
+                    padding: "210px 80px 0 80px",
+                    position: "static",
+                },
                 progress:0,
                 data1: [
                     // {
@@ -132,12 +139,12 @@
                 fileName: '',
                 pdfName: '选择文件',
                 value3: false,
-                styles: {
-                    height: 'calc(100% - 55px)',
-                    overflow: 'auto',
-                    paddingBottom: '53px',
-                    position: 'static'
-                },
+                // styles: {
+                //     height: 'calc(100% - 55px)',
+                //     overflow: 'auto',
+                //     paddingBottom: '53px',
+                //     position: 'static'
+                // },
                 num:1,
                 formData: {
                     name: "",
@@ -531,5 +538,9 @@
 .btnMedalChild {
     float: right;
     margin-top: 20px;
+}
+.ivu-upload .ivu-upload-select {
+    // width: 86% !important;
+    width:391px;
 }
 </style>

@@ -44,12 +44,17 @@
 
 <style lang="less" scoped>
 .main {
-  width: calc(100% - 300px);
-  margin-left: 300px;
+  width: calc(100% - 216px);
+//   width:1679px;
+//   margin-left: 300px;
+   margin-left: 216px;
    height: calc(100vh - 75px);
   color: #000;
   background: #f5f5f5;
   overflow: auto;
   padding-top: 16px;
+}
+.main::-webkit-scrollbar {
+    display: none;
 }
 </style>

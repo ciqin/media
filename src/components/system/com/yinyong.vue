@@ -73,6 +73,14 @@
                 </Col> -->
                 </Row>
             </Form>
+            <!-- <Row justify="center" style="margin-top:10px;">
+                <Col span="12">
+                    <Button type="primary" class="setW" @click="addCase()" style="margin-left:116px;">确定</Button>
+                </Col>
+                <Col span="12">
+                    <Button class="setW" @click="value3 = false">关闭</Button>
+                </Col>
+            </Row> -->
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addCase()" style="margin-right:16px;">确定</Button>
                 <Button class="setW" @click="value3 = false">关闭</Button>
@@ -85,58 +93,58 @@
                     <Col span="20" v-if="fileTypeName=='地址'">
                         
                         <FormItem
-                        label="产品名称"
+                        label="产品名称:"
                         label-position="left"
                         calss="formitem"
-                        style="width:100%;margin:0 auto;">
+                        style="width:100%;margin:0 auto;height:48px;margin-top: 16px;">
                             <Input  v-model = "formData.linkName"/>
                         </FormItem>
                         <FormItem
-                        label="链接地址"
+                        label="链接地址:"
                         label-position="left"
                         calss="formitem"
-                        style="width:100%;margin:0 auto;">
+                        style="width:100%;margin:0 auto;margin-top: 16px;">
                             <Input  v-model="formData.link"/>
                         </FormItem>
                         
-                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                         <FormItem label="操作人:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;margin-top: 16px;">
                              <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
                     
-                    <Col span="20" v-else>
+                    <Col span="20" v-else >
                         
                             <FormItem
-                            label="产品名称"
+                            label="产品名称:"
                             label-position="left"
                             calss="formitem"
                             style="width:100%;margin:0 auto;">
                                 <Input v-model="formData.name"/>
                             </FormItem>
                             <FormItem
-                            :label="fileTypeName+'文件'"
+                            :label="fileTypeName+'文件:'"
                             :format="filterArr"
                             label-position="left"
                             calss="formitem"
-                            style="width:100%;margin:0 auto;">
+                            style="width:100%;margin:0 auto;margin-top: 16px;">
                                 <Upload :before-upload="handleUpload"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
                                     <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
                                 </Upload>
                             </FormItem>
                              <FormItem v-if="fileTypeName=='PPT'||fileTypeName=='技术白皮书'"
-                            label="PDF版本"
+                            label="PDF版本:"
                             label-position="left"
                             calss="formitem"
                             :format="['pdf']"
-                            style="width:100%;margin:0 auto;">
+                            style="width:100%;margin:0 auto;margin-top: 16px;">
                                 <Upload :before-upload="handleUpload2"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
                                     <Button icon="ios-cloud-upload-outline" style="width:100%;">{{pdfName}}</Button>
                                 </Upload>
                             </FormItem>
                             
-                         <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                         <FormItem label="操作人:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;margin-top: 16px;">
                              <Input :value="userName" disabled />
                         </FormItem>
                         <Progress v-if="progress" :percent="progress"></Progress>
@@ -147,6 +155,14 @@
                     <!-- <Button icon="ios-add" @click="addFileItem()" ></Button> -->
                 </Row>
             </Form>
+            <!-- <Row justify="center" style="margin-top:10px;">
+                <Col span="12">
+                    <Button type="primary" class="setW" @click="addRole()" style="margin-left:116px;">确定</Button>
+                </Col>
+                <Col span="12">
+                    <Button class="setW" @click="closeFileAdd()">关闭</Button>
+                </Col>
+            </Row> -->
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
                 <Button class="setW" @click="closeFileAdd()">关闭</Button>
@@ -802,4 +818,5 @@
             font-size:16px;
          }
     }
+    
 </style>

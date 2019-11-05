@@ -125,7 +125,7 @@ import {getSiderBar} from '@/http/api'
 
 .ivu-menu-vertical {
   .ivu-menu-item{
-    padding-left: 42px;
+    padding-left: 40px;
       img{
         position: relative;
         top: 8px;
@@ -149,7 +149,8 @@ import {getSiderBar} from '@/http/api'
     background: #f7f9ff;
     padding-top: 30px;
     height: calc(100% - 75px);
-    width: 300px;
+    // width: 300px;
+    width: 216px;
 }
 
 .color-list>div {

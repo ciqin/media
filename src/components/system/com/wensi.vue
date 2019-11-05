@@ -38,11 +38,11 @@
             <Input placeholder="请输入文件名称" v-model="formData.name"/>
             </FormItem>
             <FormItem
-                            label="报告文件"
+                            label="报告文件:"
                             v-if="eidtFlag"
                             label-position="left"
                             calss="formitem"
-                            style="width:100%;margin:0 auto;">
+                            style="width:100%;margin:0 auto;margin-top: 16px;">
                                 <Upload :before-upload="handleUpload"
                                     :format="['pdf']"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">

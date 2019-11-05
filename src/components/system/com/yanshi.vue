@@ -15,30 +15,30 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="产品名称" label-position="left">
+                        <FormItem label="产品名称:" label-position="left">
                             <Input v-model="formData.name" disabled placeholder="请输入产品名称"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                     <Col span="24">
-                        <FormItem label="用户名" label-position="left">
+                        <FormItem label="用户名:" label-position="left">
                             <Input v-model="formData.logName" placeholder="请输入用户名"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                     <Col span="24">
-                        <FormItem label="密码" label-position="left">
+                        <FormItem label="密码:" label-position="left">
                             <Input v-model="formData.logPassword" placeholder="请输入密码"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                     <Col span="24">
-                        <FormItem label="产品链接地址" label-position="left">
+                        <FormItem label="产品链接地址:" label-position="left">
                             <Input v-model="formData.url" placeholder="请输入产品链接地址"  style="width:86%;"/>
                         </FormItem>
                     </Col>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
-                <Button type="primary"  @click="addRole()">确定</Button>
-                <Button style="margin-right: 8px" @click="value3 = false">关闭</Button>
+                <Button type="primary" class="setW" @click="addRole()">确定</Button>
+                <Button style="margin-right: 8px"  class="setW" @click="value3 = false">关闭</Button>
             </div>
         </Drawer>    
         <Table :data="data1" :columns="tableColumns1" stripe>

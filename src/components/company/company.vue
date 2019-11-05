@@ -5,8 +5,8 @@
                 <img :src="item.relevantInfo">
                 <span>{{item.name}}</span>
             </div>
-            <Row>
-                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;margin-top:18px;">
+            <Row :gutter="211" justify="space-around">
+                <Col span="6" v-for="demonstration in item.demonstrationArr" :key="demonstration.titile"  style="float:left;/*margin-top:18px;*/">
                     <Button type="primary"  @click="dataType(item,demonstration)" :to="(demonstration.data.length&&demonstration.data[0].url)?'/index/demonstration':route">{{demonstration.titile}}</Button>
                 </Col>   
             </Row>
@@ -126,9 +126,11 @@ export default {
 <style lang="less" scoped>
 
 .company_box {
+    width:1679px;
     margin: 12px;
     margin-top: 0px;
 }
+
 .comMsg {
     background: #fff;
     padding:24px;
@@ -142,7 +144,9 @@ export default {
 }
 
 .product {
-    padding: 0 30px 30px 46px;
+    // padding: 0 30px 30px 46px;
+    padding: 0 30px 24px 46px;
+    height: 128px;
     background: #fff;
     margin-bottom: 12px;
     box-shadow: 0 0px 6px rgba(0, 0, 0, 0.15);
@@ -150,7 +154,8 @@ export default {
 .ivu-btn-primary {
     height:45px;
     margin-right:30px;
-    width:calc(100% - 100px);
+    // width:calc(100% - 100px);
+    width:239px;
     background-color: #dcecff;
     border:0;
     color:#414141;
@@ -158,8 +163,10 @@ export default {
     font-size: 18px;
 }
 .pro_msg {
-    margin-bottom: 24px;
-    height: 50px;
+    // margin-bottom: 24px;
+    // margin-bottom:12px;
+    // height: 50px;
+    height:58px;
     line-height: 60px;
 }    
 .pro_msg span {
@@ -168,7 +175,14 @@ export default {
 }
 .pro_msg img {
     float: left;
-    margin-top: 16px;
+    // margin-top: 16px;
+    margin-top: 20px;
     margin-right: 12px;
+}
+// .pro_msg img:first-child {
+//     margin-top: 10px;
+// }
+.product:first-child .pro_msg img{
+    margin-top: 10px;
 }
 </style>
