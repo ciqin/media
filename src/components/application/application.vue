@@ -6,7 +6,7 @@
             <div class="line"></div>
             <div v-for="(application,index) in applicationList" :key="application.titile" style="display:inline-block;overflow:hidden;">
                 <MenuItem :name="application.titile" @click.native="storeData(application.titile)" :to="application.url">
-                    <img :src="application.icon" :alt="application.titile">
+                    <img :src="application.icon" :alt="application.titile" :style="imgStyle">
                     {{application.titile}}
                 </MenuItem>
             </div>
@@ -25,11 +25,14 @@ export default {
             // p:this.$route.path,
             // dataType:'',
             activeName:'',
-        
+            imgStyle:{
+                position:'relative',
+                top:'4px'
+            },
             applicationList:[
                 {
                     titile:"PPT",
-                    // icon:"/static/images/icon/ppt_icon.png",
+                    // icon:"/static/images/icon/ppt_icon_active.png",
                     icon:"/wgproductbate/images/icon/ppt_icon.png",
                     url:'/ppt'
                 },
@@ -70,30 +73,30 @@ export default {
             this.$router.replace('/index/qingtian/3');
         },
     },
-    computed:{
-        url2Name(){
-            let path = this.$route.path;
-            let name;
-            switch(path){
-                case '/ppt':
-                    name = 'PPT';
-                    break;
-                case '/word':
-                    name = '技术白皮书';
-                    break;
-                case '/prodect':
-                    name = '产品册';
-                    break;
-                case '/video':
-                    name = '视频资料';
-                    break;
-                case '/useurl':
-                    name = '地址';
-                    break;
-            }
-            return name;
-        }
-    },
+    // computed:{
+    //     url2Name(){
+    //         let path = this.$route.path;
+    //         let name;
+    //         switch(path){
+    //             case '/ppt':
+    //                 name = 'PPT';
+    //                 break;
+    //             case '/word':
+    //                 name = '技术白皮书';
+    //                 break;
+    //             case '/prodect':
+    //                 name = '产品册';
+    //                 break;
+    //             case '/video':
+    //                 name = '视频资料';
+    //                 break;
+    //             case '/useurl':
+    //                 name = '地址';
+    //                 break;
+    //         }
+    //         return name;
+    //     }
+    // },
     mounted() {
         // let dataStr = localStorage.getItem('showData');
         // if(dataStr){
@@ -133,6 +136,9 @@ export default {
                 case '/useurl':
                     name = '地址';
                     break;
+                default:
+                    name = 'PPT';
+                    break;
             }
             sessionStorage.setItem('activeName',name);
             
@@ -142,8 +148,32 @@ export default {
             }else{
                 this.activeName = this.applicationList[0].titile;
             }
-
+            // update image url
+            this.applicationList = this.applicationList.map(function(o){
+                let icon = o.icon;
+                let separator;
+                ///static/images/icon/video_icon_active.png
+                if(o.titile==name){
+                    separator = '_active';
+                }else{
+                    separator = '';
+                }
+                let iconArr = icon.split(".");
+                if(iconArr.length>1){
+                    icon = iconArr[0].split("_").slice(0,2).join('_')+separator+"."+iconArr[1];
+                    o.icon = icon;
+                }
+                
+                return o;
+                
+            });
+            
+            
         }
+    },
+    
+    destroyed() {
+        sessionStorage.setItem('activeName',"PPT");
     }
 };
 </script>
