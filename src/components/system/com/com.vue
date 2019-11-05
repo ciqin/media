@@ -253,8 +253,8 @@
                 }
                 let config = {
                         onUploadProgress: progressEvent => {
-                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-                                this.progress = complete
+                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
+                                this.progress = Math.min(complete,99)
                             }
                 };
                 uploadFile1(data,config).then(res => {
@@ -348,15 +348,6 @@
                 //     })
                 // }  
             },
-            // handleUpload:function(file){
-            //     if(file){
-            //         this.formData.file = file;
-            //         this.formData.fileName = file.name;
-            //     }
-            //     if(!this.formData.fileName){
-            //         this.formData.fileName = "请上传文件"
-            //     }
-            // },
             handleUpload(file){
                 if(file!=null){
                    
@@ -434,43 +425,6 @@
             this.fileTypeName = this.fileTypeArr[0].name;
             let fid = this.$route.params.id;
             getProductDemo({'fid':fid}).then(res => {
-                // this.data1 = res;
-                // let meltData = [];
-
-                // res[0].demonstrationArr.forEach(function(v,i){
-                //     console.log(1);
-                //     let o = new Object();
-                //     o.fileName = v.titile;
-                //     o.data = [];
-                //     meltData.push(o)
-                // });
-                // meltData.forEach(function(v,i){
-                //     let name = v.fileName;
-                //     res.forEach(function(v2,i2){
-                //         let index = _.findIndex(v2.demonstrationArr,function(o){return o.titile == name});
-                //         if(index!=-1){
-                //             if(v2.demonstrationArr[index].data.length){
-                //                 let d = v2.demonstrationArr[index].data[0]
-                //                 let obj = {}
-                //                 Object.assign(obj,{'name':v2.name},d);
-                //                 v.data.push(obj);
-                //             }
-                //         }
-                //     })
-                // })
-                
-                // let tempArr = this.fileTypeArr;
-                // meltData.forEach(function(v,i){
-                //     let index = _.findIndex(tempArr,(o)=>{return o.name==v.fileName})
-                //     console.log(index);
-                //     if(index!=-1){
-                //         let f = tempArr[index];
-                //         Object.assign(v,f);
-                //     }
-                // })
-                // this.data1 = meltData;
-                // this.data = this.data1[0].data;
-                // debugger;
                 let result = this.loadData(res,0);
                 this.data1 = result.data1;
                 this.data = result.data;
@@ -478,11 +432,6 @@
             })
         },
         watch:{
-            progress(newVal){
-                if(typeof newVal=="string"){
-                    this.progress = newVal.split("%")[0];
-                }
-            },
             fileTypeId(newVal){
                 //load production list
                 

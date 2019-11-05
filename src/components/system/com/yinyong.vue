@@ -518,8 +518,8 @@
                     }
                     let config = {
                         onUploadProgress: progressEvent => {
-                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-                                this.progress = complete
+                                var complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
+                                this.progress = Math.min(complete,99)
                             }
                     }
                     uploadFile(data,config).then(res => {
@@ -757,11 +757,6 @@
             }
         },
         watch:{
-            progress(newVal){
-                if(typeof newVal=="string"){
-                    this.progress = newVal.split("%")[0];
-                }
-            },
             "selectedCases.v":{
                 handler(newVal,oldVal){
                     // let param = {

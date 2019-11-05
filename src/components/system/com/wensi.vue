@@ -147,19 +147,6 @@ export default {
       },
       num: 1,
       formData: {
-        // address: "",
-        // contacter: null,
-        // createTime: "",
-        // email: null,
-        // fax: "",
-        // id: "",
-        // instId: null,
-        // leader: "",
-        // name: "",
-        // note: null,
-        // status: "",
-        // telephone: null,
-        // userDep: null
         name: "",
         file:null
       },
@@ -312,8 +299,8 @@ export default {
         data.append('files',files);
         let config = {
           onUploadProgress: progressEvent => {
-                  var complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-                  this.progress = complete
+                  var complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
+                  this.progress = Math.min(complete,99)
               }
         };
         uploadFile(data,config).then(res => {
@@ -377,11 +364,6 @@ export default {
     Title
   },
   watch:{
-    progress(newVal){
-      if(typeof newVal=="string"){
-          this.progress = newVal.split("%")[0];
-      }
-    },
     dataId(newVal){
       let index = _.findIndex(this.data1,(o)=>{return o.autoId==newVal});
                 // console.log(index);
