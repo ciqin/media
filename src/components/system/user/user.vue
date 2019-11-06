@@ -273,6 +273,7 @@
                 this.formData.id = row.id;
                 this.formData.password = row.password;
                 this.formData.password2 = row.password;
+                this.formData.roleId = row.roleId;
             },
             cleardata(){
                 let depId = this.bmData.length?this.bmData[0].id:'';
