@@ -299,6 +299,27 @@
             }
             
         },
+        watch:{
+            "formData.username":{
+                handler(newVal,oldVal){
+                    if(newVal){
+                        this.nameNotAllowed = false;
+                    }
+                    console.log(newVal);
+                },
+                deep:true,
+                immediate: true
+            },
+            "formData.password2":{
+                 handler(newVal,oldVal){
+                    if(newVal==this.formData.password){
+                        this.passwordNotAllowed = false;
+                    }
+                },
+                deep:true,
+                immediate: true
+            }
+        },
         components:{
             Title
         }
