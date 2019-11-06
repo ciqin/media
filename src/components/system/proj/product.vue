@@ -30,7 +30,7 @@
                                 </Upload>
                         </FormItem>
                     </Col>
-                    <div v-if="show" style="color:red;">上传图片不能为空</div>
+                    <div v-if="show" style="color:red;">产品名称不能为空</div>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -155,7 +155,10 @@
                 let datas = this.formData;
                 datas.ContentType = true;
                 let name = this.formData.name;
-                
+                if(!name){
+                    this.show = true;
+                    return 
+                }
                 if(this.showFlag){
                     
                     // api for modifying the row data
@@ -168,10 +171,10 @@
                     data.append('name',name);
                     data.append('fid',fid);
                     data.append('sort',sort);
-                    if(!file){
-                        this.show = true;
-                        return;
-                    }
+                    // if(!file){
+                    //     this.show = true;
+                    //     return;
+                    // }
                     data.append('file',file);
                     uploadFile2(data).then(res =>{
                         this.$message('添加成功');
