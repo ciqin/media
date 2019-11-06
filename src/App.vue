@@ -6,7 +6,7 @@
 
 <script>
   import {getPerm} from './http/api'
-
+  document.title = '闻歌演示分享云系统';
   export default {
 
     mounted() {
