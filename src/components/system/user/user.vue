@@ -146,7 +146,7 @@
             }
         },
          mounted () {
-            
+            this.loadContent();
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
                 
