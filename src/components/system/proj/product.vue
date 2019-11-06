@@ -25,7 +25,8 @@
                             style="width:100%;margin:0 auto;margin-top: 16px;">
                                 <Upload :before-upload="handleUpload"
                                     action="//jsonplaceholder.typicode.com/posts/" class="updata">
-                                    <Button icon="ios-cloud-upload-outline" style="width:100%;">{{fileName}}</Button>
+                                    
+                                    <Button icon="ios-cloud-upload-outline" style="width:100%;"><img v-if="!showFlag" id="icon-image" style="float:left;width:20px;height:20px;" :src="formData.relevantInfo"/>{{fileName}}</Button>
                                 </Upload>
                         </FormItem>
                     </Col>
@@ -45,7 +46,7 @@
                 <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
                 <!-- <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button> -->
             <!-- </template> -->
-            <template  slot="action" slot-scope="{ row }" >
+            <template  slot="action" slot-scope="{ row ,index}" >
                     <Button shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button>
                     <Button shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
             </template>
@@ -92,7 +93,8 @@
                 removeId:0,
                 formData: {
                     name:'',
-                    file:''
+                    file:'',
+                    relevantInfo:''
                 },
                 tableColumns1: [
                     {
@@ -206,7 +208,8 @@
             },
             modifyItem(row,index){
                 this.value3 = true;
-                this.formData = row;
+                this.formData.name = row.name;
+                this.formData.relevantInfo = row.relevantInfo;
                 this.showFlag = 0;
                 
             },
@@ -221,7 +224,7 @@
                     // let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
                     let fileExt = ['png'];
                     // checkup the image uploaded width and height
-                    var isAllowed = true;
+                    
                     let reader = new FileReader();
                     let height = 30,width = 30;
                     let that = this
@@ -231,12 +234,13 @@
                         image.onload = function(e){
                             let $width = image.width;
                             let $height = image.height;
-                            debugger;
                             if($width!=width||$height!=height){
-                                isAllowed = false;
+                                
                                 that.fileName = "请确定图片的宽高为30*30";
                                 
                             }else{
+                                let img = document.getElementById('icon-image');
+                                img.src = data;
                                 let flag = that.extFilter(file.name,fileExt);
                                 if(flag){
                                     that.fileName = file.name;

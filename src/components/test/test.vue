@@ -8,7 +8,8 @@
         名称：<input type = "text" v-model="name"><br>
         pid：<input type = "text" v-model="pid"><br>
         <button type = "button" @click="mySubmit()">提交</button>
-
+        <button type = "button" @click="testFacebook">测试</button>
+        
     </form>
     <div style="color:red">{{msg}}</div>
 </div>
@@ -16,7 +17,7 @@
 
 <script>
 
-import {uploadFile} from "@/http/api"
+import {uploadFile,testAPI} from "@/http/api"
 export default {
     name:'seller',
   data(){
@@ -42,6 +43,11 @@ export default {
         this.pdf    = inputDOM.files[0];
         // console.log(this.name);
         //   console.log(this.pid);
+      },
+      testFacebook(){
+          testAPI().then(res=>{
+              console.log(res)
+          })
       },
       mySubmit(){
           let data = new FormData();
