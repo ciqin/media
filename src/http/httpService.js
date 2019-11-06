@@ -11,7 +11,8 @@ const vue = new Vue()
 
 // 创建Axios实例对象，配置请求前缀，请求超时时间以及不需要带跨域凭证
 const Axios = http.create({
-   baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : ''
+   baseURL:  process.env.NODE_ENV !== 'development' ? path.API_URL : '',
+   withCredentials: true
   //baseURL: path.API_URL
 })
 Axios.defaults.timeout = 1000*60*10;           //超时时间
