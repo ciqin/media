@@ -171,7 +171,8 @@
             },
             modifyItem(row,index){
                 this.value3 = true;
-                this.formData = row;
+                this.formData.name = row.name;
+                this.formData.autoId = row.autoId;
                 this.showFlag = 0;
                 
             },
