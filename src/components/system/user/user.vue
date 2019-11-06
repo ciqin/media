@@ -51,8 +51,18 @@
                         </FormItem>
                     </Col>
                 </Row>
-                <div v-if="passwordNotAllowed" style="color:red;">密码不一致，请重新输入</div>
-                <div v-if="nameNotAllowed"  style="color:red;">用户名不能为空</div>
+                <Row v-if="passwordNotAllowed">
+                    <Col span="24">
+                            <div style="color:red;margin-left:116px;">密码不一致，请重新输入</div>
+                    </Col>
+                </Row>
+                <Row v-if="nameNotAllowed">
+                    <Col span="24">
+                            <div style="color:red;margin-left:116px;">用户名不能为空</div>
+                    </Col>
+                </Row>
+                
+                
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
@@ -207,7 +217,7 @@
                 
                 // datas.roleId = 1;
                 if(this.num==1) {
-                    delete datas.id; 
+                    datas.id&&delete datas.id; 
                     addUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
@@ -256,6 +266,7 @@
                 //         this.formData.id = res.id;
                 //     }
                 // })
+                this.cleardata();
                 this.formData.username = row.username;
                 this.formData.depId = row.depId;
                 this.formData.email = row.email;
@@ -263,7 +274,8 @@
                 this.formData.password = row.password;
             },
             cleardata(){
-                let depId = this.bmData[0].id
+                let depId = this.bmData.length?this.bmData[0].id:'';
+                
                 this.formData = {
                     // username: null,
                     // departmentName: null,
@@ -282,6 +294,8 @@
                     roleId:1,
                 }
                 this.couponSelected = null;
+                this.nameNotAllowed = false;
+                this.passwordNotAllowed = false;
             }
             
         },
