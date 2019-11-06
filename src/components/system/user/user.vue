@@ -27,7 +27,7 @@
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                         <FormItem label="角色:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="formData.roleId">
                                 <!-- <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option> -->
                                 <option value="1">普通用户</option>
