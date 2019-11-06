@@ -27,16 +27,32 @@
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="部门名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <select class="MaterialList" style="width:100%;padding-left: 18px" v-model="formData.roleId">
+                                <!-- <option :value="item.id" :instId="item.instId" :createTime ="item.createTime" v-for="(item,index) in bmData" :key="index" >{{item.name}}</option> -->
+                                <option value="1">普通用户</option>
+                                <option value="2">管理员</option>
+                            </select>
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
                          <FormItem label="用户邮箱:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入用户邮箱" v-model="formData.email" />
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
                          <FormItem label="用户密码:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input  placeholder="请输入密码" v-model="formData.password" />
+                             <Input  placeholder="请输入密码" type="password" v-model="formData.password" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="确认密码:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input  placeholder="请输入密码" type="password" v-model="formData.password2" />
                         </FormItem>
                     </Col>
                 </Row>
+                <div v-if="passwordNotAllowed" style="color:red;">密码不一致，请重新输入</div>
+                <div v-if="nameNotAllowed"  style="color:red;">用户名不能为空</div>
             </Form>
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addRole()" style="margin-right:16px;">确定</Button>
@@ -80,6 +96,8 @@
                 value3: false,
                 modal1: false,
                 removeid:null,
+                nameNotAllowed:false,
+                passwordNotAllowed:false,
                 // couponSelected: null, 
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -96,7 +114,9 @@
                     create_time: null,
                     email: null,
                     id:null,
-                    password:null
+                    password:null,
+                    password2:null,
+                    roleId:1,
                 },
                 bmData:[],
                 tableColumns1: [
@@ -113,6 +133,10 @@
                         key: 'createTime',
                     },
                     {
+                        title: '角色',
+                        key: 'roleName',
+                    },
+                    {
                         title: '操作',
                         slot: 'action',
                         width: 150,
@@ -122,10 +146,7 @@
             }
         },
          mounted () {
-            getUserList({'roleId':1}).then(res => {
-                this.data1 = res.obj;
-                // this.couponSelected = this.data1[0].depId;
-            })
+            
             getdepartmentlist().then( res => {
                 this.bmData = res.obj;
                 
@@ -143,19 +164,18 @@
                  removeUser({ContentType:true,"id":this.removeid}).then(res => {
                      if(res.success) {
                          this.$message('删除成功');
-                         getUserList({'roleId':1}).then(res => {
-                            this.data1 = res.obj
-                        })
+                         this.loadContent();
                      }else {
                          this.$message('删除失败');
                      }
                  })
             },
-            cleardata() {
-                for(let key in this.formData) {
-                    this.formData[key] = ''
-                }
-            },
+            // cleardata() {
+            //     for(let key in this.formData) {
+            //         this.formData[key] = ''
+            //     }
+            //     this.formData.roleId = 1;
+            // },
             changeData(event) {
                 var index = event.target.selectedIndex;
                 this.formData.depId = event.target.value;
@@ -164,7 +184,7 @@
                 this.formData.create_time = momentDate("YYYY-MM-DD hh:mm:ss");
             },
             addModalShow () {
-            //    this.cleardata();    
+               this.cleardata();    
                this.titleName = "用户管理添加";
                this.value3 = true;
                this.num = 1;
@@ -176,30 +196,52 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
-
-                datas.roleId = 1;
+                if(!datas.username){
+                    this.nameNotAllowed = true;
+                    return
+                }
+                if(datas.password!=datas.password2){
+                    this.passwordNotAllowed = true;
+                    return
+                }
+                
+                // datas.roleId = 1;
                 if(this.num==1) {
                     delete datas.id; 
                     addUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
-                             getUserList({'roleId':1}).then(res => {
-                                this.data1 = res.obj
-                            })
+                             this.loadContent();
                         }
                     })
                 }else {
                     updateUser(datas).then(res => {
                         if(res.success) {
                             // this.value3 = false;
-                             getUserList({'roleId':1}).then(res => {
-                                this.data1 = res.obj
-                            })
+                             this.loadContent();
                         }
                     })
                 }
                 this.value3 = false;
                 this.cleardata();
+            },
+            loadContent(){
+                getUserList().then(res => {
+                    let data = res.obj;
+                    // this.data1 = res.obj;
+                    data = data.map(function(v){
+                        if(v.roleId==1){
+                            v.roleName = '普通用户'
+                        }
+                        if(v.roleId==2){
+                            v.roleName = '管理员'
+                        }
+                        return v;
+                    });
+                    this.data1 = data;
+                    
+                    // this.couponSelected = this.data1[0].depId;
+                })
             },
             modifyItem( row,index ) {
                 this.value3 = true;
@@ -221,12 +263,23 @@
                 this.formData.password = row.password;
             },
             cleardata(){
+                let depId = this.bmData[0].id
                 this.formData = {
+                    // username: null,
+                    // departmentName: null,
+                    // create_time: null,
+                    // email: null,
+                    // id:null,
+                    // roleId:1,
                     username: null,
+                    depId:depId,
                     departmentName: null,
                     create_time: null,
                     email: null,
-                    id:null
+                    id:null,
+                    password:null,
+                    password2:null,
+                    roleId:1,
                 }
                 this.couponSelected = null;
             }

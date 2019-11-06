@@ -5,14 +5,24 @@
                 <Icon type="ios-people" class="icon-system"/>
                 部门管理
             </MenuItem>
-            <MenuItem name="2" to="/index/system/role">
+            <!-- <MenuItem name="2" to="/index/system/role">
                 <Icon type="ios-person-add" class="icon-system" />
                 管理员
-            </MenuItem>
+            </MenuItem> -->
             <MenuItem name="4" to="/index/system/user">
                 <Icon type="ios-person-add" class="icon-system" />
                 用户管理
             </MenuItem>
+            <!-- <Submenu name="2" style="font-size:17px;">
+                <template slot="title">
+                    
+                    <Icon type="ios-person-add" class="icon-system" ></Icon>
+                    用户管理
+                </template>
+                <div @click="linksis(item)" v-for="(item,index) in roleData" :key="item.name">
+                      <MenuItem :name="'active2'+index" :to="item.link">{{item.name}}</MenuItem>
+                </div>
+            </Submenu> -->
              <Submenu name="3" style="font-size:17px;">
                 <template slot="title">
                     <!-- <Icon type="ios-stats" class="icon-system" ></Icon> -->
@@ -66,6 +76,16 @@
                         "link":"/index/system/wensiManage",
                     },
                 ],
+                // roleData:[
+                //     {
+                //         "name":"管理员",
+                //         "link":"/index/system/role",
+                //     },
+                //     {
+                //         "name":"普通用户",
+                //         "link":"/index/system/user",
+                //     },
+                // ],
                 linkArr:[ //路由信息
                     {
                         "name":"产品物料",
