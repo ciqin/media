@@ -31,6 +31,7 @@
                         </FormItem>
                     </Col>
                     <div v-if="show" style="color:red;">产品名称不能为空</div>
+                    <div v-if="showFile" style="color:red;">上传文件不能为空</div>
                 </Row>
             </Form>
             <div class="demo-drawer-footer">
@@ -78,6 +79,7 @@
                 data1: [],
                 fid:1,
                 show:false,
+                showFile:false,
                 showFlag:0,
                 fileName:'上传30*30的png图片',
                 value3: false,
@@ -133,6 +135,8 @@
                     this.formData[key] = ''
                 }
                 this.fileName = '上传30*30的png图片';
+                this.show = false;
+                this.showFile = false;
             },
             addModalShow () {
                this.cleardata();
@@ -171,10 +175,10 @@
                     data.append('name',name);
                     data.append('fid',fid);
                     data.append('sort',sort);
-                    // if(!file){
-                    //     this.show = true;
-                    //     return;
-                    // }
+                    if(!file){
+                        this.showFile = true;
+                        return;
+                    }
                     data.append('file',file);
                     uploadFile2(data).then(res =>{
                         this.$message('添加成功');
@@ -213,6 +217,8 @@
                 this.value3 = true;
                 this.formData.name = row.name;
                 this.formData.relevantInfo = row.relevantInfo;
+                this.show = false;
+                this.showFile = false;
                 this.showFlag = 0;
                 
             },
@@ -227,7 +233,7 @@
                     // let fileExt = ['pdf','doc','docx','ppt','pptx','mp4'];
                     let fileExt = ['png'];
                     // checkup the image uploaded width and height
-                    
+                    debugger;
                     let reader = new FileReader();
                     let height = 30,width = 30;
                     let that = this
@@ -242,8 +248,11 @@
                                 that.fileName = "请确定图片的宽高为30*30";
                                 
                             }else{
-                                let img = document.getElementById('icon-image');
-                                img.src = data;
+                                if(!that.showFlag){
+                                    let img = document.getElementById('icon-image');
+                                    img.src = data;
+                                }
+                                
                                 let flag = that.extFilter(file.name,fileExt);
                                 if(flag){
                                     that.fileName = file.name;
@@ -296,6 +305,26 @@
         
         components:{
             Title
+        },
+        watch:{
+            "formData.name":{
+                handler(newVal,oldVal){
+                    if(newVal){
+                        this.show = false;
+                    }
+                },
+                deep:true,
+                immediate:true
+            },
+            "formData.file":{
+                handler(newVal,oldVal){
+                    if(newVal){
+                        this.showFile = false;
+                    }
+                },
+                deep:true,
+                immediate:true
+            }
         }
     }
 </script>
