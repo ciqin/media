@@ -49,7 +49,7 @@ exports.cssLoaders = function (options) {
         use: loaders,
         fallback: 'vue-style-loader',
 	//publicPath: '../../'
-	publicPath: '/wgproductbate/'
+	publicPath: '/wgproduct/'
       })
     } else {
       return ['vue-style-loader'].concat(loaders)

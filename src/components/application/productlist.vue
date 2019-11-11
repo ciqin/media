@@ -49,7 +49,7 @@ export default {
                 dataType.type = '1';
                 this.$store.commit("commonDataType",dataType);
             }
-            window.open("/wgproductbate/#/index/demonstration/","_self")
+            window.open("/wgproduct/#/index/demonstration/","_self")
             
         }
         

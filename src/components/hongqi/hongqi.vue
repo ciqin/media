@@ -24,7 +24,7 @@
                                     {{data.name}}
                                 </template>
                                 <MenuItem v-for="(datachild,index) in data.demonstrationArr[0]" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
-                                    <img src="/wgproductbate/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
+                                    <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
                                      {{datachild.displayName}}
                                 </MenuItem>
                             </Submenu>
@@ -195,7 +195,7 @@ export default {
           localStorage.setItem('demonstration',strObj)
           this.$store.commit("commonDataType",obj);
            if(obj.url){
-              window.open('/wgproductbate/#/index/demonstration/','_self');
+              window.open('/wgproduct/#/index/demonstration/','_self');
 
           }else{
               window.open(route,'_self');
