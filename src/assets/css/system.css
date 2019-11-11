@@ -174,3 +174,15 @@
 .company_box .ivu-spin {
   padding-top: 300px !important;
 }
+.ivu-table-tip table td{
+  font-size:16px;
+  font-weight: bold;
+}
+.demo-spin-icon-load{
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from { transform: rotate(0deg);}
+  50%  { transform: rotate(180deg);}
+  to   { transform: rotate(360deg);}
+}

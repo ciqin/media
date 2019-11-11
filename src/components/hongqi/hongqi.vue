@@ -5,7 +5,10 @@
         <Button type="primary" style="margin-left:16px;" @click="searchWord">搜索</Button>
         <Row v-if="notLoaded">
             <Col span="24" class="spin-fix">
-                <Spin fix>加载中...</Spin>
+                <Spin fix class="spin-col">
+                    <Icon type="ios-refresh" size='27' class="demo-spin-icon-load"></Icon>
+                    <div style="font-size:24px;">加载中...</div>
+                </Spin>
             </Col>
         </Row>
         <Menu :open-names="['1']" width="auto" accordion active-name="0-1" style="margin-top:22px;"> 
@@ -227,7 +230,20 @@ export default {
 .spin-fix{
     position: relative;
     height: 100px;
+    background-color: #f5f5f5;
 
+}
+
+.demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+    // from { color:#fff}
+    // 50%  { color:#3aa2eb}
+    // to   { color:#2d8cf0;}
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
 }
 .itempar {
     font-size: 18px;

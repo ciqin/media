@@ -1,6 +1,9 @@
 <template>
     <div class="company_box">
-        <Spin fix v-if="notLoaded">加载中...</Spin>
+        <Spin fix class="spin-col"  v-if="notLoaded">
+            <Icon type="ios-refresh" size='27' class="demo-spin-icon-load"></Icon>
+            <div style="font-size:24px;">加载中...</div>
+        </Spin>
          <Row type="flex">
             <Col span="12" order="4" v-for="item in sisurlArr" :key="item.name">
                 <div class="address_box">
@@ -69,6 +72,24 @@ export default {
         margin: 12px;
         margin-top: 0px;
         position: relative;
+    }
+    .spin-col{
+    height: 100px;
+    position: relative;
+    margin-top: 100px;
+    background-color: #f5f5f5;
+
+    }
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        // from { color:#fff}
+        // 50%  { color:#3aa2eb}
+        // to   { color:#2d8cf0;}
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
     }
     .address_box {
         width: calc(100% - 12px);
