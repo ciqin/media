@@ -49,6 +49,7 @@ export default {
       // 筛选状态
       localStorage.setItem("islogin","")
       this.$router.replace("/")
+      localStorage.removeItem("expire")
     },
     showModal(){
       this.modal5 = true;
@@ -57,6 +58,12 @@ export default {
   mounted(){
     // this.userName = this.$store.state.user;
     this.userName = localStorage.getItem("user");
+    let expire = localStorage.getItem('expire');
+    if(expire){
+      setTimeout(()=>{
+        this.SignOut();
+      },expire)
+    }
   }
 };
 </script>
