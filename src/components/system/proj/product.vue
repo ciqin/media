@@ -246,6 +246,7 @@
                             if($width!=width||$height!=height){
                                 
                                 that.fileName = "请确定图片的宽高为30*30";
+                                that.formData.file = null;
                                 
                             }else{
                                 if(!that.showFlag){
@@ -260,6 +261,7 @@
                                     // that.formData.fileName = file.name;
                                 }else{
                                     that.fileName = "格式不正确"
+                                    that.formData.file = null;
                                 }
                             }
                         }
