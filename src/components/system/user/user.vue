@@ -41,6 +41,11 @@
                         </FormItem>
                     </Col>
                     <Col span="24" style="margin-top: 16px;">
+                         <FormItem label="用户姓名:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                             <Input @focus="personNotAllowed=false" placeholder="请输入用户姓名" v-model="formData.personname" />
+                        </FormItem>
+                    </Col>
+                    <Col span="24" style="margin-top: 16px;">
                          <FormItem label="用户密码:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
                              <Input  placeholder="请输入密码" type="password" v-model="formData.password" />
                         </FormItem>
@@ -59,6 +64,11 @@
                 <Row v-if="nameNotAllowed">
                     <Col span="24">
                             <div style="color:red;margin-left:116px;">用户名不能为空</div>
+                    </Col>
+                </Row>
+                <Row v-if="personNotAllowed">
+                    <Col span="24">
+                            <div style="color:red;margin-left:116px;">姓名不能为空</div>
                     </Col>
                 </Row>
                 
@@ -108,6 +118,7 @@
                 removeid:null,
                 nameNotAllowed:false,
                 passwordNotAllowed:false,
+                personNotAllowed:false,
                 // couponSelected: null, 
                 styles: {
                     height: 'calc(100% - 55px)',
@@ -127,6 +138,7 @@
                     password:null,
                     password2:null,
                     roleId:1,
+                    personname:null,
                 },
                 bmData:[],
                 tableColumns1: [
@@ -214,7 +226,10 @@
                     this.passwordNotAllowed = true;
                     return
                 }
-                
+                if(!datas.personname){
+                    this.personNotAllowed = true;
+                    return
+                }
                 // datas.roleId = 1;
                 if(this.num==1) {
                     datas.id&&delete datas.id; 
@@ -274,6 +289,7 @@
                 this.formData.password = row.password;
                 this.formData.password2 = row.password;
                 this.formData.roleId = row.roleId;
+                this.formData.personname = row.personname;
             },
             cleardata(){
                 let depId = this.bmData.length?this.bmData[0].id:'';
@@ -294,10 +310,12 @@
                     password:null,
                     password2:null,
                     roleId:1,
+                    personname:null,
                 }
                 this.couponSelected = null;
                 this.nameNotAllowed = false;
                 this.passwordNotAllowed = false;
+                this.personNotAllowed = false;
             }
             
         },
