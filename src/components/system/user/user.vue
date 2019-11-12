@@ -6,7 +6,7 @@
         </div>
         <!-- 模态框 -->
         <Drawer
-            title="用户添加"
+            :title="(formData.username||formData.password||formData.email)?'用户编辑':'用户添加'"
             v-model="value3"
             width="660"
             :mask-closable="false"
