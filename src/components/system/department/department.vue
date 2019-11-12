@@ -5,7 +5,7 @@
             <Button  class="btnMedal" @click="addModalShow" type="primary" style="margin-right:50px;">添加</Button>
         </div>
         <Drawer
-            title="部门管理添加"
+            :title="num?'部门添加':'部门编辑'"
             v-model="value3"
             width="660"
             :mask-closable="false"
@@ -36,8 +36,9 @@
                 <strong>{{ row.name }}</strong>
             </template>
             <template slot-scope="{ row, index }" slot="action">
-                <!-- <Button type="primary" shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button> -->
-                <Button type="primary" shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
+                
+                <Button shape="circle" icon="ios-create-outline" @click="modifyItem(row,index)"></Button>
+                <Button shape="circle" icon="ios-trash-outline" @click="removeParent(row,index)"></Button>
             </template>
         </Table>
 
@@ -59,7 +60,7 @@
     
     import '../../../assets/css/system.css';
 
-    import { getDepartment,removeDepartment,addDepartment} from '@/http/api';
+    import { getDepartment,removeDepartment,addDepartment,updateDepartment} from '@/http/api';
 
     export default {
         data () {
@@ -77,6 +78,7 @@
                 modal1: false,
                 removeId:0,
                 formData: {
+                    id:null,
                     address: "",
                     contacter: null,
                     email: null,
@@ -132,14 +134,30 @@
             addRole(){
                 let datas = this.formData;
                 datas.ContentType = true;
-                addDepartment(datas).then(res => {
-                    if(res.success) {
+                if(this.num==1){
+
+                    addDepartment(datas).then(res => {
+                        if(res.success) {
+                            getDepartment().then(res => {
+                                this.value3 = false;
+                                this.data1 = res;
+                            })
+                        }
+                    })
+                }else{
+                    let id = datas.id;
+                    let name = datas.name;
+                    let data = {id:id,name:name}
+                    updateDepartment(data).then(res=>{
+                        this.$message("修改成功");
                         getDepartment().then(res => {
-                            this.value3 = false;
-                            this.data1 = res;
+                                this.value3 = false;
+                                this.data1 = res
                         })
-                    }
-                })
+                    }).catch(()=>{
+                        this.$message("修改失败")
+                    })
+                }
             },
             ok() {
                     removeDepartment({ContentType:true,id:this.removeId}).then(res => {
@@ -149,6 +167,12 @@
                             })
                         }
                     })
+            },
+            modifyItem(row,index){
+                this.value3 = true;
+                this.formData.name = row.name;
+                this.formData.id = row.id;
+                this.num= 0;
             },
             removeParent( row,index ) {
                 this.modal1 = true;

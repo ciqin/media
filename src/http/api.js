@@ -156,3 +156,6 @@ export const deleteVendor = (data) => postHttp(baseUrl('/test/appl/delFirstSecon
 export const uploadFile2 = (data,config) => upload(baseUrl('/test/appl/addProduct'),data,config)
 export const uploadFile3 = (data,config) => upload(baseUrl('/test/appl/updateProductNameAndIcon'),data,config)
 
+// 部门名称修改 updateDepartment
+
+export const updateDepartment = (data) => postHttp(baseUrl("/test/departMent/updateDepartMent"),data)
