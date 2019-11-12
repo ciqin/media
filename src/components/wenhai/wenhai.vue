@@ -147,6 +147,18 @@ export default {
             }
             
     }
+    .langchange {
+                position:absolute;
+                left: 94px;
+                top:66px;
+                a {
+                    font-size: 16px;
+                    // font-size:14px;
+                    color:#747474;
+                    border-right: 1px solid #c5c5c5;
+                    padding:0 12px;
+                }
+    }
     .ivu-row-flex>div:nth-child(2n){
     // .ivu-row-flex>div{
         .address_box {
@@ -156,7 +168,6 @@ export default {
                 position:absolute;
                 left: 94px;
                 top:66px;
-                
                 a {
                     font-size: 16px;
                     // font-size:14px;
