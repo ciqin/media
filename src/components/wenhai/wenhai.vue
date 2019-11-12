@@ -56,7 +56,14 @@ export default {
     // let param = qs.stringify({'fid':fid});
     let param = {'fid':fid};
     getProductDemo(param).then(res => {
-        this.sisurlArr  = res;
+        let data = res;
+        data = data.filter(function(o){
+            if(o.url){
+                return o;
+            }
+        })
+        // this.sisurlArr  = res;
+        this.sisurlArr = data;
         this.notLoaded = false;    
     });
     //    getSisurl().then(res => {
