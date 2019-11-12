@@ -100,6 +100,13 @@ export default {
             var data = res;
             data.forEach(function(v,i){
                 v.demonstrationArr = v.demonstrationArr.filter(function(o){
+                    if(o.data&&o.data.length){
+                        let url = o.data[0].url
+                        let urlArr = url.split('/');
+                        if(urlArr.length<5||urlArr[4]=="null"||urlArr[4]==''){
+                            o.titile = '地址'
+                        }
+                    }
                     return (o.titile!='地址');
                 })
             });
