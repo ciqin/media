@@ -235,19 +235,25 @@
                     datas.id&&delete datas.id; 
                     addUser(datas).then(res => {
                         if(res.success) {
-                            // this.value3 = false;
-                             this.loadContent();
+                            this.value3 = false;
+                            this.$message("添加成功")
+                            this.loadContent();
+                        }else{
+                            this.$message("添加失败")
                         }
                     })
                 }else {
                     updateUser(datas).then(res => {
                         if(res.success) {
-                            // this.value3 = false;
-                             this.loadContent();
+                            this.value3 = false;
+                            this.$message("修改成功")
+                            this.loadContent();
+                        }else{
+                            this.$message("修改失败")
                         }
                     })
                 }
-                this.value3 = false;
+                // this.value3 = false;
                 this.cleardata();
             },
             loadContent(){
