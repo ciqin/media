@@ -14,12 +14,12 @@
             <Form :model="formData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem label="项目名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="项目名称:" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
                              <Input  placeholder="请输入项目名称" v-model="formData.name" />
                         </FormItem>
                     </Col>
                     <Col span="24" v-if="showFlag">
-                        <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="所属领域:" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
                             <select class="MaterialList" style="width:100%;" v-model="formData.id">
                                 <!-- <option value="1">媒体行业应用案例</option>
                                 <option value="2">政务领域应用案例</option>
