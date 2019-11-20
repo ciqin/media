@@ -1,7 +1,13 @@
 <template>
     <div class="container">
         <ul>
-            <li class="item" v-for="item in applicationList" :key="item.name" @click="dataType(item)"> {{ item.name}}</li>
+            <li class="item" v-for="item in applicationList" :key="item.name"> 
+                <a href="{{item.url}}" target="_blank">{{ item.name}}</a>
+            <div class="login-info">
+                        <div class="login-item"><div class="label-name">用户名：</div><input disabled :value="item.logName" /></div>
+                        <div class="login-item"><div class="label-name">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div><input disabled :value="item.logPassword" /></div>
+            </div>
+            </li>
         </ul>
     </div>  
 </template>
@@ -30,12 +36,12 @@ export default {
         };
     },
     methods:{
-        dataType(item){
+        // dataType(item){
             
-            let url = item.url
-            window.open(url,"_blank")
+        //     let url = item.url
+        //     window.open(url,"_blank")
             
-        }
+        // }
     },
     mounted() {
      // let param = {
@@ -81,6 +87,10 @@ export default {
                color:#5b5b5b;
                background: #fff;
                padding-left: 28px;
+               a{
+                   text-decoration: underline;
+                   cursor: pointer;
+               }
            }
            .item:hover{
                background: #f1f6ff;
@@ -88,4 +98,32 @@ export default {
            }
        }
    }
+.login-info{
+                // float:right;
+                display: inline-block;
+                font-size:12px;
+                text-align: left;
+                
+                margin: 2px 2px 2px 5px;
+                .login-item{
+                    height: 40px;
+                    display: inline-block;
+                    .label-name{
+                        width:80px;
+                        display: inline-block;
+                        text-align: right;
+                    }
+                    input{
+                        border-color:#ccc;
+                        border-radius: 4px;
+                        padding: 2px;
+                        height:30px;
+                        border:none;
+                        display: inline-block;
+                        background-color: #f3f3f3;
+                        // background-color: #fff;
+                    }
+                }
+       
+            }
 </style>
