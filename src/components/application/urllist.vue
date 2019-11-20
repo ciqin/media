@@ -2,7 +2,7 @@
     <div class="container">
         <ul>
             <li class="item" v-for="item in applicationList" :key="item.name"> 
-                <a href="{{item.url}}" target="_blank">{{ item.name}}</a>
+                <a :href="item.url" target="_blank">{{ item.name}}</a>
             <div class="login-info">
                         <div class="login-item"><div class="label-name">用户名：</div><input disabled :value="item.logName" /></div>
                         <div class="login-item"><div class="label-name">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div><input disabled :value="item.logPassword" /></div>
