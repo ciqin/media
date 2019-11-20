@@ -24,63 +24,10 @@
                             </select>
                         </FormItem>
                 </Col>
-                <!-- <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="PPT:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                            
-                             <Upload
-                                multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.ppts">
-                                <Button icon="ios-cloud-upload-outline" style="width:100%;">ppt上传(支持多个文件)</Button>
-                            </Upload>
-                        </FormItem>
-                </Col>
-                <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="word:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Upload
-                                multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.words">
-                                <Button icon="ios-cloud-upload-outline" style="width:100%;">word上传(支持多个文件)</Button>
-                            </Upload>
-                        </FormItem>
-                </Col>
-                <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="产品册:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Upload
-                                multiple
-                                action="//jsonplaceholder.typicode.com/posts/" class="updata" v-model="formData1.brochures">
-                                <Button icon="ios-cloud-upload-outline" style="width:100%;">产品册上传(支持多个文件)</Button>
-                            </Upload>
-                        </FormItem>
-                </Col>
-                <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="视频:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Upload
-                                multiple
-                                action="//jsonplaceholder.typicode.com/posts/"  class="updata"  v-model="formData1.videos">
-                                <Button icon="ios-cloud-upload-outline" style="width:100%;">视频上传(支持多个文件)</Button>
-                            </Upload>
-                        </FormItem>
-                </Col>
-                <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="地址名称:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input   v-model="formData1.linkName" />
-                        </FormItem>
-                </Col>
-                <Col span="24" style="margin-top: 16px;">
-                         <FormItem label="链接:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
-                             <Input   v-model="formData1.link" />
-                        </FormItem>
-                </Col> -->
+                
                 </Row>
             </Form>
-            <!-- <Row justify="center" style="margin-top:10px;">
-                <Col span="12">
-                    <Button type="primary" class="setW" @click="addCase()" style="margin-left:116px;">确定</Button>
-                </Col>
-                <Col span="12">
-                    <Button class="setW" @click="value3 = false">关闭</Button>
-                </Col>
-            </Row> -->
+            
             <div class="demo-drawer-footer">
                 <Button type="primary" class="setW" @click="addCase()" style="margin-right:16px;">确定</Button>
                 <Button class="setW" @click="value3 = false">关闭</Button>
@@ -105,6 +52,20 @@
                         calss="formitem"
                         style="width:100%;margin:0 auto;margin-top: 16px;">
                             <Input  v-model="formData.link"/>
+                        </FormItem>
+                        <FormItem
+                        label="用户名:"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;margin-top: 16px;">
+                            <Input  v-model="formData.logName"/>
+                        </FormItem>
+                        <FormItem
+                        label="密码:"
+                        label-position="left"
+                        calss="formitem"
+                        style="width:100%;margin:0 auto;margin-top: 16px;">
+                            <Input  v-model="formData.logPassword"/>
                         </FormItem>
                         
                          <FormItem label="操作人:" label-position="left" calss="formitem" style="width:100%;margin:0 auto;margin-top: 16px;">
@@ -209,13 +170,19 @@
                         </FormItem>
                     </Col> -->
                     <Col span="20">
-                        <FormItem label="产品名称：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="产品名称：" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
                              <Input v-model="fileInfo.name" />
                         </FormItem>
-                        <FormItem label="链接地址：" v-if="fileTypeName=='地址'" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="链接地址：" v-if="fileTypeName=='地址'" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
                              <Input v-model="fileInfo.url" />
                         </FormItem>
-                        <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:0 auto;">
+                        <FormItem label="用户名：" v-if="fileTypeName=='地址'" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
+                             <Input v-model="fileInfo.logName" />
+                        </FormItem>
+                        <FormItem label="密码：" v-if="fileTypeName=='地址'" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
+                             <Input v-model="fileInfo.logPassword" />
+                        </FormItem>
+                        <FormItem label="操作人：" label-position="left" calss="formitem" style="width:100%;margin:16px auto 0;">
                              <Input :value="userName" disabled />
                         </FormItem>
                     </Col>
@@ -278,7 +245,9 @@
                     name: '',
                     // author: '',
                     id: '',
-                    url: ''
+                    url: '',
+                    logName:'',
+                    logPassword:''
 
                 },
                 styles: {
@@ -309,7 +278,9 @@
                     pdffile: '',
                     // pdfName: '',
                     link: '',
-                    linkName: ''
+                    linkName: '',
+                    logName:'',
+                    logPassword: ''
                 },
                 itemData: {
                     
@@ -548,6 +519,8 @@
                     obj.pid = this.selectedCases.c;
                     obj.name = this.formData.linkName;
                     obj.url = this.formData.link;
+                    obj.logName = this.formData.logName;
+                    obj.logPassword = this.formData.logPassword;
                     addLink(obj).then(res => {
                         // getapplicationList().then(res => {
                         //     this.data = res;
@@ -622,6 +595,8 @@
                 this.fileInfo.name = item.displayName;
                 this.fileInfo.id = item.autoId;
                 this.fileInfo.url = item.url;
+                this.fileInfo.logName = item.logName;
+                this.fileInfo.logPassword = item.logPassword;
                 this.fileTypeName = title;
                 // console.log(index);
                 
@@ -637,6 +612,8 @@
                         obj.autoId = this.fileInfo.id;
                         obj.name = this.fileInfo.name;
                         obj.url = this.fileInfo.url;
+                        obj.logName = this.fileInfo.logName;
+                        obj.logPassword = this.fileInfo.logPassword;
                         editLink(obj).then(res=>{
                             this.$message("修改成功");
 
@@ -688,7 +665,9 @@
                     pdffile: '',
                     // pdfName:'',
                     link: '',
-                    linkName: ''
+                    linkName: '',
+                    logName:'',
+                    logPassword:''
                 };
                 this.formData1 = {
                         name: '',
