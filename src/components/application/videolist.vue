@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-         <Row>
+         <Row v-if="applicationList.length>0">
             <Col span="19">
                 <div class="product_ys">
                     <p>{{title}}</p>
@@ -14,6 +14,7 @@
                 </div>
             </Col>
         </Row>
+        <div class="nodata" v-else>暂无数据</div>
     </div>  
 </template>
 
@@ -148,6 +149,11 @@ export default {
                 }
             }
        }
-       
+      .nodata{
+           text-align: center;
+           font-size: 24px;
+           font-weight: bold;
+           padding:50px;
+       } 
    }
 </style>

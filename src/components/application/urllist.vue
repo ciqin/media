@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <ul>
+        <ul v-if="applicationList.length>0">
             <li class="item" v-for="item in applicationList" :key="item.name"> 
                 <a :href="item.url" target="_blank">{{ item.name}}</a>
             <div class="login-info">
@@ -9,6 +9,7 @@
             </div>
             </li>
         </ul>
+        <div class="nodata" v-else>暂无数据</div>
     </div>  
 </template>
 
@@ -96,6 +97,12 @@ export default {
                background: #f1f6ff;
                color:#2fa9e8;
            }
+       }
+       .nodata{
+           text-align: center;
+           font-size: 24px;
+           font-weight: bold;
+           padding:50px;
        }
    }
 .login-info{
