@@ -6,7 +6,7 @@
         </Spin>
         <div v-for="item in productArr"  :key="item.name" class="clearfix product">
             <div class="pro_msg">
-                <img :src="item.relevantInfo">
+                <!-- <img :src="item.relevantInfo"> -->
                 <span>{{item.name}}</span>
             </div>
             <Row>
