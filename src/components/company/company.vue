@@ -110,6 +110,9 @@ export default {
                     return (o.titile!='地址');
                 })
             });
+            data = data.filter(function(o){
+                return o.demonstrationArr.length>0;
+            })
             this.notLoaded = false;
             this.productArr = data;
         });
