@@ -85,7 +85,7 @@
     import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile1} from '@/http/api';
     import {mapState} from 'vuex'
     import "../../../assets/css/system.css";
-
+    import {extFilter} from "@/mixin/filter"
     export default {
         data () {
             return {
@@ -388,34 +388,12 @@
                 // console.log(file.name);
                 return false;
             },
-
-            extFilter: function(extName,condition) {
-                let nameArr = extName.split('.');
-                
-                if(nameArr.length>1){
-                        let len = nameArr.length;
-                        let ext = nameArr[(len-1)].toLowerCase();
-                        
-                        let index = _.findIndex(condition,(o)=>{return o == ext});
-                        
-                        if(index==-1){
-                            this.$message("请输入正确格式的文件");
-                            return false;
-                        }else{
-                            return true;
-                        }
-                        
-                    }else{
-                         this.$message("请输入正确格式的文件");
-                         return false;
-                         
-                    }
-            },
             
         },
         components:{
             Title
         },
+        mixins:[extFilter],
         mounted(){
             //load production list 
             // getProductList().then(res => {

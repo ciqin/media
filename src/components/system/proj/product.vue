@@ -72,8 +72,9 @@
     import '../../../assets/css/system.css';
 
     import { getDepartment,removeDepartment,addDepartment,getProductDemo,uploadFile3,deleteVendor,uploadFile2} from '@/http/api';
-
+    import {extFilter} from "@/mixin/filter"
     export default {
+        mixins:[extFilter],
         data () {
             return {
                 data1: [],
@@ -279,28 +280,6 @@
                 }
                 
                 return false;
-            },
-            extFilter: function(extName,condition) {
-                let nameArr = extName.split('.');
-                
-                if(nameArr.length>1){
-                        let len = nameArr.length;
-                        let ext = nameArr[(len-1)].toLowerCase();
-                        
-                        let index = _.findIndex(condition,(o)=>{return o == ext});
-                        
-                        if(index==-1){
-                            this.$message("请输入正确格式的文件");
-                            return false;
-                        }else{
-                            return true;
-                        }
-                        
-                    }else{
-                         this.$message("请输入正确格式的文件");
-                         return false;
-                         
-                    }
             },
 
         },//method 结束
