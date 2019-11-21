@@ -1,19 +1,22 @@
 <template>
     <div class="container">
         <ul v-if="applicationList.length>0">
-            <li class="item" v-for="item in applicationList" :key="item.name"> 
-                <a :href="item.url" target="_blank">{{ item.name}}</a>
+            <li class="item" v-for="item in applicationList" :key="item.name">
+                <div style="display:inline-block;width:20%">
+                    <a :href="item.url" target="_blank">{{ item.name}}</a>
+                </div> 
             <div class="login-info">
                         <div class="login-item"><div class="label-name">用户名：</div><input disabled :value="item.logName" /></div>
                         <div class="login-item"><div class="label-name">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div><input disabled :value="item.logPassword" /></div>
             </div>
             </li>
         </ul>
-        <div class="nodata" v-else>暂无数据</div>
+        <Nodata v-else></Nodata>
     </div>  
 </template>
 
 <script>
+import Nodata from "@/components/fittings/nodata"
 export default {
     data() {
         return {
@@ -70,6 +73,7 @@ export default {
             }
         }
     },
+    components:{Nodata}
 };
 </script>
 
@@ -98,12 +102,7 @@ export default {
                color:#2fa9e8;
            }
        }
-       .nodata{
-           text-align: center;
-           font-size: 24px;
-           font-weight: bold;
-           padding:50px;
-       }
+       
    }
 .login-info{
                 // float:right;

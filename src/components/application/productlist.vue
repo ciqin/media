@@ -3,11 +3,12 @@
          <ul v-if="applicationList.length>0">
             <li class="item" v-for="item in applicationList" :key="item.displayName" @click="dataType(item)"> {{ item.displayName}}</li>
         </ul>
-        <div class="nodata" v-else>暂无数据</div>
+        <Nodata v-else></Nodata>
     </div>  
 </template>
 
 <script>
+import Nodata from "@/components/fittings/nodata"
 export default {
     data() {
         return {
@@ -84,6 +85,7 @@ export default {
             }
         }
     },
+    components:{Nodata}
 };
 </script>
 
@@ -108,11 +110,6 @@ export default {
                color:#2fa9e8;
            }
        }
-       .nodata{
-           text-align: center;
-           font-size: 24px;
-           font-weight: bold;
-           padding:50px;
-       }
+       
    }
 </style>

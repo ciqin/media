@@ -14,11 +14,12 @@
                 </div>
             </Col>
         </Row>
-        <div class="nodata" v-else>暂无数据</div>
+        <Nodata v-else></Nodata>
     </div>  
 </template>
 
 <script>
+import Nodata from "@/components/fittings/nodata"
 export default {
     data() {
         return {
@@ -102,6 +103,7 @@ export default {
             this.showVideo = false;
         }
     },
+    components:{Nodata}
 };
 </script>
 
@@ -149,11 +151,6 @@ export default {
                 }
             }
        }
-      .nodata{
-           text-align: center;
-           font-size: 24px;
-           font-weight: bold;
-           padding:50px;
-       } 
+      
    }
 </style>
