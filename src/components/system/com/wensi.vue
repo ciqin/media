@@ -193,7 +193,7 @@ export default {
       getProductDemo({'fid':this.id}).then(res => {
         this.data1 = res
         this.dataId = this.data1[0].autoId;
-        this.data = this.data1[0].demonstrationArr[0];
+        this.data = this.data1[0].demonstrationArr[0].data;
       });
     
   },
@@ -309,7 +309,7 @@ export default {
       getProductDemo({'fid':this.id}).then(res => {
         this.data1 = res
         this.dataId = this.data1[index].autoId;
-        this.data = this.data1[index].demonstrationArr[0];
+        this.data = this.data1[index].demonstrationArr[0].data;
       });
       
     },
@@ -350,7 +350,8 @@ export default {
           if(index!=-1){
             this.dataName = this.data1[index].name;
                     // this.data = this.wensiProduct[index].data;
-            this.data = this.data1[index].demonstrationArr[0]
+            
+            this.data = this.data1[index].demonstrationArr[0].data
           }
     }
   }
