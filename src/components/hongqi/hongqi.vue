@@ -19,16 +19,19 @@
                                 {{data.name}}
                             </MenuItem>
                             
-                            <Submenu :name="'child-'+index" v-if="data.demonstrationArr.length" :key="data.text" class="itempar">
+                            <Submenu :name="'child-'+index" :key="data.text" class="itempar" v-if="data.demonstrationArr.length&&data.demonstrationArr[0].data.length">
                                 <template slot="title">
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.name}}
                                 </template>
-                                <MenuItem v-for="(datachild,index) in data.demonstrationArr[0].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
+                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[0].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
                                     <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
                                      {{datachild.displayName}}
                                 </MenuItem>
                             </Submenu>
+                            <MenuItem  class="itempar" :name="index+'-1'" v-if="data.demonstrationArr.length&&!data.demonstrationArr[0].data.length">
+                                {{data.name}}
+                            </MenuItem>
                     </div>
         </Menu>
         </div>
