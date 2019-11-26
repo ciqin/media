@@ -23,7 +23,7 @@
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.name}}
                                 </template>
-                                <MenuItem v-for="(datachild,index) in data.demonstrationArr[0]" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
+                                <MenuItem v-for="(datachild,index) in data.demonstrationArr[0].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
                                     <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
                                      {{datachild.displayName}}
                                 </MenuItem>
