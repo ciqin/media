@@ -13,12 +13,13 @@
         </Row>
         <Menu :open-names="['1']" width="auto" accordion active-name="0-1" style="margin-top:22px;"> 
                     <div v-for="(data,index) in datas" :key="data.text">
-                            <MenuItem :name="index+'-1'" v-if="!data.demonstrationArr[0].length && !data.show" class="itempar">
+                            <MenuItem :name="index+'-1'" v-if="!data.demonstrationArr.length && !data.show" class="itempar">
                                 <div class="no_bk" @click="changeImg(data,index)"></div>
                                 <!-- <img src="/static/images/icon/pdf_icon.png"> -->
                                 {{data.name}}
                             </MenuItem>
-                            <Submenu :name="'child-'+index" v-if="data.demonstrationArr[0].length && !data.show" :key="data.text" class="itempar">
+                            
+                            <Submenu :name="'child-'+index" v-if="data.demonstrationArr.length" :key="data.text" class="itempar">
                                 <template slot="title">
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.name}}
