@@ -61,6 +61,8 @@ export default {
             if(o.url){
                 return o;
             }
+        }).catch(function(e){
+            console.log(e);
         })
         // this.sisurlArr  = res;
         this.sisurlArr = data;
