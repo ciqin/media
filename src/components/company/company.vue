@@ -107,7 +107,7 @@ export default {
                             o.titile = '地址'
                         }
                     }
-                    return (o.titile!='地址');
+                    return (o.titile!='地址'&&o.titile!='图片');
                 })
             });
             data = data.filter(function(o){
