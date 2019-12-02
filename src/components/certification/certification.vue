@@ -24,11 +24,11 @@
                                     <!-- <Icon type="ios-people" /> -->
                                     {{data.name}}
                                 </template>
-                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[0].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
+                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[0].data" :key="index" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
                                     <!-- <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;"> -->
                                      {{datachild.displayName}}
                                 </MenuItem>
-                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[5].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
+                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[5].data" :key="index" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
                                     <!-- <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;"> -->
                                      {{datachild.displayName}}
                                 </MenuItem>
@@ -59,14 +59,15 @@ export default {
   methods :{
       searchWord( ) {
         let that = this;
+        debugger;
         this.datas = this.datas.filter(function(o){
-            if(o.demonstrationArr&&o.demonstrationArr[0].length){
-                let index = _.findIndex(o.demonstrationArr[0],(o2)=>{
+            if(o.demonstrationArr&&o.demonstrationArr[0].data.length){
+                let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
                     let value = that.value;
                     var p = new RegExp('\\w*'+value+'\\w*')
                     return (p.test(o2.displayName))
                 });
-                let index2 = _.findIndex(o.demonstrationArr[5],(o2)=>{
+                let index2 = _.findIndex(o.demonstrationArr[5].data,(o2)=>{
                     let value = that.value;
                     var p = new RegExp('\\w*'+value+'\\w*')
                     return (p.test(o2.displayName))

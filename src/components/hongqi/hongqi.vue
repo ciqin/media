@@ -149,8 +149,8 @@ export default {
       searchWord( ) {
         let that = this;
         this.datas = this.datas.filter(function(o){
-            if(o.demonstrationArr&&o.demonstrationArr[0].length){
-                let index = _.findIndex(o.demonstrationArr[0],(o2)=>{
+            if(o.demonstrationArr&&o.demonstrationArr[0].data.length){
+                let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
                     let value = that.value;
                     var p = new RegExp('\\w*'+value+'\\w*')
                     return (p.test(o2.displayName))
