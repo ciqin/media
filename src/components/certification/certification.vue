@@ -1,7 +1,7 @@
 <template>
     <div class="company_box">
         
-        <Input v-model="value" placeholder="请输入检索报告..." style="width: 180px;margin-left:18px;" search/>
+        <Input v-model="value" placeholder="请输入关键词..." style="width: 180px;margin-left:18px;" search/>
         <Button type="primary" style="margin-left:16px;" @click="searchWord">搜索</Button>
         <Row v-if="notLoaded">
             <Col span="24" class="spin-fix">
