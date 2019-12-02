@@ -18,7 +18,7 @@
                 </div>
                 <div class="lgD" style="margin-bottom:20px;">
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
-                     <input type="password" placeholder="请输入密码" v-model="password" @keyup.enter="login">
+                     <input type="password" placeholder="请输入密码" v-model="password">
                 </div>
                 <div class="lgD" style="margin-bottom:20px;">
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
