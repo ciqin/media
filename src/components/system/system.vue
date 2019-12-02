@@ -75,6 +75,10 @@
                         "name":"闻思报告行业",
                         "link":"/index/system/wensiManage",
                     },
+                    {
+                        "name":"公司资质项目",
+                        "link":"/index/system/certification",
+                    },
                 ],
                 // roleData:[
                 //     {
@@ -102,7 +106,11 @@
                     {
                         "name":"闻思报告",
                         "link":"/index/system/wensi",
-                    }
+                    },
+                    {
+                        "name":"公司资质",
+                        "link":"/index/system/certificationFile",
+                    },
                 ]
             }
         },

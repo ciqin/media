@@ -26,34 +26,7 @@ import {getSiderBar} from '@/http/api'
     data () {
       return {
         theme2: 'light',
-        datas: [
-        //   {
-        //   "autoId": 1,
-        //   text: '产品物料',
-        //   img:"/static/images/yinyong/s_icon1_active.png",
-        //   url:"/index/company",
-        // }, {
-        //   "autoId": 2,
-        //   text: '产品演示地址',
-        //   img:"/static/images/yinyong/s_icon2.png",
-        //   url:"/index/wenhai",
-        // }, {
-        //   "autoId": 3,
-        //   text: '应用案例',
-        //    img:"/static/images/yinyong/s_icon3.png",
-        //     url:"/index/qingtian"
-        // }, {
-        //   "autoId": 4,
-        //   text: '闻思报告',
-        //   img:"/static/images/yinyong/s_icon4.png",
-        //    url:"/index/hongqi"
-        // }, {
-        //   "autoId": 5,
-        //   text: '权限管理',
-        //   img:"/static/images/yinyong/s_icon5.png",
-        //    url:"/index/system/department"
-        // }
-        ],
+        datas: [],
         className:0
       }
     },

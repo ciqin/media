@@ -25,7 +25,7 @@
                                     {{data.name}}
                                 </template>
                                 <MenuItem  v-for="(datachild,index) in data.demonstrationArr[0].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
-                                    <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;">
+                                    <!-- <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;"> -->
                                      {{datachild.displayName}}
                                 </MenuItem>
                             </Submenu>
@@ -40,7 +40,7 @@
 <script>
 import {getProductDemo} from "@/http/api"
 export default {
-  name: "seller",
+  name: "certification",
   data() {
     return {
         id:this.$route.params.id,
@@ -49,99 +49,6 @@ export default {
         tempData:null,
         route:this.$route.path,
         datas: [
-        //   {
-        //   "autoId": 1,
-        //   text: '政务舆情分析',
-        // //   img:"/static/images/yinyong/s_icon1_active.png",
-        //   url:"/index/company",
-        //    secondPerm: [
-        //     {
-        //         "autoId": 1,
-        //         "name": "标题1",
-        //         "url": "11",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 2,
-        //         "name": "标题2",
-        //         "url": "222",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 3,
-        //         "name": "标题3",
-        //         "url": "333",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     }
-        // ]
-        // }, {
-        //   "autoId": 2,
-        //   text: '城市形象品牌监测',
-        // //   img:"/static/images/yinyong/s_icon2.png",
-        //   url:"/index/wenhai",
-        //   secondPerm: [
-        //     {
-        //         "autoId": 1,
-        //         "name": "标题1",
-        //         "url": "11",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 2,
-        //         "name": "标题2",
-        //         "url": "222",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 3,
-        //         "name": "标题3",
-        //         "url": "333",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     }
-        // ]
-        // }, {
-        //   "autoId": 3,
-        //   text: '影响力评估',
-        // //    img:"/static/images/yinyong/s_icon3.png",
-        //     url:"/index/qingtian",
-        //      secondPerm: [
-        //     {
-        //         "autoId": 1,
-        //         "name": "标题1",
-        //         "url": "11",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 2,
-        //         "name": "标题2",
-        //         "url": "222",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     },
-        //     {
-        //         "autoId": 3,
-        //         "name": "标题123456",
-        //         "url": "333",
-        //         "icon": "/static/images/icon/pdf_icon.png",
-        //         "secondPerm": null
-        //     }
-        // ]
-        // }, {
-        //   "autoId": 4,
-        //   text: '商务智能情报',
-        //    url:"/index/hongqi"
-        // }, {
-        //   "autoId": 5,
-        //   text: '一带一路特色服务',
-        //    url:"/index/hongqi"
-        // }
         ]
     };
   },

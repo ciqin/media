@@ -31,6 +31,11 @@ const routes = [
         component:resolve => require(['@/components/wenhai/wenhai'], resolve)
       },
       {
+        path: '/index/certification/:id',
+        name: 'certification',
+        component:resolve => require(['@/components/certification/certification'], resolve)
+      },
+      {
         path: '/index/qingtian/:id',
         name: 'qingtian',
         component:resolve => require(['@/components/qingtian/qingtian'], resolve),
@@ -99,6 +104,11 @@ const routes = [
               component:resolve => require(['@/components/system/proj/wensiManage'], resolve)
             },
             {
+              path: '/index/system/certification',
+              name: 'wensiManage',
+              component:resolve => require(['@/components/system/proj/certification'], resolve)
+            },
+            {
               path: '/index/system/product',
               name: 'productShow',
               component:resolve => require(['@/components/system/proj/product'], resolve)
@@ -127,6 +137,11 @@ const routes = [
               path: '/index/system/yinyong/:id',
               name: 'project',
               component:resolve => require(['@/components/system/com/yinyong'], resolve)
+            },
+            {
+              path: '/index/system/certificationFile/:id',
+              name: 'project',
+              component:resolve => require(['@/components/system/com/certificationFile'], resolve)
             },
             
             {
