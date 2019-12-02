@@ -6,12 +6,15 @@
             <span>{{dataType.namePar}}</span>
             <Icon type="ios-arrow-forward" :size="18" :color="'#b8b8b8'" style="margin-top: .4px;"/>
             <span>{{dataType.name}}</span>
-            <Button :size="buttonSize" icon="ios-download-outline" type="primary" class="download-btn" @click="download()">下载原文件</Button>
+            <Button v-if="dataType.fileType!=7" icon="ios-download-outline" type="primary" class="download-btn" @click="download()">下载原文件</Button>
         </div>
         <div class="product_ys">
             <p>{{dataType.namePar}}{{dataType.name}}</p>
-            <iframe :src="dataType.url" v-if="dataType.type==1" frameborder="0"></iframe>
+            <iframe :src="dataType.url" v-if="dataType.type==1&&dataType.fileType!=7" frameborder="0"></iframe>
             <video :src="dataType.url" v-if="dataType.type==2" controls="controls"></video>
+            <p v-if="dataType.fileType==7" style="text-align:center;">
+                <img :src="dataType.url" alt="">
+            </p>
         </div>
     </div>  
 </template>

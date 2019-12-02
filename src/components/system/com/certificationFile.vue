@@ -199,6 +199,7 @@ export default {
         if(this.data1[0].demonstrationArr&&this.data1[0].demonstrationArr.length){
 
           this.data = this.data1[0].demonstrationArr[0].data;
+          this.data = this.data.concat(this.data1[index].demonstrationArr[5].data);
         }
       });
     
@@ -318,6 +319,7 @@ export default {
         if(this.data1[index].demonstrationArr){
 
           this.data = this.data1[index].demonstrationArr[0].data;
+          this.data = this.data.concat(this.data1[index].demonstrationArr[5].data);
         }
       });
       
@@ -361,7 +363,8 @@ export default {
                     // this.data = this.wensiProduct[index].data;
             if(this.data1[index].demonstrationArr&&this.data1[index].demonstrationArr.length){
 
-              this.data = this.data1[index].demonstrationArr[0].data
+              this.data = this.data1[index].demonstrationArr[0].data;
+              this.data = this.data.concat(this.data1[index].demonstrationArr[5].data);
             }
           }
     }

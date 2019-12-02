@@ -28,8 +28,12 @@
                                     <!-- <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;"> -->
                                      {{datachild.displayName}}
                                 </MenuItem>
+                                <MenuItem  v-for="(datachild,index) in data.demonstrationArr[5].data" :key="datachild.displayName" :name="'child-'+index" class="childItem" @click.native="dataType(data,datachild)" >
+                                    <!-- <img src="/wgproduct/images/icon/pdf_icon.png" style="float:left;margin-top:2px;margin-right:16px;"> -->
+                                     {{datachild.displayName}}
+                                </MenuItem>
                             </Submenu>
-                            <MenuItem  class="itempar" :name="index+'-1'" v-if="data.demonstrationArr&&data.demonstrationArr.length&&!data.demonstrationArr[0].data.length">
+                            <MenuItem  class="itempar" :name="index+'-1'" v-if="!data.demonstrationArr||!data.demonstrationArr.length||!data.demonstrationArr[0].data.length||!data.demonstrationArr[5].data.length">
                                 {{data.name}}
                             </MenuItem>
                     </div>
@@ -61,9 +65,14 @@ export default {
                     let value = that.value;
                     var p = new RegExp('\\w*'+value+'\\w*')
                     return (p.test(o2.displayName))
-                })
-            
-                if(index!=-1){
+                });
+                let index2 = _.findIndex(o.demonstrationArr[5],(o2)=>{
+                    let value = that.value;
+                    var p = new RegExp('\\w*'+value+'\\w*')
+                    return (p.test(o2.displayName))
+                });
+                
+                if(index!=-1||index2!=-1){
                     return true
                 }else{
                     return false
@@ -85,6 +94,7 @@ export default {
         //         }):""; 
         //     showItem ===1 ?val.show = 0:val.show = 1;
         // })
+        
       },
       dataType(item,demonstration){
           let obj = new Object();
@@ -106,7 +116,13 @@ export default {
           localStorage.setItem('demonstration',strObj)
           this.$store.commit("commonDataType",obj);
            if(obj.url){
-              window.open('/wgproduct/#/index/demonstration/','_self');
+             if(obj.fileType==1){
+               
+               window.open('/wgproduct/#/index/demonstration/','_self');
+             }
+             if(obj.fileType==7){
+               window.open('/wgproduct/#/index/demonstration/','_self');
+             }
 
           }else{
               window.open(route,'_self');
@@ -117,7 +133,7 @@ export default {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
         this.datas  = res;
-        this.tempData = this.datas; 
+        this.tempData = this.datas;
         this.notLoaded = false;   
     });
   },
