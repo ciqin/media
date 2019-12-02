@@ -10,7 +10,7 @@
      }
  }
 
-import { getHttp, postHttp ,upload} from "./httpService"
+import { getHttp, postHttp ,upload,postJson} from "./httpService"
 import Axios from "_axios@0.18.1@axios"
 
 //  login
@@ -159,3 +159,6 @@ export const uploadFile3 = (data,config) => upload(baseUrl('/test/appl/updatePro
 // 部门名称修改 updateDepartment
 
 export const updateDepartment = (data) => postHttp(baseUrl("/test/departMent/updateDepartMent"),data)
+
+// 动态验证码
+export const getDynamicCode = (data) => postJson("https://applet.wengetech.com/oauthCode/verifycode/ContrastCode",data)

@@ -20,9 +20,19 @@
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
                      <input type="password" placeholder="请输入密码" v-model="password" @keyup.enter="login">
                 </div>
+                <div class="lgD" style="margin-bottom:20px;">
+                     <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
+                     <input style="width:86%;" @focus="checkTip=''" type="text" placeholder="请输入动态码" v-model="dynamicCode" @keyup.enter="checkIdentity">
+                     <Button type="primary" style="height:40px;margin-bottom:4px;" v-if="checkFailed" @click="checkIdentity">验证
+                     </Button>
+                     <Button  type="primary"  class="checkSuc" disabled  v-if="!checkFailed">
+                        <Icon type="ios-checkmark" class="checkSuc"></Icon>
+                     </Button>
+                </div>
                 <span class="tip" v-if="tip">{{tip}}</span>
+                <span class="tip" v-if="checkTip">{{checkTip}}</span>
                 <div class="logC">
-                    <a><button @click="login">登 录</button></a>
+                    <a><button @click="login" :disabled="loginDis"  :class="{'isActive':loginDis}">登 录</button></a>
                 </div>
             </div>
         </div>
@@ -31,7 +41,7 @@
 
 <script>
 
-import { getLogin } from '@/http/api'
+import { getLogin,getDynamicCode } from '@/http/api'
 
 
 
@@ -41,7 +51,11 @@ export default {
     return {
       userName:"",
       password:"",
-      tip:""
+      tip:"",
+      dynamicCode:"",
+      loginDis:true,
+      checkFailed:true,
+      checkTip:''
     };
   },
   methods: {
@@ -78,6 +92,23 @@ export default {
             } catch (e) {
 
             }
+        },
+        checkIdentity(){
+            let param = {}
+            param.cbUserName = this.userName;
+            param.cbStatus = '0';
+            param.channelId = '3';
+            param.cbRandomCode = this.dynamicCode;
+            getDynamicCode(param).then(res=>{
+                if(res.message=="验证成功"){
+                    this.loginDis = false;
+                    this.checkFailed = false;
+                }else{
+                    this.checkTip = res.message;
+                    this.checkFailed = true;
+                    this.$message("验证失败");
+                }
+            })
         }
     },
      components:{
@@ -88,6 +119,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+    .checkSuc{
+        width:30px !important;
+        height:30px !important;
+        background-color:#00CD00;
+        color:#fff;
+        font-size:30px;
+        font-weight: bolder;
+        line-height: 26px;
+        border-radius: 50%;
+        border:none;
+        padding:0;
+        margin-bottom:4px;
+        &:hover{
+            background-color: #00CD00;
+        }
+    }
+    .isActive{
+        background-color: #ccc !important;
+        color:#fff !important;
+    }
     ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
         color:    #cdcecf;
     }
