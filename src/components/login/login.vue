@@ -22,17 +22,12 @@
                 </div>
                 <div class="lgD" style="margin-bottom:20px;">
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
-                     <input style="width:86%;" @focus="checkTip=''" type="text" placeholder="请输入动态码" v-model="dynamicCode" @keyup.enter="checkIdentity">
-                     <Button type="primary" style="height:40px;margin-bottom:4px;" v-if="checkFailed" @click="checkIdentity">验证
-                     </Button>
-                     <Button  type="primary"  class="checkSuc" disabled  v-if="!checkFailed">
-                        <Icon type="ios-checkmark" class="checkSuc"></Icon>
-                     </Button>
+                     <input style="width:100%;" type="text" placeholder="请输入动态码" v-model="dynamicCode" @keyup.enter="login">
+                     
                 </div>
                 <span class="tip" v-if="tip">{{tip}}</span>
-                <span class="tip" v-if="checkTip">{{checkTip}}</span>
                 <div class="logC">
-                    <a><button @click="login" :disabled="loginDis"  :class="{'isActive':loginDis}">登 录</button></a>
+                    <a><button @click="login">登 录</button></a>
                 </div>
             </div>
         </div>
@@ -41,7 +36,7 @@
 
 <script>
 
-import { getLogin,getDynamicCode } from '@/http/api'
+import { getLogin } from '@/http/api'
 
 
 
@@ -52,10 +47,7 @@ export default {
       userName:"",
       password:"",
       tip:"",
-      dynamicCode:"",
-      loginDis:true,
-      checkFailed:true,
-      checkTip:''
+      dynamicCode:''
     };
   },
   methods: {
@@ -64,6 +56,7 @@ export default {
             let param = new Object();
             param.username = this.userName;
             param.password = this.password;
+            param.code = this.dynamicCode;
             param.ContentType = true
             this.taplogin(param)
         },
@@ -87,29 +80,13 @@ export default {
                 }else {
                     this.userName='';
                     this.password='';
-                    this.tip="用户名密码错误";
+                    this.tip=res.msg;
                 }
             } catch (e) {
 
             }
         },
-        checkIdentity(){
-            let param = {}
-            param.cbUserName = this.userName;
-            param.cbStatus = '0';
-            param.channelId = '3';
-            param.cbRandomCode = this.dynamicCode;
-            getDynamicCode(param).then(res=>{
-                if(res.message=="验证成功"){
-                    this.loginDis = false;
-                    this.checkFailed = false;
-                }else{
-                    this.checkTip = res.message;
-                    this.checkFailed = true;
-                    this.$message("验证失败");
-                }
-            })
-        }
+        
     },
      components:{
 

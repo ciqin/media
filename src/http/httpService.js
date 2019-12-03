@@ -99,21 +99,6 @@ export const postHttp = (url, data) => {
   })
 }
 
-export const postJson = (url, data) => {
-  return new Promise((resolve, reject) => {
-    let config = {
-      headers:{'Content-Type':'application/json;charset=UTF-8'}
-    };
-    Axios.post(url,data,config).then(res => {
-      resolve(res.data)
-      // if (res.data.code !== 200) vue.$message('获取数据失败，请刷新')
-      // else resolve(res.data.output)
-    }).catch(error => {
-      reject(error)
-      vue.$message('获取数据失败，请刷新')
-    })
-  })
-}
 // 上传文件
 export const upload = (url,data,eventPro) => {
   return new Promise((resolve, reject) => {
