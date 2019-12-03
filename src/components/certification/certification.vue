@@ -33,7 +33,7 @@
                                      {{datachild.displayName}}
                                 </MenuItem>
                             </Submenu>
-                            <MenuItem  class="itempar" :name="index+'-1'" v-if="!data.demonstrationArr||!data.demonstrationArr.length||!data.demonstrationArr[0].data.length||!data.demonstrationArr[5].data.length">
+                            <MenuItem  class="itempar" :name="index+'-1'" v-if="!data.demonstrationArr||!data.demonstrationArr.length||(!data.demonstrationArr[0].data.length&&!data.demonstrationArr[5].data.length)">
                                 {{data.name}}
                             </MenuItem>
                     </div>
@@ -62,18 +62,29 @@ export default {
         debugger;
         this.datas = this.datas.filter(function(o){
             if(o.demonstrationArr&&o.demonstrationArr[0].data.length){
-                let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
+                // let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
+                //     let value = that.value;
+                //     var p = new RegExp('\\w*'+value+'\\w*')
+                //     return (p.test(o2.displayName))
+                // });
+                // let index2 = _.findIndex(o.demonstrationArr[5].data,(o2)=>{
+                //     let value = that.value;
+                //     var p = new RegExp('\\w*'+value+'\\w*')
+                //     return (p.test(o2.displayName))
+                // });
+
+                o.demonstrationArr[0].data = o.demonstrationArr[0].data.filter(o2=>{
                     let value = that.value;
-                    var p = new RegExp('\\w*'+value+'\\w*')
-                    return (p.test(o2.displayName))
+                    var p = new RegExp('\\w*'+value+'\\w*');
+                    return (p.test(o2.displayName));
                 });
-                let index2 = _.findIndex(o.demonstrationArr[5].data,(o2)=>{
+                o.demonstrationArr[5].data = o.demonstrationArr[0].data.filter(o2=>{
                     let value = that.value;
-                    var p = new RegExp('\\w*'+value+'\\w*')
-                    return (p.test(o2.displayName))
+                    var p = new RegExp('\\w*'+value+'\\w*');
+                    return (p.test(o2.displayName));
                 });
                 
-                if(index!=-1||index2!=-1){
+                if(o.demonstrationArr[0].data.length||o.demonstrationArr[5].data.length){
                     return true
                 }else{
                     return false
@@ -134,6 +145,7 @@ export default {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
         this.datas  = res;
+        localStorage.setItem("tempData2",JSON.stringify(this.datas));
         this.tempData = this.datas;
         this.notLoaded = false;   
     });
@@ -141,7 +153,10 @@ export default {
   watch:{
       value(newVal){
           if(!newVal){
-              this.datas = this.tempData;
+              let tempStr = localStorage.getItem("tempData2");
+              if(tempStr){
+                this.datas = JSON.parse(tempStr);
+              }
           }
       }
   }

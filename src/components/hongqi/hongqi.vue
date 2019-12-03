@@ -150,13 +150,20 @@ export default {
         let that = this;
         this.datas = this.datas.filter(function(o){
             if(o.demonstrationArr&&o.demonstrationArr[0].data.length){
-                let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
+                // let index = _.findIndex(o.demonstrationArr[0].data,(o2)=>{
+                //     let value = that.value;
+                //     var p = new RegExp('\\w*'+value+'\\w*')
+                //     return (p.test(o2.displayName))
+                // })
+
+                o.demonstrationArr[0].data = o.demonstrationArr[0].data.filter(o2=>{
                     let value = that.value;
-                    var p = new RegExp('\\w*'+value+'\\w*')
-                    return (p.test(o2.displayName))
-                })
-            
-                if(index!=-1){
+                    var p = new RegExp('\\w*'+value+'\\w*');
+                    return (p.test(o2.displayName));
+                });
+                
+
+                if(o.demonstrationArr[0].data.length>0){
                     return true
                 }else{
                     return false
@@ -210,14 +217,22 @@ export default {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
         this.datas  = res;
-        this.tempData = this.datas; 
+        //deepclone
+        sessionStorage.setItem('tempData',JSON.stringify(this.datas))
+        this.tempData = JSON.parse(JSON.stringify(this.datas));
         this.notLoaded = false;   
     });
   },
   watch:{
       value(newVal){
           if(!newVal){
-              this.datas = this.tempData;
+              let tempStr = sessionStorage.getItem('tempData');
+              if(tempStr){
+                  this.datas = JSON.parse(tempStr);
+              }else{
+                  this.datas = this.tempData;
+              }
+              
           }
       }
   }
