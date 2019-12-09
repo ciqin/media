@@ -16,16 +16,20 @@
                     <input type="text" placeholder="请输入用户名" v-model="userName">
                     <!-- <Input v-model="username" placeholder="Enter something..." class="input" clearable style="width: 100%;padding-left:30px;" /> -->
                 </div>
-                <div class="lgD" style="margin-bottom:20px;">
+                <div class="lgD">
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
                      <input type="password" placeholder="请输入密码" v-model="password">
                 </div>
-                <div class="lgD" style="margin-bottom:20px;">
+                <div class="lgD" style="margin-bottom:20px;line-height:18px;">
                      <!-- <img src="/static/images/loginIcon2.png" alt=""> -->
-                     <input style="width:100%;" type="text" placeholder="请输入动态码" v-model="dynamicCode" @keyup.enter="login">
-                     
+                     <input style="width:62%;" @focus="tip=''" type="text" placeholder="请输入动态码" v-model="dynamicCode" @keyup.enter="login">
+                     <button class="qscode" @click="getQscode">绑定帐号获得动态码</button>
+                     <img style="position:absolute;left:480px;top:0px;" v-if="showQscode" src="@/assets/images/qscode.png">
                 </div>
-                <span class="tip" v-if="tip">{{tip}}</span>
+                <div class="lgD" style="margin-top:0;margin-bottom:20px;">
+                    <a href="http://123.139.57.172:8008/gluster/yunfenxiangjiaocheng.pdf" target="_blank">绑定帐号的详细操作说明</a>
+                    <span class="tip" v-if="tip">{{tip}}</span>
+                </div>
                 <div class="logC">
                     <a><button @click="login">登 录</button></a>
                 </div>
@@ -44,6 +48,7 @@ export default {
   name: "seller",
   data() {
     return {
+      showQscode:false,
       userName:"",
       password:"",
       tip:"",
@@ -51,13 +56,21 @@ export default {
     };
   },
   methods: {
+        getQscode(){
+            this.showQscode = !this.showQscode;
+        },
         login() {
 　　　　　　  // 假设登陆成功，则跳转到 index 组件
             let param = new Object();
             param.username = this.userName;
             param.password = this.password;
+            if(!this.dynamicCode){
+                this.tip = "请输入动态码";
+                return
+            }
             param.code = this.dynamicCode;
-            param.ContentType = true
+            param.ContentType = true;
+            
             this.taplogin(param)
         },
         async taplogin (param) {
@@ -96,6 +109,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+    .qscode{
+        height:42px;
+        border-radius:3px;
+        background-color:#2fa9e8;
+        color:#fff;
+        box-shadow: none;
+        border:1px solid #2fa9e8;
+        padding:12px;
+        font-size:14px;
+        margin-left:11px;
+    }
     .checkSuc{
         width:30px !important;
         height:30px !important;
@@ -134,7 +158,7 @@ export default {
         position: relative;
         background: url("../../assets/images/login/bk.png");
         .logGet {
-            height: 420px;
+            height: 440px;
             width: 514px;
             position: absolute;
             top: 25%;
@@ -157,6 +181,17 @@ export default {
                     left: 8px;
                     color:#2a384d;
                     z-index: 2;
+                }
+                // .ivu-input-group{
+
+                //     .ivu-input{
+                //         height:42px;
+                //     }
+                // }
+                div{
+                    input{
+                        height:42px;
+                    }
                 }
                 input {
                      width: 100%;
@@ -210,8 +245,10 @@ export default {
     }
     .tip {
         color:#ff6464;
-        font-size: 18px;
+        font-size: 12px;
         margin: 42px;
+        
+
     }
     .header {
         color:#000;

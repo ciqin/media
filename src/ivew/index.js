@@ -23,7 +23,8 @@ import {
   Modal,
   Upload,
   Progress,
-  Spin
+  Spin,
+  Tooltip
 } from 'iview'
 
 
@@ -50,6 +51,7 @@ const view = (Vue) => {
   Vue.component('Upload', Upload)
   Vue.component('Progress', Progress)
   Vue.component('Spin', Spin)
+  Vue.component('Tooltip',Tooltip)
 }
 
 
