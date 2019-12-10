@@ -50,6 +50,7 @@ export default {
       sessionStorage.setItem("islogin","")
       this.$router.replace("/")
       sessionStorage.removeItem("expire")
+      sessionStorage.clear()
     },
     showModal(){
       this.modal5 = true;
@@ -63,6 +64,8 @@ export default {
       setTimeout(()=>{
         this.SignOut();
       },expire)
+    }else{
+      this.SignOut();
     }
   }
 };
