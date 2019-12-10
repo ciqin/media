@@ -230,7 +230,7 @@
         mixins:[extFilter],
         data () {
             return {
-                userName: localStorage.getItem("user"),
+                userName: sessionStorage.getItem("user"),
                 fileName: '选择正确格式的文件',
                 pdfName: '选择PDF文件',
                 data1: [],

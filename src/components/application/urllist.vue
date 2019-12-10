@@ -56,7 +56,7 @@ export default {
         // getPPTList(param).then(res => {
         //     this.applicationList =  res;
         // })
-        let dataStr = localStorage.getItem('showData');
+        let dataStr = sessionStorage.getItem('showData');
         
         if(dataStr){
             let data = JSON.parse(dataStr);

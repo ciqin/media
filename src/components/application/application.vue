@@ -105,13 +105,13 @@ export default {
     //     }
     // },
     mounted() {
-        // let dataStr = localStorage.getItem('showData');
+        // let dataStr = sessionStorage.getItem('showData');
         // if(dataStr){
             
         //     let data = JSON.parse(dataStr);
         //     this.data
         // }
-        let dataStr = localStorage.getItem('showData');
+        let dataStr = sessionStorage.getItem('showData');
         
         if(dataStr){
             let data = JSON.parse(dataStr);

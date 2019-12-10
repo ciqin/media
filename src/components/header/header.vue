@@ -47,9 +47,9 @@ export default {
   methods: {
     SignOut() {
       // 筛选状态
-      localStorage.setItem("islogin","")
+      sessionStorage.setItem("islogin","")
       this.$router.replace("/")
-      localStorage.removeItem("expire")
+      sessionStorage.removeItem("expire")
     },
     showModal(){
       this.modal5 = true;
@@ -57,8 +57,8 @@ export default {
   },
   mounted(){
     // this.userName = this.$store.state.user;
-    this.userName = localStorage.getItem("user");
-    let expire = localStorage.getItem('expire');
+    this.userName = sessionStorage.getItem("user");
+    let expire = sessionStorage.getItem('expire');
     if(expire){
       setTimeout(()=>{
         this.SignOut();

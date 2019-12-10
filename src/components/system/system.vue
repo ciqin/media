@@ -120,7 +120,7 @@
             }
         },
         mounted(){
-            let userId = localStorage.getItem('userId');
+            let userId = sessionStorage.getItem('userId');
             if(userId){
                 getSiderBar({'id':userId}).then(res => {
                     this.datas = res.obj;

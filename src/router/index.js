@@ -178,8 +178,8 @@ router.beforeEach((to, from, next) => {
   if(to.path === "/") {
       next()
   }else {
-    if(localStorage.getItem("islogin") === "login") {
-        window.localStorage.setItem("link",to.fullPath)
+    if(sessionStorage.getItem("islogin") === "login") {
+        window.sessionStorage.setItem("link",to.fullPath)
         next();
     }else {
         next({"path":"/"})

@@ -46,7 +46,7 @@ export default {
         
         this.dataType = this.$store.state.dataType;
         // if(!this.dataType){
-            let strObj = localStorage.getItem("demonstration");
+            let strObj = sessionStorage.getItem("demonstration");
             if(strObj){
                 this.dataType = JSON.parse(strObj);
                 // let dataType = this.dataType;

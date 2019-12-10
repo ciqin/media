@@ -127,7 +127,7 @@ export default {
         //       this.route = '/index/demonstration/'
         //   }
           let strObj = JSON.stringify(obj)
-          localStorage.setItem('demonstration',strObj)
+          sessionStorage.setItem('demonstration',strObj)
           this.$store.commit("commonDataType",obj);
            if(obj.url){
              if(obj.fileType==1){
@@ -147,7 +147,7 @@ export default {
       //    univeral api to get second title data
     getProductDemo({'fid':this.id}).then(res => {
         this.datas  = res;
-        localStorage.setItem("tempData2",JSON.stringify(this.datas));
+        sessionStorage.setItem("tempData2",JSON.stringify(this.datas));
         this.tempData = this.datas;
         this.notLoaded = false;   
     });
@@ -155,7 +155,7 @@ export default {
   watch:{
       value(newVal){
           if(!newVal){
-              let tempStr = localStorage.getItem("tempData2");
+              let tempStr = sessionStorage.getItem("tempData2");
               if(tempStr){
                 this.datas = JSON.parse(tempStr);
               }

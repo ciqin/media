@@ -35,7 +35,7 @@ export default {
         dataType(item){
             
             let dataType = this.$store.state.dataType;
-            let dataStr = localStorage.getItem("demonstration");
+            let dataStr = sessionStorage.getItem("demonstration");
             if(dataStr){
                 let data = JSON.parse(dataStr);
                 data.type = '1';
@@ -43,7 +43,7 @@ export default {
                 data.fileName = item.fileName;
                 data.fileType = item.type;
                 dataStr = JSON.stringify(data);
-                localStorage.setItem("demonstration",dataStr)
+                sessionStorage.setItem("demonstration",dataStr)
             }
 
             if(dataType){
@@ -64,7 +64,7 @@ export default {
         // getPPTList(param).then(res => {
         //     this.applicationList =  res;
         // })
-        let dataStr = localStorage.getItem('showData');
+        let dataStr = sessionStorage.getItem('showData');
         
         if(dataStr){
             let data = JSON.parse(dataStr);

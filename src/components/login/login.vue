@@ -85,10 +85,10 @@ export default {
                     let userId = res.obj.id;
                     this.$store.commit("commonLogin",res.msg);
                     this.$store.commit("commonUser",nickName);
-                    localStorage.setItem("islogin","login");
-                    localStorage.setItem('expire',1000*60*30)
-                    localStorage.setItem('userId',userId);
-                    localStorage.setItem('user',nickName); // 改成昵称
+                    sessionStorage.setItem("islogin","login");
+                    sessionStorage.setItem('expire',1000*60*30)
+                    sessionStorage.setItem('userId',userId);
+                    sessionStorage.setItem('user',nickName); // 改成昵称
                     this.$router.push({path: '/index/company/1'});
                 }else {
                     this.userName='';

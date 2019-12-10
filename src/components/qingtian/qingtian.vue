@@ -54,9 +54,9 @@ export default {
           obj.type = demonstration.type;
           obj.url = demonstration.url;
           let objStr = JSON.stringify(obj)
-          localStorage.setItem("demonstration",objStr);
+          sessionStorage.setItem("demonstration",objStr);
           let showData = JSON.stringify(demonstration);
-          localStorage.setItem("showData",showData);
+          sessionStorage.setItem("showData",showData);
           this.$store.commit("commonDataType",obj);
       },
   },

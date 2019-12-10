@@ -41,7 +41,7 @@ import {getSiderBar} from '@/http/api'
               newArr.push(0)
           }
         })
-        window.localStorage.setItem("path",index);
+        window.sessionStorage.setItem("path",index);
         this.$store.dispatch('modifySName',newArr);
         this.$store.dispatch('modifyId',item.autoId);
         this.$router.push({ path:item.url})
@@ -49,7 +49,7 @@ import {getSiderBar} from '@/http/api'
       changeImg ( data ,index) {
         let oldData = this.datas;
         let navData =JSON.stringify(data)
-        window.localStorage.setItem("nav",navData)
+        window.sessionStorage.setItem("nav",navData)
         oldData.forEach(function ( v , i ) {
           v.icon = "/wgproduct/images/yinyong/s_icon"+(i+1)+".png"
         })
@@ -61,7 +61,7 @@ import {getSiderBar} from '@/http/api'
       ...mapGetters(['resturantSidebar','resturantName']),
     },
     mounted() {
-      let userId = localStorage.getItem('userId');
+      let userId = sessionStorage.getItem('userId');
       if(userId){
         getSiderBar({'id':userId}).then(res => {
             this.datas = res.obj;

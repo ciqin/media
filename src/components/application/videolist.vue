@@ -67,8 +67,8 @@ export default {
         //     this.applicationList =  res;
         // });
 
-        let dataStr = localStorage.getItem('showData');
-        let dataStr2 = localStorage.getItem('demonstration');
+        let dataStr = sessionStorage.getItem('showData');
+        let dataStr2 = sessionStorage.getItem('demonstration');
         if(dataStr2){
             let data2 = JSON.parse(dataStr2);
             this.title = data2.namePar;
