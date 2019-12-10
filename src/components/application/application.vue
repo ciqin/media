@@ -12,7 +12,7 @@
             </div>
         </Menu>
         <div style="height:calc(100% - 60px)">
-            <router-view/>
+            <router-view />
         </div>
     </div>  
 </template>
@@ -28,6 +28,13 @@ export default {
             imgStyle:{
                 position:'relative',
                 top:'4px'
+            },
+            routerMap:{
+                'PPT':'ppt',
+                '技术白皮书':'word',
+                '产品册':'prodect',
+                '视频资料':'video',
+                '地址':'useurl'
             },
             applicationList:[
                 {
@@ -104,13 +111,31 @@ export default {
         //     let data = JSON.parse(dataStr);
         //     this.data
         // }
+        let dataStr = localStorage.getItem('showData');
         
-        let activeName = sessionStorage.getItem('activeName');
-        if(activeName){
-            this.activeName = activeName;
-        }else{
-            this.activeName = this.applicationList[0].titile;
+        if(dataStr){
+            let data = JSON.parse(dataStr);
+            let demo = data.demonstrationArr
+            demo = demo.filter(function(o){
+                return (o.data.length>0);
+            });
+            let name = []
+            for(let i in demo){
+                name.push(demo[i].titile);
+            }
+            this.applicationList = this.applicationList.filter(function(o){
+                let title = o.titile;
+                return (name.indexOf(title)>-1)
+            });
         }
+        this.activeName = this.applicationList[0].titile;
+        this.$router.replace(this.applicationList[0].url);
+        // let activeName = sessionStorage.getItem('activeName');
+        // if(activeName){
+        //     this.activeName = activeName;
+        // }else{
+        //     this.activeName = this.applicationList[0].titile;
+        // }
     },
     watch:{
         // url2Name(newVal){
@@ -174,6 +199,7 @@ export default {
     
     destroyed() {
         sessionStorage.setItem('activeName',"PPT");
+        
     }
 };
 </script>
