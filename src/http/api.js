@@ -1,10 +1,11 @@
 /**
  * 此文件为接口统一管理文件
  */
+import API_URL from '../path';
  const baseUrl = url => {
 
      if ((url.includes('api') || url.includes('test')) && process.env.NODE_ENV !== 'development' ) {
-         return url.split('/').splice(2).join('/')
+         return API_URL+url.split('/').splice(2).join('/')
      } else {
          return url
      }
